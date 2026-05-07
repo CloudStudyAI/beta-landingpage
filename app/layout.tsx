@@ -18,7 +18,7 @@ const bodyFont = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "a CloudStudy | Lista de espera",
+  title: "CloudStudy",
   description:
     "Landing page pre-launch da CloudStudy para captar interessados em trilhas inteligentes de certificacoes AWS guiadas por IA.",
 };

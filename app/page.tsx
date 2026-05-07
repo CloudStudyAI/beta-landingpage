@@ -32,10 +32,10 @@ const launchCertifications = [
 ] as const;
 
 const navItems = [
-  { href: "#publico", label: "Público" },
-  { href: "#como-funciona", label: "Como funciona" },
+  { href: "#posicionamento", label: "Posicionamento" },
+  { href: "#tutor-ia", label: "Tutor IA" },
+  { href: "#sistema", label: "Sistema" },
   { href: "#certificacoes", label: "Certificações" },
-  { href: "#lancamento", label: "Lançamento" },
 ] as const;
 
 export default function HomePage() {
@@ -64,7 +64,7 @@ export default function HomePage() {
             </nav>
 
             <a
-              href="#lancamento"
+              href="#lista-de-espera"
               className="primary-button rounded-full px-5 py-3 text-sm font-semibold text-white"
             >
               Entrar na lista
@@ -86,7 +86,7 @@ export default function HomePage() {
               Uma plataforma brasileira criada para transformar aprendizado em evolução contínua.
             </p>
             <a
-              href="#lancamento"
+              href="#lista-de-espera"
               className="mt-8 inline-flex rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#0B2A6F] shadow-[0_16px_40px_rgba(0,0,0,0.22)] transition hover:translate-y-[-1px]"
             >
               Entrar na lista
@@ -104,7 +104,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="publico" className="section-shell py-12 md:py-16">
+      <section id="posicionamento" className="section-shell py-12 md:py-16">
         <div className="section-tint mx-auto max-w-5xl px-6 py-10 text-center md:px-10 md:py-12">
           <div className="mx-auto max-w-3xl">
             <div className="text-sm font-medium uppercase tracking-[0.18em] text-[var(--color-accent)]">
@@ -122,13 +122,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="relative bg-white">
+      <section id="tutor-ia" className="relative bg-white">
         <div className="section-shell grid max-w-7xl grid-cols-1 items-center gap-12 px-6 py-20 md:grid-cols-2 md:py-24 lg:gap-20">
           <div className="max-w-xl">
             <div
               className="pointer-events-none absolute -left-10 top-1/2 h-48 w-48 -translate-y-1/2 rounded-full blur-3xl"
               style={{
-                background: "radial-gradient(circle at 30% 40%, rgba(20,121,255,0.12), transparent 50%)",
+                background:
+                  "radial-gradient(circle at 30% 40%, rgba(20,121,255,0.12), transparent 50%)",
               }}
             />
             <div className="relative max-w-xl">
@@ -144,7 +145,7 @@ export default function HomePage() {
                 em experiências reais de provas AWS.
               </p>
               <a
-                href="#lancamento"
+                href="#lista-de-espera"
                 className="secondary-button mt-7 inline-flex rounded-full border border-[var(--color-border)] px-5 py-3 text-sm font-semibold text-[#0B2A6F] transition hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
               >
                 Falar com o tutor
@@ -158,7 +159,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="certificacoes" className="section-shell py-12 md:py-16">
+      <section id="sistema" className="section-shell py-12 md:py-16">
         <div className="grid gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
           <div className="soft-panel aspect-[16/10] overflow-hidden">
             <Image
@@ -194,7 +195,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="como-funciona" className="section-shell py-12 md:py-16">
+      <section id="certificacoes" className="section-shell py-12 md:py-16">
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto mb-16 flex max-w-3xl flex-col items-center justify-center text-center">
             <div className="text-sm font-medium uppercase tracking-[0.18em] text-[var(--color-accent)]">
@@ -237,7 +238,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="lancamento" className="section-shell pb-20 pt-12 md:pb-24 md:pt-16">
+      <section id="lista-de-espera" className="section-shell pb-20 pt-12 md:pb-24 md:pt-16">
         <div className="soft-panel grid gap-8 p-6 md:p-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
           <div className="max-w-sm">
             <div className="text-sm font-medium uppercase tracking-[0.18em] text-[var(--color-accent)]">
@@ -283,12 +284,7 @@ export default function HomePage() {
             aria-label="CloudStudy no LinkedIn"
             className="inline-flex items-center justify-center rounded-full border border-blue-200 bg-white p-3 text-[#0A66C2] transition hover:border-blue-300 hover:bg-blue-50"
           >
-            <svg
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-              className="h-5 w-5"
-              fill="currentColor"
-            >
+            <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
               <path d="M4.98 3.5A2.48 2.48 0 1 0 5 8.46 2.48 2.48 0 0 0 4.98 3.5ZM3 9h4v12H3zM9 9h3.83v1.64h.06c.53-1 1.84-2.06 3.79-2.06 4.05 0 4.8 2.67 4.8 6.14V21h-4v-5.55c0-1.32-.03-3.02-1.84-3.02-1.84 0-2.12 1.44-2.12 2.93V21H9z" />
             </svg>
           </a>

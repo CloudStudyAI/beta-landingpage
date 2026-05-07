@@ -26,6 +26,11 @@ type LeadFormStatus =
   | { tone: "idle"; message: string }
   | { tone: "error" | "success"; message: string };
 
+type WaitlistApiResponse = {
+  code?: "duplicate_email" | "invalid_body" | "invalid_email" | "server_error" | "waitlist_created";
+  message?: string;
+};
+
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/i;
 
 const initialValues: LeadFormValues = {
@@ -70,7 +75,6 @@ export function LaunchLeadForm({
   const [values, setValues] = useState<LeadFormValues>(initialValues);
   const [status, setStatus] = useState<LeadFormStatus>({ tone: "idle", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [lastSubmittedEmail, setLastSubmittedEmail] = useState("");
 
   const storageKey = `lead-form-${source}`;
 
@@ -88,6 +92,11 @@ export function LaunchLeadForm({
 
   // Salvar dados no localStorage sempre que os valores mudam
   useEffect(() => {
+    if (!values.email && !values.certificationInterest) {
+      localStorage.removeItem(storageKey);
+      return;
+    }
+
     localStorage.setItem(storageKey, JSON.stringify(values));
   }, [values, storageKey]);
 
@@ -96,6 +105,10 @@ export function LaunchLeadForm({
   const baseFieldClassName = `w-full rounded-[1rem] border px-4 py-3 text-sm outline-none transition ${styles.field}`;
 
   function updateValue<Key extends keyof LeadFormValues>(field: Key, value: LeadFormValues[Key]) {
+    if (status.tone !== "idle") {
+      setStatus({ tone: "idle", message: "" });
+    }
+
     setValues((current) => ({
       ...current,
       [field]: value,
@@ -112,6 +125,7 @@ export function LaunchLeadForm({
     }
 
     if (
+      showCertificationField &&
       values.certificationInterest &&
       !leadCertificationOptions.some(
         (option) => option.value === values.certificationInterest,
@@ -137,46 +151,49 @@ export function LaunchLeadForm({
       return;
     }
 
-    if (lastSubmittedEmail && lastSubmittedEmail === normalizedEmail) {
-      setStatus({
-        tone: "success",
-        message: "Este email ja foi cadastrado nesta sessao. Avisaremos voce no lancamento.",
-      });
-      return;
-    }
-
     setIsSubmitting(true);
     setStatus({ tone: "idle", message: "" });
 
     try {
-      const response = await fetch("/api/leads", {
+      const response = await fetch("/api/waitlist", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          certification_interest: values.certificationInterest || null,
           email: normalizedEmail,
-          origin: source,
         }),
       });
 
       const payload = (await response.json().catch(() => null)) as
-        | { message?: string }
+        | WaitlistApiResponse
         | null;
 
       if (!response.ok) {
-        throw new Error(payload?.message || "Nao foi possivel registrar seu interesse agora.");
+        if (response.status === 409) {
+          throw new Error(
+            payload?.message || "Este email ja esta na lista de espera da CloudStudy.",
+          );
+        }
+
+        if (response.status === 400) {
+          throw new Error(
+            payload?.message || "Informe um email valido para entrar na lista de espera.",
+          );
+        }
+
+        throw new Error(
+          payload?.message || "Nao foi possivel concluir seu cadastro agora. Tente novamente em instantes.",
+        );
       }
 
-      setLastSubmittedEmail(normalizedEmail);
       setValues(initialValues);
       localStorage.removeItem(storageKey);
       setStatus({
         tone: "success",
         message:
           payload?.message ||
-          "Cadastro recebido. Voce vai receber novidades e acesso antecipado quando abrirmos.",
+          "Cadastro confirmado. Voce entrou na lista de espera da CloudStudy.",
       });
     } catch (error) {
       setStatus({
@@ -198,7 +215,7 @@ export function LaunchLeadForm({
       ) : null}
       {description ? <p className={`mt-3 text-sm leading-7 ${styles.text}`}>{description}</p> : null}
 
-      <form className="mt-5 space-y-3" onSubmit={handleSubmit} noValidate>
+      <form className="mt-5 space-y-3" onSubmit={handleSubmit} noValidate aria-busy={isSubmitting}>
         <div>
           <label className="sr-only" htmlFor={`lead-email-${source}`}>
             Email
@@ -208,7 +225,9 @@ export function LaunchLeadForm({
             name="email"
             type="email"
             autoComplete="email"
+            inputMode="email"
             required
+            disabled={isSubmitting}
             placeholder={emailPlaceholder}
             className={baseFieldClassName}
             value={values.email}
@@ -224,6 +243,7 @@ export function LaunchLeadForm({
             <select
               id={`lead-certification-${source}`}
               name="certification_interest"
+              disabled={isSubmitting}
               className={baseFieldClassName}
               value={values.certificationInterest}
               onChange={(event) => updateValue("certificationInterest", event.target.value)}
@@ -250,7 +270,7 @@ export function LaunchLeadForm({
           {isSubmitting ? (
             <>
               <LoaderCircle className="h-4 w-4 animate-spin" />
-              Enviando
+              Enviando...
             </>
           ) : (
             <>
