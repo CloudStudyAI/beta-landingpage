@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Sora, Space_Grotesk } from "next/font/google";
 
+import { IntroGate } from "../components/IntroGate";
+
 import "./globals.css";
 
 const displayFont = Sora({
@@ -16,9 +18,9 @@ const bodyFont = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Certificloud | CloudStudy",
+  title: "CloudStudy",
   description:
-    "CloudStudy ajuda voce a passar na certificacao AWS com trilhas adaptativas, simulados inteligentes e tutor IA contextual.",
+    "Landing page pre-launch da CloudStudy para captar interessados em trilhas inteligentes de certificacoes AWS guiadas por IA.",
 };
 
 export default function RootLayout({
@@ -29,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={`${displayFont.variable} ${bodyFont.variable} antialiased`}>
-        {children}
+        <IntroGate>{children}</IntroGate>
       </body>
     </html>
   );

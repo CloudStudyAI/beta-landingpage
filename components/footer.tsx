@@ -1,12 +1,12 @@
-import { Globe, Github, Linkedin } from "lucide-react";
+import { Globe } from "lucide-react";
 
 import { BrandMark } from "@/components/brand-mark";
 import { footerLinks, socialLinks } from "@/lib/data";
 
 const socialIcons = {
-  LinkedIn: Linkedin,
+  LinkedIn: Globe,
   X: Globe,
-  Github: Github,
+  Github: Globe,
 } as const;
 
 export function Footer() {
