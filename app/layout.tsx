@@ -21,6 +21,11 @@ export const metadata: Metadata = {
   title: "CloudStudy",
   description:
     "Landing page pre-launch da CloudStudy para captar interessados em trilhas inteligentes de certificacoes AWS guiadas por IA.",
+  icons: {
+    icon: "/favicon-cloudstudy.png",
+    shortcut: "/favicon-cloudstudy.png",
+    apple: "/favicon-cloudstudy.png",
+  },
 };
 
 export default function RootLayout({
