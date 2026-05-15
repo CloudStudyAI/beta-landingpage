@@ -131,13 +131,13 @@ export default function HomePage() {
                   "radial-gradient(circle at 30% 40%, rgba(20,121,255,0.12), transparent 50%)",
               }}
             />
-            <div className="relative overflow-hidden rounded-[2rem] border border-blue-100 bg-white p-4 shadow-[0_14px_32px_rgba(15,23,42,0.08)] md:p-6">
+            <div className="relative overflow-visible bg-transparent p-0 shadow-none">
               <Image
                 src="/robo-novo.png"
                 alt="Tutor IA da CloudStudy."
                 width={820}
                 height={820}
-                className="mentor-robot-image h-full w-full rounded-[1.3rem] object-cover"
+                className="mentor-robot-image h-full w-full object-contain"
                 priority
               />
               <div className="mentor-robot-badge mt-3 rounded-xl border border-cyan-200 bg-cyan-50 px-3 py-2 text-center text-xs font-semibold uppercase tracking-[0.1em] text-cyan-800">
@@ -147,10 +147,8 @@ export default function HomePage() {
           </div>
 
           <div className="relative flex justify-center">
-            <div className="relative w-full max-w-[540px] overflow-hidden rounded-[2rem] border border-blue-100 bg-white p-5 shadow-[0_14px_30px_rgba(15,23,42,0.08)] md:p-6">
-              <div className="pointer-events-none absolute -right-8 -top-8 h-36 w-36 rounded-full bg-[radial-gradient(circle,rgba(20,121,255,0.24)_0%,rgba(20,121,255,0)_72%)] blur-2xl" />
-              <div className="pointer-events-none absolute -bottom-10 -left-6 h-40 w-40 rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.24)_0%,rgba(56,189,248,0)_72%)] blur-2xl" />
-              <div className="rounded-[1.2rem] border border-blue-100 bg-white shadow-[0_12px_24px_rgba(15,23,42,0.08)]">
+            <div className="relative w-full max-w-[540px] overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-5 shadow-[0_14px_30px_rgba(15,23,42,0.08)] md:p-6">
+              <div className="rounded-[1.2rem] border border-slate-200 bg-white shadow-[0_12px_24px_rgba(15,23,42,0.08)]">
                 <div className="flex items-center justify-between border-b border-slate-200 px-4 py-3">
                   <div className="flex items-center gap-2.5">
                     <div className="h-8 w-8 overflow-hidden rounded-full border border-cyan-200 bg-cyan-50">
@@ -172,25 +170,25 @@ export default function HomePage() {
                   </span>
                 </div>
 
-                <div className="space-y-3 bg-slate-50/70 px-4 py-4">
-                  <div className="max-w-[88%] rounded-2xl rounded-tl-md border border-slate-200 bg-white px-3 py-2.5 text-sm leading-6 text-slate-700">
-                    Tenho 45 minutos por dia. Qual plano voce montaria para CLF-C02?
+                <div className="space-y-3 bg-slate-50 px-4 py-4">
+                  <div className="ml-auto max-w-[88%] rounded-2xl rounded-tr-md border border-slate-200 bg-white px-3 py-2.5 text-sm leading-6 text-slate-700">
+                    Sou iniciante e tenho 45 minutos por dia. Por onde eu comeco?
                     <div className="mt-1 text-[10px] text-slate-400">Voce · agora</div>
                   </div>
 
-                  <div className="ml-auto max-w-[92%] rounded-2xl rounded-tr-md border border-cyan-100 bg-cyan-50 px-3 py-2.5 text-sm leading-6 text-slate-700">
-                    Baseado na memoria real do fundador: priorizamos D3 (34%) e D2 (30%) por 2 semanas, com revisao ativa diaria de 10 minutos.
-                    <div className="mt-1 text-[10px] text-cyan-700/70">Mentor IA · agora</div>
+                  <div className="max-w-[92%] rounded-2xl rounded-tl-md border border-slate-300 bg-slate-100 px-3 py-2.5 text-sm leading-6 text-slate-700">
+                    Vamos comecar pelo basico primeiro. Eu te guio em passos curtos por dia, com explicacoes simples e revisao rapida no final.
+                    <div className="mt-1 text-[10px] text-slate-500">Mentor IA · agora</div>
                   </div>
 
-                  <div className="max-w-[88%] rounded-2xl rounded-tl-md border border-slate-200 bg-white px-3 py-2.5 text-sm leading-6 text-slate-700">
-                    E como validamos se estou evoluindo de verdade?
+                  <div className="ml-auto max-w-[88%] rounded-2xl rounded-tr-md border border-slate-200 bg-white px-3 py-2.5 text-sm leading-6 text-slate-700">
+                    E como eu sei se estou evoluindo mesmo?
                     <div className="mt-1 text-[10px] text-slate-400">Voce · agora</div>
                   </div>
 
-                  <div className="ml-auto max-w-[92%] rounded-2xl rounded-tr-md border border-cyan-100 bg-cyan-50 px-3 py-2.5 text-sm leading-6 text-slate-700">
-                    Simulado guiado de 65 questoes no fim do ciclo, correcao por dominio e reforco dos erros recorrentes antes do proximo bloco.
-                    <div className="mt-1 text-[10px] text-cyan-700/70">Mentor IA · agora</div>
+                  <div className="max-w-[92%] rounded-2xl rounded-tl-md border border-slate-300 bg-slate-100 px-3 py-2.5 text-sm leading-6 text-slate-700">
+                    Toda semana fazemos um mini simulado, eu te mostro onde voce errou e ajusto seu plano para voce melhorar mais rapido.
+                    <div className="mt-1 text-[10px] text-slate-500">Mentor IA · agora</div>
                   </div>
                 </div>
 
