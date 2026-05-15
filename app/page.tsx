@@ -140,8 +140,8 @@ export default function HomePage() {
                 className="mentor-robot-image h-full w-full rounded-[1.3rem] object-cover"
                 priority
               />
-              <div className="mentor-robot-badge mt-3 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-center text-xs font-semibold uppercase tracking-[0.12em] text-emerald-700">
-                Mentor IA com Experiência real em certificações AWS
+              <div className="mentor-robot-badge mt-3 rounded-xl border border-cyan-200 bg-cyan-50 px-3 py-2 text-center text-xs font-semibold uppercase tracking-[0.1em] text-cyan-800">
+                Mentor IA baseado em aprovacoes reais AWS
               </div>
             </div>
           </div>
