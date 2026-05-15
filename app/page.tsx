@@ -131,7 +131,7 @@ export default function HomePage() {
                   "radial-gradient(circle at 30% 40%, rgba(20,121,255,0.12), transparent 50%)",
               }}
             />
-            <div className="relative overflow-hidden rounded-[2rem] border border-blue-100 bg-[linear-gradient(165deg,#eef6ff_0%,#ffffff_100%)] p-4 shadow-[0_22px_58px_rgba(20,121,255,0.14)] md:p-6">
+            <div className="relative overflow-hidden rounded-[2rem] border border-blue-100 bg-white p-4 shadow-[0_14px_32px_rgba(15,23,42,0.08)] md:p-6">
               <Image
                 src="/robo-novo.png"
                 alt="Tutor IA da CloudStudy."
@@ -147,41 +147,60 @@ export default function HomePage() {
           </div>
 
           <div className="relative flex justify-center">
-            <div className="relative w-full max-w-[540px] overflow-hidden rounded-[2rem] border border-blue-100 bg-[linear-gradient(155deg,#ffffff_0%,#f4f9ff_52%,#e8f2ff_100%)] p-5 shadow-[0_24px_64px_rgba(20,121,255,0.18)] md:p-6">
+            <div className="relative w-full max-w-[540px] overflow-hidden rounded-[2rem] border border-blue-100 bg-white p-5 shadow-[0_14px_30px_rgba(15,23,42,0.08)] md:p-6">
               <div className="pointer-events-none absolute -right-8 -top-8 h-36 w-36 rounded-full bg-[radial-gradient(circle,rgba(20,121,255,0.24)_0%,rgba(20,121,255,0)_72%)] blur-2xl" />
               <div className="pointer-events-none absolute -bottom-10 -left-6 h-40 w-40 rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.24)_0%,rgba(56,189,248,0)_72%)] blur-2xl" />
-              <div className="rounded-[1.35rem] border border-white/70 bg-white/85 p-4 backdrop-blur">
-                <div className="text-xs font-semibold uppercase tracking-[0.16em] text-[#1479FF]">
-                  Exemplo de conversa
+              <div className="rounded-[1.2rem] border border-blue-100 bg-white shadow-[0_12px_24px_rgba(15,23,42,0.08)]">
+                <div className="flex items-center justify-between border-b border-slate-200 px-4 py-3">
+                  <div className="flex items-center gap-2.5">
+                    <div className="h-8 w-8 overflow-hidden rounded-full border border-cyan-200 bg-cyan-50">
+                      <Image
+                        src="/robo-novo.png"
+                        alt="Avatar do agente."
+                        width={48}
+                        height={48}
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-slate-900">Mentor IA</p>
+                      <p className="text-xs text-slate-500">Experiencia real de aprovacao AWS</p>
+                    </div>
+                  </div>
+                  <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-emerald-700">
+                    online
+                  </span>
                 </div>
-                <div className="mt-3 grid gap-2.5">
-                  <div className="max-w-[92%] rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-sm leading-6 text-slate-700">
-                    Tenho 45 minutos por dia. Como você prioriza com base na memória real do fundador?
-                  </div>
-                  <div className="ml-auto max-w-[95%] rounded-2xl border border-blue-100 bg-blue-50/80 px-3 py-2.5 text-sm leading-6 text-slate-700">
-                    Eu uso os padrões das aprovações AWS do fundador: no CLF-C02, começamos por domínios de maior peso e revisão ativa curta.
-                  </div>
-                  <div className="max-w-[92%] rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-sm leading-6 text-slate-700">
-                    E para as outras trilhas, você mantém essa lógica?
-                  </div>
-                  <div className="ml-auto max-w-[95%] rounded-2xl border border-blue-100 bg-blue-50/80 px-3 py-2.5 text-sm leading-6 text-slate-700">
-                    Sim. A memória de estudo real do fundador vira plano prático: foco por domínio, simulado guiado e correção com reforço do erro recorrente.
-                  </div>
-                </div>
-              </div>
 
-              <div className="relative mt-4 grid grid-cols-2 gap-3 text-xs font-semibold sm:text-sm">
-                <div className="rounded-xl border border-blue-100 bg-white/85 px-3 py-3 text-slate-700">
-                  Revisões inteligentes
+                <div className="space-y-3 bg-slate-50/70 px-4 py-4">
+                  <div className="max-w-[88%] rounded-2xl rounded-tl-md border border-slate-200 bg-white px-3 py-2.5 text-sm leading-6 text-slate-700">
+                    Tenho 45 minutos por dia. Qual plano voce montaria para CLF-C02?
+                    <div className="mt-1 text-[10px] text-slate-400">Voce · agora</div>
+                  </div>
+
+                  <div className="ml-auto max-w-[92%] rounded-2xl rounded-tr-md border border-cyan-100 bg-cyan-50 px-3 py-2.5 text-sm leading-6 text-slate-700">
+                    Baseado na memoria real do fundador: priorizamos D3 (34%) e D2 (30%) por 2 semanas, com revisao ativa diaria de 10 minutos.
+                    <div className="mt-1 text-[10px] text-cyan-700/70">Mentor IA · agora</div>
+                  </div>
+
+                  <div className="max-w-[88%] rounded-2xl rounded-tl-md border border-slate-200 bg-white px-3 py-2.5 text-sm leading-6 text-slate-700">
+                    E como validamos se estou evoluindo de verdade?
+                    <div className="mt-1 text-[10px] text-slate-400">Voce · agora</div>
+                  </div>
+
+                  <div className="ml-auto max-w-[92%] rounded-2xl rounded-tr-md border border-cyan-100 bg-cyan-50 px-3 py-2.5 text-sm leading-6 text-slate-700">
+                    Simulado guiado de 65 questoes no fim do ciclo, correcao por dominio e reforco dos erros recorrentes antes do proximo bloco.
+                    <div className="mt-1 text-[10px] text-cyan-700/70">Mentor IA · agora</div>
+                  </div>
                 </div>
-                <div className="rounded-xl border border-blue-100 bg-white/85 px-3 py-3 text-slate-700">
-                  Plano personalizado
-                </div>
-                <div className="rounded-xl border border-blue-100 bg-white/85 px-3 py-3 text-slate-700">
-                  Diagnóstico contínuo
-                </div>
-                <div className="rounded-xl border border-blue-100 bg-white/85 px-3 py-3 text-slate-700">
-                  Feedback imediato
+
+                <div className="border-t border-slate-200 px-4 py-3">
+                  <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5">
+                    <span className="text-xs text-slate-400">Pergunte algo sobre sua trilha...</span>
+                    <span className="ml-auto rounded-md bg-cyan-500 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-white">
+                      enviar
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
