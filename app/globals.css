@@ -70,6 +70,8 @@
     background: linear-gradient(180deg, #ffffff 0%, #f3f8ff 45%, #eaf3ff 100%);
     color: var(--color-text);
     font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.01em;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
   }
@@ -83,6 +85,20 @@
       radial-gradient(circle at 82% 26%, rgba(56, 189, 248, 0.08), transparent 40%);
     pointer-events: none;
     z-index: 0;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: -0.03em;
+  }
+
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: -0.02em;
   }
 
   a {
@@ -156,8 +172,10 @@
     color: #314766;
     border-radius: 999px;
     padding: 0.9rem 1.25rem;
-    font-size: 0.95rem;
-    font-weight: 600;
+    font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.93rem;
+    font-weight: 650;
+    letter-spacing: -0.01em;
     line-height: 1;
     transition:
       transform 180ms ease,
@@ -257,6 +275,9 @@
 
   .primary-button {
     background: linear-gradient(135deg, #1479ff 0%, #38bdf8 100%);
+    font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.01em;
     box-shadow: 0 8px 20px rgba(20, 121, 255, 0.25);
     transition:
       transform 180ms ease,

@@ -132,8 +132,9 @@ export default function HomePage() {
                 className="mentor-robot-image h-full w-full object-contain"
                 priority
               />
-              <div className="mentor-robot-badge mt-3 rounded-xl border border-cyan-200 bg-cyan-50 px-3 py-2 text-center text-xs font-semibold uppercase tracking-[0.1em] text-cyan-800">
-                Mentor IA com memoria real dos exames AWS
+              <div className="mt-4 text-center">
+                <p className="text-base font-semibold tracking-[-0.01em] text-slate-900">Mentor IA CloudStudy</p>
+                <p className="mt-1 text-sm text-slate-500">Memoria real aplicada em exames AWS</p>
               </div>
             </div>
           </div>
@@ -190,6 +191,30 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-shell py-8 md:py-10">
+        <div className="soft-panel mx-auto max-w-4xl p-5 sm:p-6 md:p-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <h3 className="text-2xl font-semibold tracking-[-0.04em] text-[var(--color-accent-dark)] md:text-3xl">
+              Quer receber o acesso antecipado?
+            </h3>
+            <p className="mt-3 text-base leading-7 text-[var(--color-text-soft)]">
+              Deixe seu e-mail para entrar na lista e receber as novidades da CloudStudy em primeira mão.
+            </p>
+          </div>
+
+          <div className="mx-auto mt-6 max-w-2xl">
+            <LaunchLeadForm
+              title=""
+              buttonLabel="Entrar na lista"
+              helperText="Sem spam. Apenas atualizações importantes."
+              source="landing_tutor_ia"
+              tone="light"
+              className="rounded-[1.2rem]"
+            />
           </div>
         </div>
       </section>

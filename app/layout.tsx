@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
-import { Sora, Space_Grotesk } from "next/font/google";
+import { Plus_Jakarta_Sans, Manrope } from "next/font/google";
 
 import { IntroGate } from "../components/IntroGate";
 
 import "./globals.css";
 
-const displayFont = Sora({
+const displayFont = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-display",
   weight: ["400", "600", "700", "800"],
 });
 
-const bodyFont = Space_Grotesk({
+const bodyFont = Manrope({
   subsets: ["latin"],
   variable: "--font-body",
   weight: ["400", "500", "700"],
