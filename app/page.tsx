@@ -7,19 +7,19 @@ import image4 from "../Image4.png";
 
 const launchCertifications = [
   {
-    description: "Fundamentos de cloud e AWS para iniciar sua jornada.",
-    image: "/cert-cloud-practitioner.png",
+    description: "Base de cloud, segurança e custos para começar do zero com clareza.",
+    image: "/cert-cloud-practitioner-sem-fundo.png",
     title: "Cloud Practitioner",
   },
   {
-    description: "Introdução prática à IA generativa, modelos e serviços AWS.",
-    image: "/cert-ai-practitioner.png",
+    description: "Fundamentos de IA generativa na AWS com foco prático para certificação.",
+    image: "/cert-ai-practitioner-sem-fundo.png",
     title: "AI Practitioner",
   },
   {
     description:
-      "Arquitetura de soluções escaláveis e preparação para a certificação Associate.",
-    image: "/cert-solutions-architect.png",
+      "Arquitetura de soluções escaláveis, resilientes e prontas para a prova Associate.",
+    image: "/cert-solutions-architect-sem-fundo.png",
     title: "Solutions Architect",
   },
 ] as const;
@@ -247,38 +247,39 @@ export default function HomePage() {
 
       <section id="certificacoes" className="section-shell py-12 md:py-16">
         <div className="mx-auto max-w-6xl">
-          <div className="mx-auto mb-14 flex max-w-3xl flex-col items-center justify-center text-center md:mb-16">
-            <div className="text-sm font-medium uppercase tracking-[0.18em] text-[var(--color-accent)]">
-              Como a CloudStudy entra
+          <div className="mx-auto mb-12 flex max-w-3xl flex-col items-center justify-center text-center md:mb-14">
+            <div className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--color-accent)]">
+              Certificações AWS
             </div>
-            <h2 className="mt-5 text-balance text-3xl font-semibold tracking-[-0.06em] text-[var(--color-accent-dark)] md:text-5xl md:leading-[0.98]">
-              Certificações disponíveis no lançamento.
+            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.05em] text-[var(--color-accent-dark)] md:text-5xl md:leading-[1]">
+              Escolha sua trilha e avance com direção
             </h2>
-            <p className="mt-6 text-lg leading-8 text-[var(--color-text-soft)]">
-              Comece sua preparação com trilhas estruturadas para as certificações mais procuradas da AWS.
+            <p className="mt-4 text-base leading-7 text-[var(--color-text-soft)] md:text-lg">
+              A CloudStudy está construindo trilhas guiadas para diferentes certificações AWS, com aulas, revisão e simulados.
             </p>
           </div>
 
-          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3">
+          <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
             {launchCertifications.map((certification) => (
               <article
                 key={certification.title}
-                className="group flex flex-col items-center rounded-[28px] border border-blue-100 bg-[linear-gradient(180deg,rgba(255,255,255,0.96)_0%,rgba(244,249,255,0.92)_100%)] p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:border-blue-300 hover:shadow-[0_12px_40px_rgba(20,121,255,0.12)]"
+                className="group rounded-[20px] p-2 text-left transition-all duration-300"
               >
-                <div className="mb-8 flex h-[180px] w-full items-center justify-center rounded-[24px] bg-gradient-to-b from-[#F8FBFF] to-white px-4 pt-4">
+
+                <div className="mb-3 flex h-[118px] w-full items-center justify-center">
                   <Image
                     src={certification.image}
                     alt={certification.title}
-                    width={150}
-                    height={150}
-                    className="mx-auto h-[140px] w-auto object-contain"
+                    width={132}
+                    height={132}
+                    className="h-[102px] w-[102px] object-contain object-center mix-blend-multiply"
                   />
                 </div>
 
-                <h3 className="text-center text-xl font-semibold tracking-[-0.04em] text-slate-950">
+                <h3 className="text-lg font-semibold tracking-[-0.02em] text-slate-950 md:text-xl">
                   {certification.title}
                 </h3>
-                <p className="mt-3 text-center text-base leading-7 text-[var(--color-text-soft)]">
+                <p className="mt-2 text-sm leading-6 text-[var(--color-text-soft)] md:text-[15px]">
                   {certification.description}
                 </p>
               </article>
