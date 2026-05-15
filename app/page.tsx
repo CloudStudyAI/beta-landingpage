@@ -242,7 +242,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="sistema" className="section-shell py-12 md:py-16">
+      <section id="sistema" className="section-shell py-6 md:py-8">
         <div className="grid gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
           <div className="soft-panel aspect-[16/10] overflow-hidden">
             <Image
@@ -331,9 +331,9 @@ export default function HomePage() {
 
       <section id="faq" className="section-shell py-12 md:py-16">
         <div className="mx-auto max-w-5xl">
-          <div className="mx-auto mb-6 max-w-3xl text-center">
+          <div className="mx-auto mb-7 max-w-4xl text-center">
             <div className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--color-accent)]">FAQ objetivo</div>
-            <h2 className="mt-4 text-3xl font-semibold tracking-[-0.05em] text-[var(--color-accent-dark)] md:text-5xl md:leading-[1]">
+            <h2 className="mt-3 text-2xl font-semibold tracking-[-0.04em] text-[var(--color-accent-dark)] md:text-[3.2rem] md:leading-[1.02]">
               FAQ rápido
             </h2>
           </div>
@@ -351,7 +351,7 @@ export default function HomePage() {
 
       <section id="prova-social" className="section-shell py-12 md:py-16">
         <div className="mx-auto max-w-6xl">
-          <div className="mx-auto mb-8 max-w-3xl text-center">
+          <div className="mx-auto mb-6 max-w-3xl text-center">
             <div className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--color-accent)]">Prova social</div>
             <h2 className="mt-4 text-3xl font-semibold tracking-[-0.05em] text-[var(--color-accent-dark)] md:text-5xl md:leading-[1]">
               Feedbacks dos conteúdos gratuitos no LinkedIn
@@ -360,18 +360,17 @@ export default function HomePage() {
 
           <div className="grid gap-4 md:grid-cols-3">
             {socialProofItems.map((item) => (
-              <article key={item.handle} className="flex h-full flex-col rounded-[1.1rem] border border-slate-200 bg-white p-4 shadow-[0_8px_22px_rgba(15,23,42,0.06)]">
-                <p className="min-h-[126px] text-sm leading-6 text-slate-700">"{item.quote}"</p>
-                <div className="mt-4 border-t border-slate-100 pt-3">
-                  <p className="mb-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">Feedback de conteúdo gratuito</p>
-                  <p className="text-sm font-semibold text-slate-900">{item.handle}</p>
+              <article key={item.handle} className="flex h-full flex-col rounded-[1rem] border border-slate-200 bg-white p-3.5 shadow-[0_6px_16px_rgba(15,23,42,0.05)]">
+                <p className="text-sm leading-7 text-slate-700">"{item.quote}"</p>
+                <div className="mt-auto border-t border-slate-100 pt-2.5">
+                                    <p className="text-sm font-semibold text-slate-900">{item.handle}</p>
                   <p className="text-xs text-slate-500">{item.role}</p>
                 </div>
               </article>
             ))}
           </div>
 
-          <p className="mt-5 text-center text-sm text-[var(--color-text-soft)]">
+          <p className="mt-7 text-center text-xs text-[var(--color-text-soft)]">
             Estes feedbacks são dos conteúdos gratuitos já publicados pela CloudStudy.
           </p>
         </div>
