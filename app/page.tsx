@@ -123,15 +123,7 @@ export default function HomePage() {
 
       <section id="tutor-ia" className="relative overflow-hidden bg-white">
         <div className="section-shell grid max-w-7xl grid-cols-1 items-center gap-10 px-5 py-16 sm:px-6 md:grid-cols-2 md:gap-12 md:py-24 lg:gap-20">
-          <div className="max-w-xl">
-            <div
-              className="pointer-events-none absolute -left-10 top-1/2 h-48 w-48 -translate-y-1/2 rounded-full blur-3xl"
-              style={{
-                background:
-                  "radial-gradient(circle at 30% 40%, rgba(20,121,255,0.12), transparent 50%)",
-              }}
-            />
-            <div className="relative overflow-visible bg-transparent p-0 shadow-none">
+          <div className="max-w-xl">            <div className="relative overflow-visible bg-transparent p-0 shadow-none">
               <Image
                 src="/robo-novo.png"
                 alt="Tutor IA da CloudStudy."
@@ -141,7 +133,7 @@ export default function HomePage() {
                 priority
               />
               <div className="mentor-robot-badge mt-3 rounded-xl border border-cyan-200 bg-cyan-50 px-3 py-2 text-center text-xs font-semibold uppercase tracking-[0.1em] text-cyan-800">
-                Mentor IA baseado em aprovacoes reais AWS
+                Mentor IA com memoria real em exames AWS
               </div>
             </div>
           </div>
@@ -162,12 +154,8 @@ export default function HomePage() {
                     </div>
                     <div>
                       <p className="text-sm font-semibold text-slate-900">Mentor IA</p>
-                      <p className="text-xs text-slate-500">Plano simples, baseado em aprovacoes reais</p>
                     </div>
                   </div>
-                  <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-emerald-700">
-                    online
-                  </span>
                 </div>
 
                 <div className="space-y-3 bg-slate-50 px-4 py-4">
@@ -177,12 +165,12 @@ export default function HomePage() {
                   </div>
 
                   <div className="max-w-[92%] rounded-2xl rounded-tl-md border border-slate-300 bg-slate-100 px-3 py-2.5 text-sm leading-6 text-slate-700">
-                    A gente analisa onde voce esta errando ou tendo mais dificuldade. Eu ja passei por isso e te guio no que realmente destrava.
+                    A gente analisa onde voce esta errando ou com mais dificuldade. Eu ja passei por isso e te guio no que realmente destrava.
                     <div className="mt-1 text-[10px] text-slate-500">Mentor IA · agora</div>
                   </div>
 
-                  <div className="ml-auto max-w-[88%] rounded-2xl rounded-tr-md border border-slate-200 bg-white px-3 py-2.5 text-sm leading-6 text-slate-700">
-                    Estou tendo dificuldade em qual area?
+                  <div className="mt-4 ml-auto max-w-[88%] rounded-2xl rounded-tr-md border border-slate-200 bg-white px-3 py-2.5 text-sm leading-6 text-slate-700">
+                    Em qual area estou tendo mais dificuldade?
                     <div className="mt-1 text-[10px] text-slate-400">Voce · agora</div>
                   </div>
 
@@ -196,7 +184,7 @@ export default function HomePage() {
                   <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5">
                     <span className="text-xs text-slate-400">Pergunte algo sobre sua trilha...</span>
                     <span className="ml-auto rounded-md bg-cyan-500 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-white">
-                      enviar
+                      Enviar
                     </span>
                   </div>
                 </div>
