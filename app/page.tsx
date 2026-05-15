@@ -259,11 +259,11 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
+          <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3 md:items-start">
             {launchCertifications.map((certification) => (
               <article
                 key={certification.title}
-                className="group rounded-[20px] p-2 text-left transition-all duration-300"
+                className="group flex h-full flex-col items-center rounded-[20px] p-2 text-center transition-all duration-300"
               >
 
                 <div className="mb-3 flex h-[118px] w-full items-center justify-center">
@@ -276,10 +276,10 @@ export default function HomePage() {
                   />
                 </div>
 
-                <h3 className="text-lg font-semibold tracking-[-0.02em] text-slate-950 md:text-xl">
+                <h3 className="min-h-[56px] w-full text-lg font-semibold tracking-[-0.02em] text-slate-950 md:text-xl">
                   {certification.title}
                 </h3>
-                <p className="mt-2 text-sm leading-6 text-[var(--color-text-soft)] md:text-[15px]">
+                <p className="mt-2 w-full text-sm leading-6 text-[var(--color-text-soft)] md:text-[15px]">
                   {certification.description}
                 </p>
               </article>
