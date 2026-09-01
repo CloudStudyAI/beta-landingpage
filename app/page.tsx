@@ -422,6 +422,9 @@ export default function HomePage() {
               <a href="#certificacoes" className="transition hover:text-slate-900">Certificações</a>
               <a href="#faq" className="transition hover:text-slate-900">FAQ</a>
               <a href="#lista-de-espera" className="transition hover:text-slate-900">Lista de espera</a>
+              <a href="/termos" className="transition hover:text-slate-900">Termos</a>
+              <a href="/privacidade" className="transition hover:text-slate-900">Privacidade</a>
+              <a href="/cancelamento-e-reembolso" className="transition hover:text-slate-900">Cancelamento e reembolso</a>
             </nav>
 
             <a
