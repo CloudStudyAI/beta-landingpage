@@ -1,28 +1,13 @@
 ﻿import Image from "next/image";
 
-import { LaunchLeadForm } from "../components/launch-lead-form";
+import { CertificationPathsSection } from "../components/launch/certification-paths-section";
+import { LaunchHeader } from "../components/launch/launch-header";
+import { LaunchHero } from "../components/launch/launch-hero";
+import { StudyContinuitySection } from "../components/launch/study-continuity-section";
+import { StudyCycleSection } from "../components/launch/study-cycle-section";
+import { SIGNUP_URL } from "../lib/launch-links";
 
 import image3 from "../Image3.png";
-import image4 from "../Image4.png";
-
-const launchCertifications = [
-  {
-    description: "Base de cloud, segurança e custos para começar do zero com clareza.",
-    image: "/cert-cloud-practitioner-sem-fundo.png",
-    title: "Cloud Practitioner",
-  },
-  {
-    description: "Fundamentos de IA generativa na AWS com foco prático para certificação.",
-    image: "/cert-ai-practitioner-sem-fundo.png",
-    title: "AI Practitioner",
-  },
-  {
-    description:
-      "Arquitetura de soluções escaláveis, resilientes e prontas para a certificação Associate.",
-    image: "/cert-solutions-architect-sem-fundo.png",
-    title: "Solutions Architect",
-  },
-] as const;
 
 const faqItems = [
   {
@@ -65,179 +50,31 @@ const socialProofItems = [
   },
 ] as const;
 
-const navItems = [
-  { href: "#posicionamento", label: "Posicionamento" },
-  { href: "#tutor-ia", label: "Tutor IA" },
-  { href: "#sistema", label: "Sistema" },
-  { href: "#certificacoes", label: "Certificações" },
-] as const;
-
 export default function HomePage() {
   return (
     <main className="page-shell min-h-screen overflow-x-clip bg-[var(--color-bg-body)] text-[var(--color-text)]">
-      <header className="site-header">
-        <div className="section-shell">
-          <div className="site-header__bar">
-            <a href="#top" className="site-header__brand" aria-label="CloudStudy">
-              <Image
-                src="/logo-blue-sem-fundo.png"
-                alt="CloudStudy"
-                width={900}
-                height={600}
-                className="h-auto w-[150px] sm:w-[170px] md:w-[210px]"
-                priority
-              />
-            </a>
+      <LaunchHeader />
 
-            <nav aria-label="Navegação principal" className="site-header__nav">
-              {navItems.map((item) => (
-                <a key={item.href} href={item.href} className="site-header__pill">
-                  {item.label}
-                </a>
-              ))}
-            </nav>
+      <LaunchHero />
 
-            <a
-              href="#lista-de-espera"
-              className="primary-button shrink-0 whitespace-nowrap rounded-full px-4 py-3 text-xs font-semibold text-white sm:px-5 sm:text-sm"
-            >
-              Entrar na lista
-            </a>
-          </div>
-        </div>
-      </header>
+      <StudyContinuitySection />
 
-      <section id="top" className="section-shell pb-16 pt-6 md:pb-24 md:pt-8">
-        <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-          <div className="hero-surface px-5 py-8 sm:px-6 sm:py-10 md:px-10 md:py-14 lg:px-14">
-            <div className="hero-copy max-w-xl">
-            <h1 className="mt-5 text-balance text-4xl font-semibold tracking-[-0.06em] text-slate-900 sm:text-5xl md:text-[3.35rem] md:leading-[0.98]">
-              Seu caminho guiado para a certificação AWS.
-            </h1>
-            <p className="mt-6 max-w-xl text-lg leading-8 text-slate-700 sm:text-xl md:text-[1.4rem]">
-              Foque no que mais cai na prova. Siga uma trilha clara e evolua sem se perder.
-            </p>
-            </div>
-          </div>
-
-          <div className="hero-media flex items-center justify-end">
-            <Image
-              src={image4}
-              alt="Xícara com marca da CloudStudy ao lado de anotações."
-              className="h-auto w-full max-w-[760px] rounded-[2.4rem] sm:rounded-[2.8rem] object-cover object-center"
-              priority
-            />
-          </div>
-        </div>
-      </section>
-
-      <section id="posicionamento" className="section-shell py-10 md:py-12">
-        <div className="section-tint mx-auto max-w-5xl px-6 py-10 text-center md:px-10 md:py-12">
-          <div className="mx-auto max-w-3xl">
-            <div className="text-sm font-medium uppercase tracking-[0.18em] text-[var(--color-accent)]">
-              Metodologia CloudStudy
-            </div>
-            <h2 className="mt-5 text-balance text-3xl font-semibold tracking-[-0.06em] text-[var(--color-accent-dark)] md:text-5xl md:leading-[0.98]">
-              Uma metodologia guiada para você estudar AWS com foco no que mais cai na prova.
-            </h2>
-            <p className="mt-6 text-lg leading-8 text-[var(--color-text-soft)]">
-              Com base em trilhas completas de certificação AWS, organizamos o estudo por módulos, domínios e simulados. Você recebe um plano progressivo, revisões direcionadas pelos seus erros e acompanhamento contínuo para evoluir com consistência até a aprovação. E conta com o Mentor IA da CloudStudy, treinado com memória real de preparação e prova, para orientar seu próximo passo com contexto prático de quem já passou pelo exame.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section id="tutor-ia" className="relative overflow-hidden bg-white">
-        <div className="section-shell grid max-w-7xl grid-cols-1 items-center gap-10 px-5 py-16 sm:px-6 md:grid-cols-2 md:gap-12 md:py-24 lg:gap-20">
-          <div className="max-w-xl">            <div className="relative overflow-visible bg-transparent p-0 shadow-none">
-              <Image
-                src="/robo-novo.png"
-                alt="Tutor IA da CloudStudy."
-                width={820}
-                height={820}
-                className="mentor-robot-image h-full w-full object-contain"
-                priority
-              />
-              <div className="mt-4 text-center">
-                <p className="text-base font-semibold tracking-[-0.01em] text-slate-900">Mentor IA CloudStudy</p>
-                <p className="mt-1 text-sm text-slate-500">Memória real aplicada em exames AWS</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="relative flex justify-center">
-            <div className="relative w-full max-w-[540px] overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-5 shadow-[0_14px_30px_rgba(15,23,42,0.08)] md:p-6">
-              <div className="rounded-[1.2rem] border border-slate-200 bg-white shadow-[0_12px_24px_rgba(15,23,42,0.08)]">
-                <div className="flex items-center justify-between border-b border-slate-200 px-4 py-3">
-                  <div className="flex items-center gap-2.5">
-                    <div className="h-8 w-8 overflow-hidden rounded-full border border-cyan-200 bg-cyan-50">
-                      <Image
-                        src="/robo-novo.png"
-                        alt="Avatar do agente."
-                        width={48}
-                        height={48}
-                        className="h-full w-full object-cover"
-                      />
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-slate-900">Mentor IA</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-3 bg-slate-50 px-4 py-4">
-                  <div className="ml-auto max-w-[88%] rounded-2xl rounded-tr-md border border-slate-200 bg-white px-3 py-2.5 text-sm leading-6 text-slate-700">
-                    Sou iniciante e tenho pouco tempo. Como eu começo sem me perder?
-                    <div className="mt-1 text-[10px] text-slate-400">Você · agora</div>
-                  </div>
-
-                  <div className="max-w-[92%] rounded-2xl rounded-tl-md border border-slate-300 bg-slate-100 px-3 py-2.5 text-sm leading-6 text-slate-700">
-                    A gente analisa onde você está errando ou tendo mais dificuldade. Eu já passei por isso e vou te guiar no que realmente destrava.
-                    <div className="mt-1 text-[10px] text-slate-500">Mentor IA · agora</div>
-                  </div>
-
-                  <div className="mt-4 ml-auto max-w-[88%] rounded-2xl rounded-tr-md border border-slate-200 bg-white px-3 py-2.5 text-sm leading-6 text-slate-700">
-                    Em qual área estou tendo mais dificuldade?
-                    <div className="mt-1 text-[10px] text-slate-400">Você · agora</div>
-                  </div>
-
-                  <div className="max-w-[92%] rounded-2xl rounded-tl-md border border-slate-300 bg-slate-100 px-3 py-2.5 text-sm leading-6 text-slate-700">
-                    Você está errando mais questões de segurança. No exame que eu fiz, cerca de 30% das questões caíram sobre segurança, então vamos focar nisso agora.
-                    <div className="mt-1 text-[10px] text-slate-500">Mentor IA · agora</div>
-                  </div>
-                </div>
-
-                <div className="border-t border-slate-200 px-4 py-3">
-                  <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5">
-                    <span className="text-xs text-slate-400">Pergunte algo sobre sua trilha...</span>
-                    <span className="ml-auto rounded-md bg-cyan-500 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-white">
-                      Enviar
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <StudyCycleSection />
 
       <section className="section-shell py-3 md:py-4">
         <div className="soft-panel mx-auto max-w-2xl p-3 sm:p-3 md:p-3">
           <div className="mx-auto max-w-xl text-center">
             <h3 className="text-xl font-semibold tracking-[-0.03em] text-[var(--color-accent-dark)] md:text-2xl">
-              Quer receber o acesso antecipado?
+              Crie sua conta na CloudStudy
             </h3>
           </div>
 
           <div className="mx-auto mt-2 max-w-lg">
-            <LaunchLeadForm
-              title=""
-              buttonLabel="Entrar na lista"
-              helperText="Sem spam. Apenas atualizações importantes."
-              source="landing_tutor_ia"
-              tone="light"
-              className="rounded-[0.95rem] !p-2.5 md:!p-2.5 [&_form]:mt-2 [&_form]:space-y-1.5 [&_input]:py-2 [&_button]:py-2 [&_button]:text-xs [&_p.text-xs]:leading-4"
-            />
+            <div className="rounded-[0.95rem] border border-slate-950/10 bg-white p-2.5">
+              <a href={SIGNUP_URL} className="primary-button inline-flex w-full items-center justify-center rounded-[1rem] px-5 py-2 text-xs font-semibold text-white">
+                Criar conta
+              </a>
+            </div>
           </div>
         </div>
       </section>
@@ -286,48 +123,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="certificacoes" className="section-shell py-12 md:py-16">
-        <div className="mx-auto max-w-6xl">
-          <div className="mx-auto mb-12 flex max-w-3xl flex-col items-center justify-center text-center md:mb-14">
-            <div className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--color-accent)]">
-              Certificações AWS
-            </div>
-            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.05em] text-[var(--color-accent-dark)] md:text-5xl md:leading-[1]">
-              Escolha sua trilha e avance com direção
-            </h2>
-            <p className="mt-4 text-base leading-7 text-[var(--color-text-soft)] md:text-lg">
-              A CloudStudy está construindo trilhas guiadas para diferentes certificações AWS, com aulas, revisão e simulados.
-            </p>
-          </div>
-
-          <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3 md:items-start">
-            {launchCertifications.map((certification) => (
-              <article
-                key={certification.title}
-                className="group flex h-full flex-col items-center rounded-[20px] p-2 text-center transition-all duration-300"
-              >
-
-                <div className="mb-3 flex h-[118px] w-full items-center justify-center">
-                  <Image
-                    src={certification.image}
-                    alt={certification.title}
-                    width={132}
-                    height={132}
-                    className="h-[102px] w-[102px] object-contain object-center mix-blend-multiply"
-                  />
-                </div>
-
-                <h3 className="min-h-[56px] w-full text-lg font-semibold tracking-[-0.02em] text-slate-950 md:text-xl">
-                  {certification.title}
-                </h3>
-                <p className="mt-2 w-full text-sm leading-6 text-[var(--color-text-soft)] md:text-[15px]">
-                  {certification.description}
-                </p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+      <CertificationPathsSection />
 
       <section id="faq" className="section-shell py-12 md:py-16">
         <div className="mx-auto max-w-5xl">
@@ -376,28 +172,25 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="lista-de-espera" className="section-shell pb-20 pt-12 md:pb-24 md:pt-16">
+      <section id="criar-conta" className="section-shell pb-20 pt-12 md:pb-24 md:pt-16">
         <div className="soft-panel grid gap-8 p-5 sm:p-6 md:p-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
           <div className="max-w-sm">
             <div className="text-sm font-medium uppercase tracking-[0.18em] text-[var(--color-accent)]">
-              Lista de espera
+              Sua conta
             </div>
             <h2 className="mt-5 text-balance text-3xl font-semibold tracking-[-0.06em] text-[var(--color-accent-dark)] md:text-5xl md:leading-[0.98]">
-              Entre na lista de espera.
+              Crie sua conta.
             </h2>
             <p className="mt-5 text-lg leading-8 text-[var(--color-text-soft)]">
-              Receba novidades do lançamento e acesso antecipado quando a primeira versão estiver pronta.
+              Acesse a aplicação CloudStudy para criar sua conta.
             </p>
           </div>
 
-          <LaunchLeadForm
-            title="Quero acesso antecipado"
-            buttonLabel="Quero acesso antecipado"
-            helperText="Pré-lançamento. Sem spam."
-            source="landing_pre_launch"
-            tone="light"
-            className="rounded-[1.5rem]"
-          />
+          <div className="rounded-[1.5rem] border border-slate-950/10 bg-white p-5 shadow-[0_28px_60px_rgba(15,23,42,0.08)] md:p-6">
+            <a href={SIGNUP_URL} className="primary-button inline-flex w-full items-center justify-center rounded-[1rem] px-5 py-3 text-sm font-semibold text-white">
+              Criar conta
+            </a>
+          </div>
         </div>
       </section>
 
@@ -421,7 +214,7 @@ export default function HomePage() {
               <a href="#top" className="transition hover:text-slate-900">Início</a>
               <a href="#certificacoes" className="transition hover:text-slate-900">Certificações</a>
               <a href="#faq" className="transition hover:text-slate-900">FAQ</a>
-              <a href="#lista-de-espera" className="transition hover:text-slate-900">Lista de espera</a>
+              <a href={SIGNUP_URL} className="transition hover:text-slate-900">Criar conta</a>
               <a href="/termos" className="transition hover:text-slate-900">Termos</a>
               <a href="/privacidade" className="transition hover:text-slate-900">Privacidade</a>
               <a href="/cancelamento-e-reembolso" className="transition hover:text-slate-900">Cancelamento e reembolso</a>

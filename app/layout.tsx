@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Manrope } from "next/font/google";
 
-import { IntroGate } from "../components/IntroGate";
-
 import "./globals.css";
 
 const displayFont = Plus_Jakarta_Sans({
@@ -36,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={`${displayFont.variable} ${bodyFont.variable} antialiased`}>
-        <IntroGate>{children}</IntroGate>
+        {children}
       </body>
     </html>
   );
