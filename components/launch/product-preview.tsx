@@ -1,45 +1,100 @@
+import { BookOpen, BrainCircuit, Check, RotateCcw } from "lucide-react";
+
+const planItems = [
+  { icon: BookOpen, label: "Próxima aula", value: "Responsabilidade compartilhada" },
+  { icon: RotateCcw, label: "Revisão pendente", value: "Reforce os conceitos anteriores" },
+  { icon: BrainCircuit, label: "Prática", value: "Questões do módulo atual" },
+] as const;
+
+function PreviewHeader() {
+  return (
+    <div className="flex items-center justify-between gap-4 border-b border-slate-200 px-4 py-3 sm:px-6">
+      <p className="font-display text-base font-bold tracking-tight text-[#0b2a6f] sm:text-lg">
+        Cloud<span className="text-[#1479ff]">Study</span>
+      </p>
+      <p className="text-xs font-bold text-slate-500">Prévia da plataforma</p>
+    </div>
+  );
+}
+
+function PreviewNavigation() {
+  return (
+    <aside className="hidden w-48 shrink-0 border-r border-slate-200 bg-[#f8fbff] p-5 md:block">
+      <p className="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">Estudo</p>
+      <ul className="mt-5 space-y-1 text-sm font-bold text-slate-500">
+        <li className="border-l-2 border-[#1479ff] py-2 pl-3 text-[#0b2a6f]">Início</li>
+        <li className="py-2 pl-[14px]">Jornada</li>
+        <li className="py-2 pl-[14px]">Revisões</li>
+        <li className="py-2 pl-[14px]">Prática</li>
+      </ul>
+    </aside>
+  );
+}
+
+function JourneyProgress() {
+  return (
+    <div className="mt-7 border-y border-slate-200 py-5">
+      <div className="flex items-center justify-between gap-4 text-sm font-bold text-[#0b2a6f]">
+        <span>Progresso da jornada</span>
+        <span className="text-[#1479ff]">Em andamento</span>
+      </div>
+      <div className="mt-3 h-2 overflow-hidden rounded-full bg-blue-100">
+        <div className="h-full w-[58%] rounded-full bg-[#1479ff]" />
+      </div>
+      <p className="mt-4 flex items-center gap-2 text-sm font-bold text-slate-700">
+        <Check aria-hidden="true" className="h-4 w-4 text-emerald-600" strokeWidth={3} /> Fundamentos da AWS concluídos
+      </p>
+    </div>
+  );
+}
+
+function CurrentLesson() {
+  return (
+    <div className="min-w-0 flex-1 p-5 sm:p-7 lg:p-9">
+      <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#1479ff]">Cloud Practitioner</p>
+      <h3 className="mt-3 max-w-xl font-display text-2xl font-bold leading-tight tracking-[-0.04em] text-[#0b2a6f] sm:text-3xl">
+        Continue sua próxima aula
+      </h3>
+      <p className="mt-3 max-w-xl text-sm leading-6 text-slate-600 sm:text-base sm:leading-7">
+        Retome o módulo sobre segurança exatamente do ponto em que parou.
+      </p>
+
+      <JourneyProgress />
+      <span className="mt-6 inline-flex min-h-11 items-center rounded-xl border-b-4 border-[#0b56bd] bg-[#1479ff] px-5 py-2 text-sm font-bold text-white">
+        Continuar aula
+      </span>
+    </div>
+  );
+}
+
+function DailyPlan() {
+  return (
+    <div className="border-t border-slate-200 bg-[#f8fbff] p-5 sm:p-7 lg:w-[22rem] lg:border-l lg:border-t-0 lg:p-8">
+      <h3 className="font-display text-xl font-bold text-[#0b2a6f]">Plano de hoje</h3>
+      <ol className="mt-4 divide-y divide-slate-200">
+        {planItems.map((item) => (
+          <li key={item.label} className="flex gap-3 py-4 first:pt-2 last:pb-0">
+            <item.icon aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-[#1479ff]" strokeWidth={2} />
+            <span className="min-w-0">
+              <span className="block text-xs font-bold text-slate-500">{item.label}</span>
+              <span className="mt-1 block text-sm font-bold leading-5 text-[#0b2a6f]">{item.value}</span>
+            </span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
 export function ProductPreview() {
   return (
-    <div role="img" aria-label="Representação ilustrativa da plataforma CloudStudy: próxima aula Fundamentos da AWS, progresso de 64%, 18 flashcards para revisão, 2 simulados e plano de hoje: continuar, revisar e melhorar." className="overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white text-slate-900 shadow-[0_16px_50px_-30px_rgba(11,42,111,0.25)] sm:rounded-[2rem]">
-      <div className="border-b border-white/10 bg-[#0b172b] px-6 py-5 sm:px-9">
-        <p className="font-display text-xl font-bold tracking-tight text-white">Cloud<span className="text-[#539eff]">Study</span></p>
-      </div>
-
-      <div className="grid min-w-0 lg:grid-cols-[1fr_240px]">
-        <div className="min-w-0 p-6 sm:p-9 lg:p-10">
-          <p className="text-[11px] font-bold tracking-[0.16em] text-blue-700">PRÓXIMA AULA</p>
-          <p className="mt-3 font-display text-2xl font-semibold leading-tight tracking-[-0.03em] text-[#0b2a6f] sm:text-3xl">Continue exatamente de onde parou</p>
-          <p className="mt-3 text-base text-slate-600">Fundamentos da AWS</p>
-
-          <div className="mt-9 sm:mt-12">
-            <div className="flex items-center justify-between gap-4 text-sm">
-              <span className="font-medium text-slate-600">Progresso da trilha</span>
-              <span className="font-bold text-[#0b2a6f]">64%</span>
-            </div>
-            <div aria-hidden="true" className="mt-3 h-2.5 overflow-hidden rounded-full bg-slate-100">
-              <div className="h-full w-[64%] rounded-full bg-[#1479ff]" />
-            </div>
-          </div>
-
-          <div className="mt-9 grid gap-6 border-t border-slate-100 pt-6 sm:grid-cols-2 sm:gap-8">
-            <div>
-              <p className="text-[10px] font-bold tracking-[0.12em] text-slate-500">REVISÃO PENDENTE</p>
-              <p className="mt-2 text-xl font-semibold tracking-tight text-[#0b2a6f]">18 flashcards</p>
-            </div>
-            <div>
-              <p className="text-[10px] font-bold tracking-[0.12em] text-slate-500">PRÁTICA DISPONÍVEL</p>
-              <p className="mt-2 text-xl font-semibold tracking-tight text-[#0b2a6f]">2 simulados</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="border-t border-slate-100 bg-[#f5f8fd] p-6 sm:p-9 lg:border-l lg:border-t-0 lg:p-8">
-          <p className="text-[11px] font-bold tracking-[0.14em] text-[#0b2a6f]">PLANO DE HOJE</p>
-          <ol className="mt-6 space-y-5 text-sm font-semibold text-slate-600">
-            <li className="flex items-center gap-3 text-blue-700"><span aria-hidden="true" className="h-2.5 w-2.5 shrink-0 rounded-full bg-[#1479ff]" />Continuar</li>
-            <li className="flex items-center gap-3"><span aria-hidden="true" className="h-2.5 w-2.5 shrink-0 rounded-full border-2 border-slate-300" />Revisar</li>
-            <li className="flex items-center gap-3"><span aria-hidden="true" className="h-2.5 w-2.5 shrink-0 rounded-full border-2 border-slate-300" />Melhorar</li>
-          </ol>
+    <div role="img" aria-label="Prévia da CloudStudy com próxima aula, progresso da jornada, revisão pendente e prática." className="overflow-hidden rounded-[1.75rem] border border-slate-300/80 bg-white text-slate-900 shadow-[0_22px_48px_-38px_rgba(11,42,111,0.32)]">
+      <PreviewHeader />
+      <div className="flex">
+        <PreviewNavigation />
+        <div className="min-w-0 flex-1 lg:flex">
+          <CurrentLesson />
+          <DailyPlan />
         </div>
       </div>
     </div>

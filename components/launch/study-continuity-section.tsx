@@ -2,23 +2,18 @@ import { ProductPreview } from "./product-preview";
 
 export function StudyContinuitySection() {
   return (
-    <section id="posicionamento" aria-labelledby="study-continuity-title" className="scroll-mt-8 bg-white px-5 py-14 sm:px-8 sm:py-20 lg:py-24">
-      <div className="mx-auto max-w-6xl">
-        <div className="grid items-end gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:gap-20">
-          <div>
-            <p className="text-[11px] font-bold tracking-[0.18em] text-blue-700 sm:text-xs">A PLATAFORMA EM USO</p>
-            <h2 id="study-continuity-title" className="mt-4 max-w-xl text-balance font-display text-3xl font-semibold leading-[1.12] tracking-[-0.045em] text-[#0b2a6f] sm:text-4xl lg:text-5xl">
-              Seu estudo continua de onde parou.
-            </h2>
-          </div>
-          <p className="max-w-md text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
-            Ao entrar, você encontra a próxima aula, o progresso da jornada e o que precisa revisar ou praticar.
+    <section id="plataforma" aria-labelledby="study-continuity-title" className="scroll-mt-8 bg-white px-3 py-16 sm:px-6 sm:py-20 lg:py-24">
+      <div className="mx-auto max-w-[1200px]">
+        <div className="max-w-3xl px-2 sm:px-0">
+          <h2 id="study-continuity-title" className="text-balance font-display text-3xl font-bold leading-[1.08] tracking-[-0.05em] text-[#0b2a6f] sm:text-5xl">
+            Abra a plataforma e continue de onde parou.
+          </h2>
+          <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
+            Próxima aula, progresso, revisões e prática aparecem organizados em um só lugar.
           </p>
         </div>
 
-        <div className="mt-9 sm:mt-12">
-          <ProductPreview />
-        </div>
+        <div className="mt-8 sm:mt-10 lg:mt-12"><ProductPreview /></div>
       </div>
     </section>
   );

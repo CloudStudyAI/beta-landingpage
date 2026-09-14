@@ -1,59 +1,98 @@
-import Image from "next/image";
+import Image, { type StaticImageData } from "next/image";
 import { ArrowRight } from "lucide-react";
 
+import solutionsArchitectMap from "../../mapas/1 (1).svg";
+import cloudPractitionerMap from "../../mapas/2 (1).svg";
+import aiPractitionerMap from "../../mapas/3 (1).svg";
 import { SIGNUP_URL } from "../../lib/launch-links";
 
-const launchCertifications = [
+type CertificationPath = {
+  badge: string;
+  code: string;
+  description: string;
+  map: StaticImageData;
+  title: string;
+};
+
+const certificationPaths: readonly CertificationPath[] = [
   {
-    description: "Base de cloud, segurança e custos para começar do zero com clareza.",
-    image: "/cert-cloud-practitioner-sem-fundo.png",
-    title: "Cloud Practitioner",
+    badge: "/cert-cloud-practitioner-sem-fundo.png",
+    code: "CLF-C02",
+    description: "Construa sua base em cloud, segurança, custos e serviços essenciais da AWS.",
+    map: cloudPractitionerMap,
+    title: "AWS Certified Cloud Practitioner",
   },
   {
-    description: "Fundamentos de IA generativa na AWS com foco prático para certificação.",
-    image: "/cert-ai-practitioner-sem-fundo.png",
-    title: "AI Practitioner",
+    badge: "/cert-solutions-architect-sem-fundo.png",
+    code: "SAA-C03",
+    description: "Estude arquitetura de soluções escaláveis e resilientes para a certificação Associate.",
+    map: solutionsArchitectMap,
+    title: "AWS Certified Solutions Architect – Associate",
   },
   {
-    description: "Arquitetura de soluções escaláveis, resilientes e prontas para a certificação Associate.",
-    image: "/cert-solutions-architect-sem-fundo.png",
-    title: "Solutions Architect",
+    badge: "/cert-ai-practitioner-sem-fundo.png",
+    code: "AIF-C01",
+    description: "Entenda fundamentos de IA, IA generativa e serviços relacionados na AWS.",
+    map: aiPractitionerMap,
+    title: "AWS Certified AI Practitioner",
   },
 ] as const;
 
+function CertificationPathBlock({ certification, reversed }: { certification: CertificationPath; reversed: boolean }) {
+  const gridColumns = reversed ? "lg:grid-cols-[1.22fr_0.78fr]" : "lg:grid-cols-[0.78fr_1.22fr]";
+  const textPosition = reversed ? "lg:col-start-2" : "lg:col-start-1";
+  const mapPosition = reversed ? "lg:col-start-1" : "lg:col-start-2";
+
+  return (
+    <li className={`grid gap-x-16 gap-y-6 border-t border-slate-200 py-12 first:border-t-0 first:pt-0 last:pb-0 lg:py-20 ${gridColumns}`}>
+      <div className={`${textPosition} self-end lg:row-start-1`}>
+        <div className="flex items-start gap-4">
+          <Image src={certification.badge} alt="" width={72} height={72} className="h-14 w-14 shrink-0 object-contain sm:h-[72px] sm:w-[72px]" />
+          <div className="min-w-0">
+            <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#1479ff]">{certification.code}</p>
+            <h3 className="mt-2 font-display text-2xl font-bold leading-tight tracking-[-0.04em] text-[#0b2a6f] sm:text-3xl">{certification.title}</h3>
+          </div>
+        </div>
+        <p className="mt-5 max-w-md text-sm leading-7 text-slate-600 sm:text-base">{certification.description}</p>
+      </div>
+
+      <figure className={`${mapPosition} relative w-full self-center rounded-3xl border border-[#cfe1f8] bg-[#f6f9fe] p-1 shadow-[0_12px_30px_-22px_rgba(11,42,111,0.38)] sm:p-1.5 lg:row-span-2 lg:row-start-1`}>
+        <span aria-hidden="true" className="absolute left-6 top-[-1px] z-10 h-px w-10 bg-[#1479ff] sm:left-8 sm:w-12" />
+        <div className="aspect-video overflow-hidden rounded-[1.25rem] bg-white">
+          <Image
+            src={certification.map}
+            alt={`Mapa da trilha ${certification.title} na CloudStudy.`}
+            sizes="(min-width: 1024px) 650px, (min-width: 640px) 704px, calc(100vw - 48px)"
+            className="h-full w-full object-contain"
+          />
+        </div>
+      </figure>
+
+      <a href={SIGNUP_URL} aria-label={`Explorar jornada ${certification.title}`} className={`${textPosition} inline-flex min-h-12 w-full items-center justify-center gap-2 self-start rounded-2xl border-b-4 border-[#0b56bd] bg-[#1479ff] px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-[#0967e5] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600 sm:w-auto lg:row-start-2`}>
+        Explorar jornada <ArrowRight aria-hidden="true" className="h-4 w-4" />
+      </a>
+    </li>
+  );
+}
+
 export function CertificationPathsSection() {
   return (
-    <section id="certificacoes" aria-labelledby="certification-paths-title" className="scroll-mt-8 bg-white px-4 py-14 sm:px-8 sm:py-20">
-      <div className="mx-auto max-w-7xl overflow-hidden rounded-[2rem] bg-[#102441] px-5 py-12 sm:rounded-[3rem] sm:px-10 sm:py-16 lg:px-14 lg:py-20">
-        <div className="mx-auto max-w-3xl text-center">
-          <p className="text-[11px] font-bold tracking-[0.18em] text-blue-300 sm:text-xs">CERTIFICAÇÕES AWS</p>
-          <h2 id="certification-paths-title" className="mt-4 text-balance font-display text-3xl font-semibold leading-[1.12] tracking-[-0.045em] text-white sm:text-4xl lg:text-5xl">
-            Escolha a certificação. A CloudStudy guia o caminho.
+    <section id="certificacoes" aria-labelledby="certification-paths-title" className="scroll-mt-8 bg-white px-5 py-16 sm:px-8 sm:py-20 lg:py-28">
+      <div className="mx-auto max-w-6xl">
+        <div className="max-w-3xl">
+          <h2 id="certification-paths-title" className="text-balance font-display text-3xl font-bold leading-[1.08] tracking-[-0.05em] text-[#0b2a6f] sm:text-5xl">
+            Escolha sua certificação.
           </h2>
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-300 sm:text-lg sm:leading-8">
-            Cada jornada organiza conteúdo, prática, revisões e simulados em uma sequência clara até a prova.
+          <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
+            Cada trilha transforma o conteúdo da prova em um caminho de estudo dentro da CloudStudy.
           </p>
         </div>
 
-        <div className="relative mt-10 lg:mt-16">
-          <svg aria-hidden="true" viewBox="0 0 1000 180" preserveAspectRatio="none" fill="none" className="pointer-events-none absolute left-[16.66%] top-10 hidden h-[180px] w-2/3 lg:block">
-            <path d="M0 30 C250 30 250 140 500 140 S750 30 1000 30" stroke="#4a6b95" strokeWidth="2" strokeDasharray="4 9" strokeLinecap="round" />
-          </svg>
-          <ul className="relative grid gap-7 lg:grid-cols-3 lg:items-start lg:gap-8">
-            {launchCertifications.map((certification, index) => (
-              <li key={certification.title} className={index === 1 ? "lg:pt-12" : ""}>
-                <article className="flex flex-col items-center rounded-[2rem] bg-[#f5f8fd] px-5 pb-7 pt-7 text-center sm:px-7 sm:pb-8 lg:rounded-t-[5rem]">
-                  <Image src={certification.image} alt={`Badge AWS Certified ${certification.title}`} width={132} height={132} sizes="132px" className="h-[132px] w-[132px] object-contain" />
-                  <h3 className="mt-6 font-display text-xl font-semibold tracking-[-0.03em] text-[#0b2a6f] sm:text-2xl">{certification.title}</h3>
-                  <p className="mt-4 text-sm leading-7 text-slate-600 lg:min-h-[112px]">{certification.description}</p>
-                  <a href={SIGNUP_URL} aria-label={`Explorar jornada: ${certification.title}`} className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-[#1479ff] px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#0967e5] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600">
-                    Explorar jornada <ArrowRight aria-hidden="true" className="h-4 w-4 shrink-0" />
-                  </a>
-                </article>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <ol className="mt-12 sm:mt-16 lg:mt-20">
+          {certificationPaths.map((certification, index) => (
+            <CertificationPathBlock key={certification.code} certification={certification} reversed={index % 2 === 1} />
+          ))}
+        </ol>
       </div>
     </section>
   );
