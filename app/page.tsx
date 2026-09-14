@@ -4,9 +4,9 @@ import { FinalCtaSection } from "../components/launch/final-cta-section";
 import { LaunchFooter } from "../components/launch/launch-footer";
 import { LaunchHeader } from "../components/launch/launch-header";
 import { LaunchHero } from "../components/launch/launch-hero";
+import { PreFaqTransitionSection } from "../components/launch/pre-faq-transition-section";
 import { StudyContinuitySection } from "../components/launch/study-continuity-section";
 import { StudyCycleSection } from "../components/launch/study-cycle-section";
-import { TrustSection } from "../components/launch/trust-section";
 
 export default function HomePage() {
   return (
@@ -16,7 +16,7 @@ export default function HomePage() {
       <StudyContinuitySection />
       <StudyCycleSection />
       <CertificationPathsSection />
-      <TrustSection />
+      <PreFaqTransitionSection />
       <FaqSection />
       <FinalCtaSection />
       <LaunchFooter />

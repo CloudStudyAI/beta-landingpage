@@ -12,8 +12,8 @@ const navItems = [
 
 export function LaunchHeader() {
   return (
-    <header className="relative z-30 bg-white px-4 py-3 sm:px-6 sm:py-4">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
+    <header className="relative z-30 bg-white px-4 pb-6 pt-3 sm:px-6 sm:pb-7 sm:pt-4">
+      <div className="relative mx-auto flex max-w-6xl items-center justify-between gap-4">
         <a href="#top" aria-label="CloudStudy — voltar ao início" className="shrink-0 rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600">
           <Image src={logo} alt="CloudStudy" sizes="(min-width: 640px) 148px, 120px" className="h-auto w-[120px] sm:w-[148px]" priority />
         </a>

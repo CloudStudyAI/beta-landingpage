@@ -1,13 +1,20 @@
+"use client";
+
+import { useRef } from "react";
 import Image, { type StaticImageData } from "next/image";
+import { useInView } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
 import solutionsArchitectMap from "../../mapas/1 (1).svg";
 import cloudPractitionerMap from "../../mapas/2 (1).svg";
 import aiPractitionerMap from "../../mapas/3 (1).svg";
+import solutionsArchitectBadge from "../../mapas/certificações/1 (3).svg";
+import cloudPractitionerBadge from "../../mapas/certificações/2 (3).svg";
+import aiPractitionerBadge from "../../mapas/certificações/3 (3).svg";
 import { SIGNUP_URL } from "../../lib/launch-links";
 
 type CertificationPath = {
-  badge: string;
+  badge: StaticImageData;
   code: string;
   description: string;
   map: StaticImageData;
@@ -16,21 +23,21 @@ type CertificationPath = {
 
 const certificationPaths: readonly CertificationPath[] = [
   {
-    badge: "/cert-cloud-practitioner-sem-fundo.png",
+    badge: cloudPractitionerBadge,
     code: "CLF-C02",
     description: "Construa sua base em cloud, segurança, custos e serviços essenciais da AWS.",
     map: cloudPractitionerMap,
     title: "AWS Certified Cloud Practitioner",
   },
   {
-    badge: "/cert-solutions-architect-sem-fundo.png",
+    badge: solutionsArchitectBadge,
     code: "SAA-C03",
     description: "Estude arquitetura de soluções escaláveis e resilientes para a certificação Associate.",
     map: solutionsArchitectMap,
     title: "AWS Certified Solutions Architect – Associate",
   },
   {
-    badge: "/cert-ai-practitioner-sem-fundo.png",
+    badge: aiPractitionerBadge,
     code: "AIF-C01",
     description: "Entenda fundamentos de IA, IA generativa e serviços relacionados na AWS.",
     map: aiPractitionerMap,
@@ -39,9 +46,13 @@ const certificationPaths: readonly CertificationPath[] = [
 ] as const;
 
 function CertificationPathBlock({ certification, reversed }: { certification: CertificationPath; reversed: boolean }) {
+  const mapRef = useRef<HTMLElement>(null);
+  const isMapInView = useInView(mapRef, { once: true, amount: 0.35 });
   const gridColumns = reversed ? "lg:grid-cols-[1.22fr_0.78fr]" : "lg:grid-cols-[0.78fr_1.22fr]";
   const textPosition = reversed ? "lg:col-start-2" : "lg:col-start-1";
   const mapPosition = reversed ? "lg:col-start-1" : "lg:col-start-2";
+  const hiddenMapPosition = reversed ? "translate-y-6 opacity-0 lg:-translate-x-[72px] lg:translate-y-0" : "translate-y-6 opacity-0 lg:translate-x-[72px] lg:translate-y-0";
+  const mapReveal = isMapInView ? "translate-x-0 translate-y-0 opacity-100" : hiddenMapPosition;
 
   return (
     <li className={`grid gap-x-16 gap-y-6 border-t border-slate-200 py-12 first:border-t-0 first:pt-0 last:pb-0 lg:py-20 ${gridColumns}`}>
@@ -56,7 +67,10 @@ function CertificationPathBlock({ certification, reversed }: { certification: Ce
         <p className="mt-5 max-w-md text-sm leading-7 text-slate-600 sm:text-base">{certification.description}</p>
       </div>
 
-      <figure className={`${mapPosition} relative w-full self-center rounded-3xl border border-[#cfe1f8] bg-[#f6f9fe] p-1 shadow-[0_12px_30px_-22px_rgba(11,42,111,0.38)] sm:p-1.5 lg:row-span-2 lg:row-start-1`}>
+      <figure
+        ref={mapRef}
+        className={`${mapPosition} ${mapReveal} relative w-full self-center rounded-3xl border border-[#cfe1f8] bg-[#f6f9fe] p-1 shadow-[0_3px_0_#0b56bd,0_12px_30px_-22px_rgba(11,42,111,0.38)] transition-[opacity,transform] duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:!translate-x-0 motion-reduce:!translate-y-0 motion-reduce:!opacity-100 motion-reduce:transition-none sm:p-1.5 sm:shadow-[0_4px_0_#0b56bd,0_12px_30px_-22px_rgba(11,42,111,0.38)] lg:row-span-2 lg:row-start-1`}
+      >
         <span aria-hidden="true" className="absolute left-6 top-[-1px] z-10 h-px w-10 bg-[#1479ff] sm:left-8 sm:w-12" />
         <div className="aspect-video overflow-hidden rounded-[1.25rem] bg-white">
           <Image
@@ -77,7 +91,7 @@ function CertificationPathBlock({ certification, reversed }: { certification: Ce
 
 export function CertificationPathsSection() {
   return (
-    <section id="certificacoes" aria-labelledby="certification-paths-title" className="scroll-mt-8 bg-white px-5 py-16 sm:px-8 sm:py-20 lg:py-28">
+    <section id="certificacoes" aria-labelledby="certification-paths-title" className="scroll-mt-8 overflow-x-clip bg-white px-5 py-16 sm:px-8 sm:py-20 lg:py-28">
       <div className="mx-auto max-w-6xl">
         <div className="max-w-3xl">
           <h2 id="certification-paths-title" className="text-balance font-display text-3xl font-bold leading-[1.08] tracking-[-0.05em] text-[#0b2a6f] sm:text-5xl">

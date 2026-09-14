@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { motion, useReducedMotion } from "framer-motion";
 
 import thinkingRobot from "../../robos/4.svg";
 
@@ -9,16 +12,15 @@ const studySteps = [
   { description: "Acompanhe o que já avançou e mantenha o ritmo de estudo.", title: "Evolua" },
 ] as const;
 
-const stepOffsets = [
-  "mr-6 sm:mr-20 lg:mr-0 lg:pt-32",
-  "ml-6 sm:ml-12 lg:ml-0 lg:pt-6",
-  "mr-4 sm:mr-16 lg:mr-0 lg:pt-36",
-  "ml-5 sm:ml-16 lg:ml-0 lg:pt-12",
-] as const;
-
-const connectorAngles = ["rotate-[-12deg] sm:rotate-[-18deg]", "rotate-[12deg] sm:rotate-[18deg]", "rotate-[-10deg] sm:rotate-[-22deg]"] as const;
+const desktopMarkerOffsets = ["lg:top-[5rem]", "lg:top-6", "lg:top-[6.5rem]", "lg:top-11"] as const;
+const premiumEase = [0.22, 1, 0.36, 1] as const;
+const stepRevealDelay = 0.675;
+const stepRevealStagger = 0.225;
+const nimboRevealDelay = 2.25;
 
 export function StudyCycleSection() {
+  const prefersReducedMotion = useReducedMotion();
+
   return (
     <section id="como-funciona" aria-labelledby="study-cycle-title" className="relative isolate scroll-mt-8 overflow-hidden bg-white px-5 py-20 sm:px-8 sm:py-24 lg:py-32">
       <div aria-hidden="true" className="absolute inset-x-0 bottom-10 top-10 -z-10 bg-[#eef5ff]" />
@@ -35,33 +37,89 @@ export function StudyCycleSection() {
           </p>
         </div>
 
-        <div className="relative mt-12 sm:mt-16 lg:mt-20 lg:min-h-[22rem]">
-          <svg aria-hidden="true" viewBox="0 0 1080 260" preserveAspectRatio="none" className="absolute bottom-0 left-0 right-44 top-0 hidden h-[19rem] lg:block">
-            <path d="M135 165 C235 165 280 55 405 55 S555 185 675 185 S825 80 945 80" fill="none" stroke="#78adf0" strokeWidth="4" strokeLinecap="round" strokeDasharray="3 13" />
+        <motion.div
+          className="relative mt-12 sm:mt-16 lg:mt-20"
+          initial={prefersReducedMotion ? "visible" : "hidden"}
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+        >
+          <svg aria-hidden="true" viewBox="0 0 1000 160" preserveAspectRatio="none" className="absolute left-0 right-56 top-0 hidden h-40 w-[calc(100%-14rem)] lg:block">
+            <defs>
+              <mask id="study-cycle-path-reveal" maskUnits="userSpaceOnUse" x="0" y="0" width="1000" height="160">
+                <motion.path
+                  d="M125 104C225 104 270 48 375 48s145 80 250 80 145-60 250-60"
+                  fill="none"
+                  stroke="white"
+                  strokeWidth="12"
+                  strokeLinecap="round"
+                  variants={{
+                    hidden: { opacity: 0, pathLength: 0 },
+                    visible: { opacity: 1, pathLength: 1, transition: { duration: 2.1, ease: premiumEase } },
+                  }}
+                />
+              </mask>
+            </defs>
+            <path d="M125 104C225 104 270 48 375 48s145 80 250 80 145-60 250-60" fill="none" stroke="#78adf0" strokeWidth="4" strokeLinecap="round" strokeDasharray="3 13" mask="url(#study-cycle-path-reveal)" />
           </svg>
 
-          <ol className="relative lg:mr-44 lg:grid lg:grid-cols-4 lg:gap-10">
+          <motion.ol className="relative lg:mr-56 lg:grid lg:grid-cols-4 lg:gap-10">
             {studySteps.map((step, index) => (
-              <li key={step.title} className={`relative flex gap-5 pb-12 last:pb-0 sm:gap-7 sm:pb-14 lg:block lg:pb-0 lg:text-center ${stepOffsets[index]}`}>
-                {index < studySteps.length - 1 ? <span aria-hidden="true" className={`absolute left-[21px] top-10 h-[calc(100%-1.5rem)] origin-top border-l-2 border-dashed border-[#78adf0] lg:hidden ${connectorAngles[index]}`} /> : null}
-                <span className="relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-[5px] border-[#eef5ff] bg-[#1479ff] text-xs font-bold tracking-[0.06em] text-white shadow-[0_0_0_2px_#8abaf5] lg:mx-auto lg:h-12 lg:w-12 lg:text-sm">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
+              <motion.li
+                key={step.title}
+                className="relative grid grid-cols-[2.75rem_1fr] gap-5 pb-12 last:pb-0 sm:grid-cols-[3rem_1fr] sm:gap-7 sm:pb-14 lg:block lg:grid-cols-none lg:pb-0 lg:text-center"
+                variants={{
+                  hidden: { opacity: 0, y: 18 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { delay: stepRevealDelay + index * stepRevealStagger, duration: 0.78, ease: premiumEase },
+                  },
+                }}
+              >
+                {index < studySteps.length - 1 ? (
+                  <motion.span
+                    aria-hidden="true"
+                    className="absolute bottom-0 left-[21px] top-11 origin-top border-l-2 border-dashed border-[#78adf0] sm:left-[23px] lg:hidden"
+                    variants={{
+                      hidden: { opacity: 0, scaleY: 0 },
+                      visible: {
+                        opacity: 1,
+                        scaleY: 1,
+                        transition: { delay: stepRevealDelay + index * stepRevealStagger, duration: 0.675, ease: premiumEase },
+                      },
+                    }}
+                  />
+                ) : null}
+
+                <div className="relative lg:h-40">
+                  <span className={`relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-[5px] border-[#eef5ff] bg-[#1479ff] text-xs font-bold tracking-[0.06em] text-white shadow-[0_0_0_2px_#8abaf5] sm:h-12 sm:w-12 lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:text-sm ${desktopMarkerOffsets[index]}`}>
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                </div>
+
                 <div className="pt-1 lg:mt-6 lg:pt-0">
                   <h3 className="font-display text-2xl font-bold tracking-[-0.04em] text-[#0b2a6f] sm:text-[1.75rem]">{step.title}</h3>
-                  <p className={`mt-3 max-w-sm text-[0.9375rem] leading-6 text-slate-600 sm:text-base sm:leading-7 lg:mx-auto ${index === studySteps.length - 1 ? "pr-32 sm:pr-44 lg:pr-0" : ""}`}>{step.description}</p>
+                  <p className="mt-3 max-w-sm text-[0.9375rem] leading-6 text-slate-600 sm:text-base sm:leading-7 lg:mx-auto">{step.description}</p>
                 </div>
-              </li>
+              </motion.li>
             ))}
-          </ol>
+          </motion.ol>
 
-          <Image
-            src={thinkingRobot}
-            alt="Nimbo acompanhando o ciclo de estudo."
-            sizes="(min-width: 1024px) 224px, (min-width: 640px) 176px, 144px"
-            className="absolute bottom-[-1rem] right-[-0.75rem] h-auto w-36 drop-shadow-[0_18px_16px_rgba(11,42,111,0.14)] sm:bottom-[-1.5rem] sm:right-2 sm:w-44 lg:bottom-auto lg:right-[-0.5rem] lg:top-8 lg:w-56"
-          />
-        </div>
+          <motion.div
+            className="-mt-4 flex justify-end sm:-mt-10 lg:absolute lg:right-0 lg:top-4 lg:mt-0 lg:w-56"
+            variants={{
+              hidden: { opacity: 0, scale: 0.94, y: 10 },
+              visible: { opacity: 1, scale: 1, y: 0, transition: { delay: nimboRevealDelay, duration: 0.75, ease: premiumEase } },
+            }}
+          >
+            <Image
+              src={thinkingRobot}
+              alt="Nimbo acompanhando o ciclo de estudo."
+              sizes="(min-width: 1024px) 224px, (min-width: 640px) 176px, 144px"
+              className="h-auto w-36 drop-shadow-[0_18px_16px_rgba(11,42,111,0.14)] sm:w-44 lg:w-56"
+            />
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );
