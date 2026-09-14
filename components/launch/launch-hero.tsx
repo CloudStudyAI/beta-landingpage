@@ -15,7 +15,7 @@ export function LaunchHero() {
       <div aria-hidden="true" className="absolute left-1/2 top-44 -z-10 h-[34rem] w-[34rem] -translate-x-1/2 rounded-full bg-blue-200/35 blur-3xl sm:top-56 lg:left-[78%] lg:top-64" />
       <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[1.03fr_0.97fr] lg:gap-12">
         <div className="max-w-2xl text-center lg:text-left">
-          <h1 id="launch-hero-title" className="text-balance font-display text-[2.65rem] font-bold leading-[1.03] tracking-[-0.06em] text-[#0b2a6f] sm:text-6xl lg:text-[4.5rem]">
+          <h1 id="launch-hero-title" className="text-balance font-display text-[clamp(2.25rem,10.5vw,2.65rem)] font-bold leading-[1.03] tracking-[-0.06em] text-[#0b2a6f] sm:text-6xl lg:text-[4.5rem]">
             Estude AWS sabendo exatamente o <span className="text-[#1479ff]">próximo passo.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8 lg:mx-0">
@@ -31,7 +31,7 @@ export function LaunchHero() {
             </a>
           </div>
 
-          <ul className="mt-8 flex flex-wrap justify-center gap-x-5 gap-y-3 text-sm font-semibold text-slate-600 lg:justify-start">
+          <ul className="mt-8 flex flex-col items-center justify-center gap-x-5 gap-y-3 text-sm font-semibold text-slate-600 sm:flex-row sm:flex-wrap sm:items-stretch lg:justify-start">
             {valuePoints.map((point) => (
               <li key={point} className="flex items-center gap-2">
                 <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-100 text-emerald-700"><Check aria-hidden="true" className="h-3.5 w-3.5" strokeWidth={3} /></span>

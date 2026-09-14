@@ -43,14 +43,14 @@ function FaqItem({ answer, initiallyOpen, question }: { answer: string; initiall
   const iconDuration = prefersReducedMotion ? 0.01 : 0.35;
 
   return (
-    <div className={`rounded-2xl border-2 px-5 py-1 sm:px-6 ${isOpen ? "border-blue-200 bg-white" : "border-slate-100 bg-[#f8fbff]"}`}>
+    <div className={`rounded-2xl border-2 px-4 py-1 sm:px-6 ${isOpen ? "border-blue-200 bg-white" : "border-slate-100 bg-[#f8fbff]"}`}>
       <button
         id={buttonId}
         type="button"
         aria-controls={responseId}
         aria-expanded={isOpen}
         onClick={() => setIsOpen((currentValue) => !currentValue)}
-        className="flex min-h-16 w-full items-center justify-between gap-4 py-4 text-left font-display text-base font-bold text-[#0b2a6f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600 sm:text-lg"
+        className="flex min-h-16 w-full items-center justify-between gap-3 py-4 text-left font-display text-base font-bold text-[#0b2a6f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600 sm:gap-4 sm:text-lg"
       >
         {question}
         <motion.span
@@ -89,7 +89,7 @@ function FaqItem({ answer, initiallyOpen, question }: { answer: string; initiall
             }}
           >
             <motion.p
-              className="max-w-3xl pb-5 pr-10 text-sm leading-7 text-slate-600 sm:text-base"
+              className="max-w-3xl pb-5 pr-1 text-sm leading-7 text-slate-600 sm:pr-10 sm:text-base"
               initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 10 }}
               animate={{ opacity: 1, y: 0, transition: { delay: prefersReducedMotion ? 0 : 0.08, duration: prefersReducedMotion ? 0.01 : 0.5, ease: premiumEase } }}
               exit={{ opacity: 0, y: prefersReducedMotion ? 0 : 6, transition: { duration: prefersReducedMotion ? 0.01 : 0.3, ease: premiumEase } }}
@@ -105,7 +105,7 @@ function FaqItem({ answer, initiallyOpen, question }: { answer: string; initiall
 
 export function FaqSection() {
   return (
-    <section id="faq" aria-labelledby="faq-title" className="scroll-mt-8 bg-white px-5 py-16 sm:px-8 sm:py-20 lg:py-28">
+    <section id="faq" aria-labelledby="faq-title" className="scroll-mt-8 bg-white px-4 py-16 sm:px-8 sm:py-20 lg:py-28">
       <div className="mx-auto max-w-4xl">
         <div className="mx-auto max-w-2xl text-center">
           <h2 id="faq-title" className="text-balance font-display text-3xl font-bold leading-[1.08] tracking-[-0.05em] text-[#0b2a6f] sm:text-5xl">

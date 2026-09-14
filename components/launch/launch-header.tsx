@@ -12,10 +12,10 @@ const navItems = [
 
 export function LaunchHeader() {
   return (
-    <header className="relative z-30 bg-white px-4 pb-6 pt-3 sm:px-6 sm:pb-7 sm:pt-4">
-      <div className="relative mx-auto flex max-w-6xl items-center justify-between gap-4">
+    <header className="relative z-30 bg-white px-3 pb-6 pt-3 sm:px-6 sm:pb-7 sm:pt-4">
+      <div className="relative mx-auto flex max-w-6xl items-center justify-between gap-2 sm:gap-4">
         <a href="#top" aria-label="CloudStudy — voltar ao início" className="shrink-0 rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600">
-          <Image src={logo} alt="CloudStudy" sizes="(min-width: 640px) 148px, 120px" className="h-auto w-[120px] sm:w-[148px]" priority />
+          <Image src={logo} alt="CloudStudy" sizes="(min-width: 640px) 148px, 104px" className="h-auto w-[104px] sm:w-[148px]" priority />
         </a>
 
         <nav aria-label="Navegação principal" className="hidden items-center gap-7 lg:flex">
@@ -26,11 +26,11 @@ export function LaunchHeader() {
           ))}
         </nav>
 
-        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-          <a href={LOGIN_URL} className="inline-flex min-h-11 items-center justify-center rounded-xl px-2 text-xs font-bold text-[#0b2a6f] transition-colors hover:text-[#1479ff] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600 sm:px-3 sm:text-sm">
+        <div className="flex shrink-0 items-center gap-1 sm:gap-3">
+          <a href={LOGIN_URL} className="inline-flex min-h-11 items-center justify-center rounded-xl px-1 text-xs font-bold text-[#0b2a6f] transition-colors hover:text-[#1479ff] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600 sm:px-3 sm:text-sm">
             Entrar
           </a>
-          <a href={SIGNUP_URL} className="inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-xl border-b-4 border-[#0b56bd] bg-[#1479ff] px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-[#0967e5] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600 sm:px-5 sm:text-sm">
+          <a href={SIGNUP_URL} className="inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-xl border-b-4 border-[#0b56bd] bg-[#1479ff] px-2.5 py-2 text-xs font-bold text-white transition-colors hover:bg-[#0967e5] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600 sm:px-5 sm:text-sm">
             Criar minha conta
           </a>
         </div>

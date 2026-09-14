@@ -19,14 +19,14 @@ export function FinalCtaSection() {
           <p className="mx-auto mt-5 max-w-xl text-base leading-7 text-blue-50 sm:text-lg sm:leading-8 lg:mx-0">
             Crie sua conta e comece sua jornada para certificações AWS.
           </p>
-          <a href={SIGNUP_URL} className="mt-8 inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-2xl border-b-4 border-slate-200 bg-white px-7 py-3 text-base font-bold text-[#0b2a6f] transition-colors hover:bg-blue-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white sm:w-auto">
+          <a href={SIGNUP_URL} className="mx-auto mt-8 inline-flex min-h-14 w-full max-w-sm items-center justify-center gap-2 rounded-2xl border-b-4 border-slate-200 bg-white px-7 py-3 text-base font-bold text-[#0b2a6f] transition-colors hover:bg-blue-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white sm:w-auto lg:mx-0">
             Criar minha conta <ArrowRight aria-hidden="true" className="h-5 w-5" />
           </a>
         </div>
 
         <div className="relative mx-auto h-72 w-full max-w-sm sm:h-80 lg:h-[25rem]">
           <div aria-hidden="true" className="absolute inset-x-16 bottom-5 h-8 rounded-full bg-[#0b2a6f]/25 blur-lg" />
-          <Image src={celebrationRobot} alt="Nimbo celebrando a conclusão de uma jornada de estudos." sizes="(min-width: 1024px) 380px, 82vw" className="absolute -bottom-4 left-1/2 h-auto w-[20rem] -translate-x-1/2 sm:w-[23rem] lg:-bottom-6 lg:w-[25rem]" />
+          <Image src={celebrationRobot} alt="Nimbo celebrando a conclusão de uma jornada de estudos." sizes="(min-width: 1024px) 380px, 82vw" className="absolute -bottom-4 left-1/2 h-auto w-[18rem] -translate-x-1/2 sm:w-[23rem] lg:-bottom-6 lg:w-[25rem]" />
         </div>
       </div>
     </section>

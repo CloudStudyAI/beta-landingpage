@@ -45,7 +45,7 @@ export function LaunchFooter() {
   return (
     <footer className="bg-[#1877f2] px-5 pb-8 pt-10 text-white sm:px-8 sm:pb-10 sm:pt-14">
       <div className="mx-auto max-w-6xl">
-        <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-5 md:gap-8">
+        <div className="grid grid-cols-2 justify-items-center gap-x-6 gap-y-10 text-center md:grid-cols-5 md:justify-items-stretch md:gap-8 md:text-left">
           {footerGroups.map((group) => (
             <nav key={group.title} aria-label={group.title}>
               <h2 className="font-display text-sm font-bold uppercase tracking-[0.08em] text-white">{group.title}</h2>
@@ -66,7 +66,7 @@ export function LaunchFooter() {
           ))}
         </div>
 
-        <div className="mt-14 flex flex-col gap-3 border-t border-white/15 pt-6 sm:flex-row sm:items-end sm:justify-between">
+        <div className="mt-14 flex flex-col items-center gap-3 border-t border-white/15 pt-6 text-center md:flex-row md:items-end md:justify-between md:text-left">
           <div>
             <p className="font-display text-xl font-bold tracking-[-0.03em]">CloudStudy</p>
             <p className="mt-1 text-sm text-blue-50/75">Preparação guiada para certificações AWS.</p>

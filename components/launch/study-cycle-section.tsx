@@ -28,11 +28,11 @@ export function StudyCycleSection() {
       <div aria-hidden="true" className="absolute -bottom-4 -left-[10%] -z-10 h-28 w-[120%] rounded-[50%] bg-[#eef5ff] sm:h-32" />
 
       <div className="mx-auto max-w-7xl">
-        <div className="max-w-3xl">
+        <div className="mx-auto max-w-3xl text-center md:mx-0 md:text-left">
           <h2 id="study-cycle-title" className="text-balance font-display text-3xl font-bold leading-[1.08] tracking-[-0.05em] text-[#0b2a6f] sm:text-5xl">
             Um ciclo simples para estudar com consistência.
           </h2>
-          <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
+          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8 md:mx-0">
             Você aprende o conteúdo, pratica, revisa o que precisa de atenção e acompanha sua evolução.
           </p>
         </div>
@@ -62,7 +62,7 @@ export function StudyCycleSection() {
             <path d="M125 104C225 104 270 48 375 48s145 80 250 80 145-60 250-60" fill="none" stroke="#78adf0" strokeWidth="4" strokeLinecap="round" strokeDasharray="3 13" mask="url(#study-cycle-path-reveal)" />
           </svg>
 
-          <motion.ol className="relative lg:mr-56 lg:grid lg:grid-cols-4 lg:gap-10">
+          <motion.ol className="relative mx-auto max-w-lg sm:mx-0 sm:max-w-none lg:mr-56 lg:grid lg:grid-cols-4 lg:gap-10">
             {studySteps.map((step, index) => (
               <motion.li
                 key={step.title}
@@ -106,7 +106,7 @@ export function StudyCycleSection() {
           </motion.ol>
 
           <motion.div
-            className="-mt-4 flex justify-end sm:-mt-10 lg:absolute lg:right-0 lg:top-4 lg:mt-0 lg:w-56"
+            className="-mt-4 flex justify-center sm:-mt-10 sm:justify-end lg:absolute lg:right-0 lg:top-4 lg:mt-0 lg:w-56"
             variants={{
               hidden: { opacity: 0, scale: 0.94, y: 10 },
               visible: { opacity: 1, scale: 1, y: 0, transition: { delay: nimboRevealDelay, duration: 0.75, ease: premiumEase } },

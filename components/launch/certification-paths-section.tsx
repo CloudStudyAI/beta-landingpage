@@ -55,16 +55,16 @@ function CertificationPathBlock({ certification, reversed }: { certification: Ce
   const mapReveal = isMapInView ? "translate-x-0 translate-y-0 opacity-100" : hiddenMapPosition;
 
   return (
-    <li className={`grid gap-x-16 gap-y-6 border-t border-slate-200 py-12 first:border-t-0 first:pt-0 last:pb-0 lg:py-20 ${gridColumns}`}>
+    <li className={`grid gap-x-16 gap-y-8 border-t border-slate-200 py-12 first:border-t-0 first:pt-0 last:pb-0 sm:gap-y-6 lg:py-20 ${gridColumns}`}>
       <div className={`${textPosition} self-end lg:row-start-1`}>
-        <div className="flex items-start gap-4">
+        <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-start sm:text-left">
           <Image src={certification.badge} alt="" width={72} height={72} className="h-14 w-14 shrink-0 object-contain sm:h-[72px] sm:w-[72px]" />
           <div className="min-w-0">
             <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#1479ff]">{certification.code}</p>
             <h3 className="mt-2 font-display text-2xl font-bold leading-tight tracking-[-0.04em] text-[#0b2a6f] sm:text-3xl">{certification.title}</h3>
           </div>
         </div>
-        <p className="mt-5 max-w-md text-sm leading-7 text-slate-600 sm:text-base">{certification.description}</p>
+        <p className="mx-auto mt-5 max-w-md text-center text-sm leading-7 text-slate-600 sm:mx-0 sm:text-left sm:text-base">{certification.description}</p>
       </div>
 
       <figure
@@ -93,11 +93,11 @@ export function CertificationPathsSection() {
   return (
     <section id="certificacoes" aria-labelledby="certification-paths-title" className="scroll-mt-8 overflow-x-clip bg-white px-5 py-16 sm:px-8 sm:py-20 lg:py-28">
       <div className="mx-auto max-w-6xl">
-        <div className="max-w-3xl">
+        <div className="mx-auto max-w-3xl text-center md:mx-0 md:text-left">
           <h2 id="certification-paths-title" className="text-balance font-display text-3xl font-bold leading-[1.08] tracking-[-0.05em] text-[#0b2a6f] sm:text-5xl">
             Escolha sua certificação.
           </h2>
-          <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
+          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8 md:mx-0">
             Cada trilha transforma o conteúdo da prova em um caminho de estudo dentro da CloudStudy.
           </p>
         </div>
