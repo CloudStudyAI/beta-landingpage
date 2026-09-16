@@ -2,6 +2,7 @@
 
 import { useId, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { Plus } from "lucide-react";
 
 const faqItems = [
   {
@@ -57,9 +58,9 @@ function FaqItem({ answer, initiallyOpen, question }: { answer: string; initiall
           aria-hidden="true"
           animate={{ rotate: isOpen ? 45 : 0 }}
           transition={{ duration: iconDuration, ease: premiumEase }}
-          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-xl text-[#1479ff]"
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-[#1479ff]"
         >
-          +
+          <Plus className="h-[18px] w-[18px]" strokeWidth={2.5} />
         </motion.span>
       </button>
 

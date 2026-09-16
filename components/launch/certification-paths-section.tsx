@@ -55,7 +55,7 @@ function CertificationPathBlock({ certification, reversed }: { certification: Ce
   const mapReveal = isMapInView ? "translate-x-0 translate-y-0 opacity-100" : hiddenMapPosition;
 
   return (
-    <li className={`grid gap-x-16 gap-y-8 border-t border-slate-200 py-12 first:border-t-0 first:pt-0 last:pb-0 sm:gap-y-6 lg:py-20 ${gridColumns}`}>
+    <li className={`grid gap-x-16 gap-y-8 py-12 first:pt-0 last:pb-0 sm:gap-y-6 lg:py-20 ${gridColumns}`}>
       <div className={`${textPosition} self-end lg:row-start-1`}>
         <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-start sm:text-left">
           <Image src={certification.badge} alt="" width={72} height={72} className="h-14 w-14 shrink-0 object-contain sm:h-[72px] sm:w-[72px]" />

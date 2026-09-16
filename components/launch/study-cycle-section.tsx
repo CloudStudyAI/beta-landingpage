@@ -22,7 +22,7 @@ export function StudyCycleSection() {
   const prefersReducedMotion = useReducedMotion();
 
   return (
-    <section id="como-funciona" aria-labelledby="study-cycle-title" className="relative isolate scroll-mt-8 overflow-hidden bg-white px-5 py-20 sm:px-8 sm:py-24 lg:py-32">
+    <section id="como-funciona" aria-labelledby="study-cycle-title" className="relative isolate scroll-mt-8 overflow-hidden px-5 py-20 sm:px-8 sm:py-24 lg:py-32">
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-3xl text-center md:mx-0 md:text-left">
           <h2 id="study-cycle-title" className="text-balance font-display text-3xl font-bold leading-[1.08] tracking-[-0.05em] text-[#0b2a6f] sm:text-5xl">

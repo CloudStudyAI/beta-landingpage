@@ -1,12 +1,18 @@
+"use client";
+
 import Image from "next/image";
 import { ArrowRight, Check } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
 
 import heroRobot from "../../robos/3.svg";
 import { SIGNUP_URL } from "../../lib/launch-links";
 
 const valuePoints = ["Trilha organizada", "Próximo passo visível", "Estudo no seu ritmo"] as const;
+const floatDuration = 4.6;
 
 export function LaunchHero() {
+  const prefersReducedMotion = useReducedMotion();
+
   return (
     <section id="top" aria-labelledby="launch-hero-title" className="relative isolate overflow-hidden bg-white px-5 pb-16 pt-40 sm:px-8 sm:pb-20 sm:pt-52 lg:pb-24 lg:pt-64">
       <svg aria-hidden="true" viewBox="0 0 1440 260" preserveAspectRatio="none" focusable="false" className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-32 w-full fill-[#1877f2] sm:h-44 lg:h-56">
@@ -30,7 +36,7 @@ export function LaunchHero() {
             </a>
           </div>
 
-          <ul className="mt-8 flex flex-col items-center justify-center gap-x-5 gap-y-3 text-sm font-semibold text-slate-600 sm:flex-row sm:flex-wrap sm:items-stretch lg:justify-start">
+          <ul className="mt-8 flex flex-col items-center justify-center gap-x-5 gap-y-3 text-sm font-semibold text-slate-600 sm:flex-row sm:flex-wrap sm:items-stretch lg:max-w-[31rem] lg:justify-between lg:gap-x-3">
             {valuePoints.map((point) => (
               <li key={point} className="flex items-center gap-2">
                 <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-100 text-emerald-700"><Check aria-hidden="true" className="h-3.5 w-3.5" strokeWidth={3} /></span>
@@ -41,9 +47,18 @@ export function LaunchHero() {
         </div>
 
         <div className="relative mx-auto w-full max-w-[31rem] lg:max-w-none">
-          <div aria-hidden="true" className="absolute inset-x-16 bottom-2 h-10 rounded-full bg-[#0b2a6f]/15 blur-xl" />
           <div className="relative min-h-[23rem] sm:min-h-[31rem]">
-            <Image src={heroRobot} alt="Nimbo, mentor da CloudStudy, apresentando a jornada de estudos." priority sizes="(min-width: 1024px) 500px, 88vw" className="absolute -bottom-5 left-1/2 h-auto w-[94%] max-w-[31rem] -translate-x-1/2 sm:-bottom-8" />
+            <div className="absolute -bottom-5 left-1/2 w-[94%] max-w-[31rem] -translate-x-1/2 sm:-bottom-8">
+              <div>
+                <motion.div
+                  className="will-change-transform [--nimbo-float-y:-5px] md:[--nimbo-float-y:-7px]"
+                  animate={prefersReducedMotion ? { y: 0, scale: 1 } : { y: [0, "var(--nimbo-float-y)", 0], scale: [1, 1.01, 1] }}
+                  transition={prefersReducedMotion ? { duration: 0 } : { duration: floatDuration, ease: "easeInOut", repeat: Infinity }}
+                >
+                  <Image src={heroRobot} alt="Nimbo, mentor da CloudStudy, apresentando a jornada de estudos." priority sizes="(min-width: 1024px) 500px, 88vw" className="h-auto w-full" />
+                </motion.div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
