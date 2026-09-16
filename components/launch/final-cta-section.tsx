@@ -25,7 +25,6 @@ export function FinalCtaSection() {
         </div>
 
         <div className="relative mx-auto h-72 w-full max-w-sm sm:h-80 lg:h-[25rem]">
-          <div aria-hidden="true" className="absolute inset-x-16 bottom-5 h-8 rounded-full bg-[#0b2a6f]/25 blur-lg" />
           <Image src={celebrationRobot} alt="Nimbo celebrando a conclusão de uma jornada de estudos." sizes="(min-width: 1024px) 380px, 82vw" className="absolute -bottom-4 left-1/2 h-auto w-[18rem] -translate-x-1/2 sm:w-[23rem] lg:-bottom-6 lg:w-[25rem]" />
         </div>
       </div>

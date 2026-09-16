@@ -8,11 +8,10 @@ const valuePoints = ["Trilha organizada", "Próximo passo visível", "Estudo no 
 
 export function LaunchHero() {
   return (
-    <section id="top" aria-labelledby="launch-hero-title" className="relative isolate overflow-hidden bg-[#f5f9ff] px-5 pb-16 pt-40 sm:px-8 sm:pb-20 sm:pt-52 lg:pb-24 lg:pt-64">
+    <section id="top" aria-labelledby="launch-hero-title" className="relative isolate overflow-hidden bg-white px-5 pb-16 pt-40 sm:px-8 sm:pb-20 sm:pt-52 lg:pb-24 lg:pt-64">
       <svg aria-hidden="true" viewBox="0 0 1440 260" preserveAspectRatio="none" focusable="false" className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-32 w-full fill-[#1877f2] sm:h-44 lg:h-56">
         <path d="M0 0h1440v220c-270 0-305-100-720-100S270 220 0 220Z" />
       </svg>
-      <div aria-hidden="true" className="absolute left-1/2 top-44 -z-10 h-[34rem] w-[34rem] -translate-x-1/2 rounded-full bg-blue-200/35 blur-3xl sm:top-56 lg:left-[78%] lg:top-64" />
       <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[1.03fr_0.97fr] lg:gap-12">
         <div className="max-w-2xl text-center lg:text-left">
           <h1 id="launch-hero-title" className="text-balance font-display text-[clamp(2.25rem,10.5vw,2.65rem)] font-bold leading-[1.03] tracking-[-0.06em] text-[#0b2a6f] sm:text-6xl lg:text-[4.5rem]">

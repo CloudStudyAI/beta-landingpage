@@ -91,7 +91,7 @@ function CertificationPathBlock({ certification, reversed }: { certification: Ce
 
 export function CertificationPathsSection() {
   return (
-    <section id="certificacoes" aria-labelledby="certification-paths-title" className="scroll-mt-8 overflow-x-clip bg-white px-5 py-16 sm:px-8 sm:py-20 lg:py-28">
+    <section id="certificacoes" aria-labelledby="certification-paths-title" className="scroll-mt-8 px-5 py-16 sm:px-8 sm:py-20 lg:py-28">
       <div className="mx-auto max-w-6xl">
         <div className="mx-auto max-w-3xl text-center md:mx-0 md:text-left">
           <h2 id="certification-paths-title" className="text-balance font-display text-3xl font-bold leading-[1.08] tracking-[-0.05em] text-[#0b2a6f] sm:text-5xl">

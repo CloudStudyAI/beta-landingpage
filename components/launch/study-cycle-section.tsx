@@ -23,10 +23,6 @@ export function StudyCycleSection() {
 
   return (
     <section id="como-funciona" aria-labelledby="study-cycle-title" className="relative isolate scroll-mt-8 overflow-hidden bg-white px-5 py-20 sm:px-8 sm:py-24 lg:py-32">
-      <div aria-hidden="true" className="absolute inset-x-0 bottom-10 top-10 -z-10 bg-[#eef5ff]" />
-      <div aria-hidden="true" className="absolute -left-[10%] -top-4 -z-10 h-28 w-[120%] rounded-[50%] bg-[#eef5ff] sm:h-32" />
-      <div aria-hidden="true" className="absolute -bottom-4 -left-[10%] -z-10 h-28 w-[120%] rounded-[50%] bg-[#eef5ff] sm:h-32" />
-
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-3xl text-center md:mx-0 md:text-left">
           <h2 id="study-cycle-title" className="text-balance font-display text-3xl font-bold leading-[1.08] tracking-[-0.05em] text-[#0b2a6f] sm:text-5xl">
@@ -92,7 +88,7 @@ export function StudyCycleSection() {
                 ) : null}
 
                 <div className="relative lg:h-40">
-                  <span className={`relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-[5px] border-[#eef5ff] bg-[#1479ff] text-xs font-bold tracking-[0.06em] text-white shadow-[0_0_0_2px_#8abaf5] sm:h-12 sm:w-12 lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:text-sm ${desktopMarkerOffsets[index]}`}>
+                  <span className={`relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-[5px] border-white bg-[#1479ff] text-xs font-bold tracking-[0.06em] text-white shadow-[0_0_0_2px_#8abaf5] sm:h-12 sm:w-12 lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:text-sm ${desktopMarkerOffsets[index]}`}>
                     {String(index + 1).padStart(2, "0")}
                   </span>
                 </div>
@@ -106,7 +102,7 @@ export function StudyCycleSection() {
           </motion.ol>
 
           <motion.div
-            className="-mt-4 flex justify-center sm:-mt-10 sm:justify-end lg:absolute lg:right-0 lg:top-4 lg:mt-0 lg:w-56"
+            className="mt-10 flex justify-center sm:mt-12 sm:justify-end lg:absolute lg:right-0 lg:top-4 lg:mt-0 lg:w-56"
             variants={{
               hidden: { opacity: 0, scale: 0.94, y: 10 },
               visible: { opacity: 1, scale: 1, y: 0, transition: { delay: nimboRevealDelay, duration: 0.75, ease: premiumEase } },
@@ -115,8 +111,8 @@ export function StudyCycleSection() {
             <Image
               src={thinkingRobot}
               alt="Nimbo acompanhando o ciclo de estudo."
-              sizes="(min-width: 1024px) 224px, (min-width: 640px) 176px, 144px"
-              className="h-auto w-36 drop-shadow-[0_18px_16px_rgba(11,42,111,0.14)] sm:w-44 lg:w-56"
+              sizes="(min-width: 1024px) 224px, (min-width: 640px) 192px, (min-width: 390px) 176px, 160px"
+              className="h-auto w-40 drop-shadow-[0_18px_16px_rgba(11,42,111,0.14)] min-[390px]:w-44 sm:w-48 lg:w-56"
             />
           </motion.div>
         </motion.div>

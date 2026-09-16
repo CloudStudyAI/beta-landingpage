@@ -10,7 +10,7 @@ const faqTopics = [
 
 export function PreFaqTransitionSection() {
   return (
-    <section aria-labelledby="pre-faq-title" className="overflow-x-clip bg-white px-5 py-16 sm:px-8 sm:py-20 lg:py-24">
+    <section aria-labelledby="pre-faq-title" className="px-5 py-16 sm:px-8 sm:py-20 lg:py-24">
       <div className="mx-auto grid max-w-6xl items-center gap-10 pt-4 sm:pt-16 lg:grid-cols-[minmax(0,0.78fr)_minmax(18rem,0.45fr)] lg:gap-20 lg:pt-20">
         <div className="max-w-2xl text-center lg:text-left">
           <h2 id="pre-faq-title" className="text-balance font-display text-3xl font-bold leading-[1.08] tracking-[-0.05em] text-[#0b2a6f] sm:text-4xl lg:text-[2.75rem]">
