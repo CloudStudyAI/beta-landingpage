@@ -69,7 +69,7 @@ export function LaunchFooter() {
         <div className="mt-14 flex flex-col items-center gap-3 border-t border-white/15 pt-6 text-center md:flex-row md:items-end md:justify-between md:text-left">
           <div>
             <p className="font-display text-xl font-bold tracking-[-0.03em]">CloudStudy</p>
-            <p className="mt-1 text-sm text-blue-50/75">Preparação guiada para certificações AWS.</p>
+            <p className="mt-1 text-sm text-blue-50/75">Conhecimento que eleva</p>
           </div>
           <p className="text-xs text-blue-50/70">© 2026 CloudStudy. Todos os direitos reservados.</p>
         </div>

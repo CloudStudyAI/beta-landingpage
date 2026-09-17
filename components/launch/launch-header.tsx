@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import logo from "../../Logo-CloudStudy-removebg-cropped.png";
-import { LOGIN_URL, SIGNUP_URL } from "../../lib/launch-links";
+import { LOGIN_URL } from "../../lib/launch-links";
 
 const navItems = [
   { href: "#plataforma", label: "Plataforma" },
@@ -30,8 +30,8 @@ export function LaunchHeader() {
           <a href={LOGIN_URL} className="inline-flex min-h-11 items-center justify-center rounded-xl px-1 text-xs font-bold text-[#0b2a6f] transition-colors hover:text-[#1479ff] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600 sm:px-3 sm:text-sm">
             Entrar
           </a>
-          <a href={SIGNUP_URL} className="inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-xl border-b-4 border-[#0b56bd] bg-[#1479ff] px-2.5 py-2 text-xs font-bold text-white transition-colors hover:bg-[#0967e5] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600 sm:px-5 sm:text-sm">
-            Criar minha conta
+          <a href="#lista-de-espera" className="inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-xl border-b-4 border-[#0b56bd] bg-[#1479ff] px-2.5 py-2 text-xs font-bold text-white transition-colors hover:bg-[#0967e5] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600 sm:px-5 sm:text-sm">
+            Quero participar
           </a>
         </div>
       </div>

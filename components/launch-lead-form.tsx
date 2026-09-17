@@ -1,309 +1,293 @@
 "use client";
 
-import { AlertCircle, CheckCircle2, LoaderCircle, Send } from "lucide-react";
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import Script from "next/script";
+import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
+import { CheckCircle2, LoaderCircle, Send } from "lucide-react";
 
-import { leadCertificationOptions } from "../lib/launch-data";
+type FormStatus =
+  | { kind: "idle"; message: "" }
+  | { kind: "error" | "success"; message: string };
 
-type LaunchLeadFormProps = {
-  buttonLabel: string;
-  className?: string;
-  description?: string;
-  emailPlaceholder?: string;
-  helperText?: string;
-  showCertificationField?: boolean;
-  source?: string;
-  title?: string;
-  tone?: "dark" | "light";
+type TurnstileOptions = {
+  action: string;
+  callback: (token: string) => void;
+  "error-callback": () => void;
+  "expired-callback": () => void;
+  "response-field": false;
+  size: "compact" | "flexible";
+  sitekey: string;
+  theme: "light";
+  "timeout-callback": () => void;
 };
 
-type LeadFormValues = {
-  certificationInterest: string;
-  email: string;
+type TurnstileApi = {
+  remove: (widgetId: string) => void;
+  render: (container: HTMLElement, options: TurnstileOptions) => string;
+  reset: (widgetId: string) => void;
 };
 
-type LeadFormStatus =
-  | { tone: "idle"; message: string }
-  | { tone: "error" | "success"; message: string };
+declare global {
+  interface Window {
+    turnstile?: TurnstileApi;
+  }
+}
 
-type WaitlistApiResponse = {
-  code?: "duplicate_email" | "invalid_body" | "invalid_email" | "server_error" | "waitlist_created";
-  message?: string;
-};
+const TURNSTILE_SCRIPT_URL =
+  "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const WAITLIST_API_URL = process.env.NEXT_PUBLIC_WAITLIST_API_URL?.trim() ?? "";
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? "";
 
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/i;
+function getErrorMessage(status: number): string {
+  if (status === 400) return "Revise o email informado e tente novamente.";
+  if (status === 403) return "Não foi possível validar a verificação. Tente novamente.";
+  if (status === 429) return "Muitas tentativas. Aguarde alguns instantes e tente novamente.";
 
-const initialValues: LeadFormValues = {
-  certificationInterest: "",
-  email: "",
-};
+  return "O cadastro está temporariamente indisponível. Tente novamente em instantes.";
+}
 
-const toneStyles = {
-  dark: {
-    button:
-      "bg-[linear-gradient(135deg,#7dd3fc_0%,#38bdf8_40%,#fde68a_100%)] text-slate-950 shadow-[0_20px_50px_rgba(56,189,248,0.22)]",
-    field:
-      "border-white/12 bg-white/6 text-white placeholder:text-slate-400 focus:border-cyan-300/70 focus:bg-white/10",
-    helper: "text-slate-400",
-    panel:
-      "border-white/12 bg-slate-950/68 text-white shadow-[0_30px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl",
-    text: "text-slate-300",
-  },
-  light: {
-    button:
-      "bg-[linear-gradient(135deg,#111827_0%,#1e40af_58%,#38bdf8_100%)] text-white shadow-[0_20px_40px_rgba(15,23,42,0.22)]",
-    field:
-      "border-slate-900/10 bg-slate-900/[0.04] text-slate-950 placeholder:text-slate-500 focus:border-sky-500/70 focus:bg-white",
-    helper: "text-slate-500",
-    panel:
-      "border-slate-950/10 bg-white text-slate-950 shadow-[0_28px_60px_rgba(15,23,42,0.08)]",
-    text: "text-slate-600",
-  },
-} as const;
-
-export function LaunchLeadForm({
-  buttonLabel,
-  className,
-  description,
-  emailPlaceholder = "voce@empresa.com",
-  helperText = "Receba acesso antecipado, novidades do lancamento e condicoes especiais para os primeiros usuarios.",
-  showCertificationField = false,
-  source = "landing_pre_launch",
-  title,
-  tone = "dark",
-}: LaunchLeadFormProps) {
-  const [values, setValues] = useState<LeadFormValues>(initialValues);
-  const [status, setStatus] = useState<LeadFormStatus>({ tone: "idle", message: "" });
+export function LaunchLeadForm() {
+  const [email, setEmail] = useState("");
+  const [website, setWebsite] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isTurnstileReady, setIsTurnstileReady] = useState(false);
+  const [status, setStatus] = useState<FormStatus>({ kind: "idle", message: "" });
+  const turnstileContainerRef = useRef<HTMLDivElement>(null);
+  const turnstileWidgetIdRef = useRef<string | null>(null);
+  const startedAtRef = useRef(Date.now());
+  const submitInFlightRef = useRef(false);
 
-  const storageKey = `lead-form-${source}`;
+  const resetTurnstile = useCallback(() => {
+    setTurnstileToken("");
+    startedAtRef.current = Date.now();
 
-  // Restaurar dados do localStorage ao montar o componente
+    const widgetId = turnstileWidgetIdRef.current;
+    if (widgetId && window.turnstile) window.turnstile.reset(widgetId);
+  }, []);
+
   useEffect(() => {
-    const savedValues = localStorage.getItem(storageKey);
-    if (savedValues) {
-      try {
-        setValues(JSON.parse(savedValues));
-      } catch {
-        // Ignorar se houver erro ao fazer parse
-      }
-    }
-  }, [storageKey]);
+    const container = turnstileContainerRef.current;
+    const turnstile = window.turnstile;
 
-  // Salvar dados no localStorage sempre que os valores mudam
-  useEffect(() => {
-    if (!values.email && !values.certificationInterest) {
-      localStorage.removeItem(storageKey);
-      return;
-    }
+    if (!isTurnstileReady || !container || !turnstile || !TURNSTILE_SITE_KEY) return;
 
-    localStorage.setItem(storageKey, JSON.stringify(values));
-  }, [values, storageKey]);
+    startedAtRef.current = Date.now();
+    const widgetId = turnstile.render(container, {
+      sitekey: TURNSTILE_SITE_KEY,
+      action: "waitlist_submit",
+      theme: "light",
+      size: window.matchMedia("(max-width: 359px)").matches ? "compact" : "flexible",
+      "response-field": false,
+      callback: (token) => {
+        setTurnstileToken(token);
+        setStatus({ kind: "idle", message: "" });
+      },
+      "expired-callback": () => {
+        setTurnstileToken("");
+        startedAtRef.current = Date.now();
+        const currentWidgetId = turnstileWidgetIdRef.current;
+        if (currentWidgetId) turnstile.reset(currentWidgetId);
+        setStatus({
+          kind: "error",
+          message: "A verificação expirou. Conclua-a novamente para continuar.",
+        });
+      },
+      "error-callback": () => {
+        setTurnstileToken("");
+        setStatus({
+          kind: "error",
+          message: "Não foi possível carregar a verificação. Tente novamente.",
+        });
+      },
+      "timeout-callback": () => {
+        setTurnstileToken("");
+        startedAtRef.current = Date.now();
+        setStatus({
+          kind: "error",
+          message: "A verificação expirou. Conclua-a novamente para continuar.",
+        });
+      },
+    });
 
-  const normalizedEmail = useMemo(() => values.email.trim().toLowerCase(), [values.email]);
-  const styles = toneStyles[tone];
-  const baseFieldClassName = `w-full rounded-[1rem] border px-4 py-3 text-sm outline-none transition ${styles.field}`;
+    turnstileWidgetIdRef.current = widgetId;
 
-  function updateValue<Key extends keyof LeadFormValues>(field: Key, value: LeadFormValues[Key]) {
-    if (status.tone !== "idle") {
-      setStatus({ tone: "idle", message: "" });
-    }
-
-    setValues((current) => ({
-      ...current,
-      [field]: value,
-    }));
-  }
-
-  function validateValues() {
-    if (!normalizedEmail) {
-      return "Informe seu email para entrar na lista de espera.";
-    }
-
-    if (!emailRegex.test(normalizedEmail)) {
-      return "Informe um email valido.";
-    }
-
-    if (
-      showCertificationField &&
-      values.certificationInterest &&
-      !leadCertificationOptions.some(
-        (option) => option.value === values.certificationInterest,
-      )
-    ) {
-      return "Selecione uma certificacao valida.";
-    }
-
-    return null;
-  }
+    return () => {
+      turnstile.remove(widgetId);
+      if (turnstileWidgetIdRef.current === widgetId) turnstileWidgetIdRef.current = null;
+    };
+  }, [isTurnstileReady]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (isSubmitting) {
+    if (submitInFlightRef.current) return;
+
+    const normalizedEmail = email.trim().toLowerCase();
+    if (!normalizedEmail || normalizedEmail.length > 254 || !EMAIL_PATTERN.test(normalizedEmail)) {
+      setStatus({ kind: "error", message: "Informe um email válido." });
       return;
     }
 
-    const validationMessage = validateValues();
-
-    if (validationMessage) {
-      setStatus({ tone: "error", message: validationMessage });
+    if (!turnstileToken) {
+      setStatus({ kind: "error", message: "Conclua a verificação antes de continuar." });
       return;
     }
 
+    if (!WAITLIST_API_URL || !TURNSTILE_SITE_KEY) {
+      setStatus({
+        kind: "error",
+        message: "O cadastro está temporariamente indisponível. Tente novamente em instantes.",
+      });
+      return;
+    }
+
+    submitInFlightRef.current = true;
     setIsSubmitting(true);
-    setStatus({ tone: "idle", message: "" });
+    setStatus({ kind: "idle", message: "" });
 
     try {
-      const response = await fetch("/api/waitlist", {
+      const response = await fetch(WAITLIST_API_URL, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: normalizedEmail,
+          turnstile_token: turnstileToken,
+          website,
+          started_at: startedAtRef.current,
         }),
       });
+      resetTurnstile();
 
-      const payload = (await response.json().catch(() => null)) as
-        | WaitlistApiResponse
-        | null;
-
-      if (!response.ok) {
-        if (response.status === 409) {
-          throw new Error(
-            payload?.message || "Este email ja esta na lista de espera da CloudStudy.",
-          );
-        }
-
-        if (response.status === 400) {
-          throw new Error(
-            payload?.message || "Informe um email valido para entrar na lista de espera.",
-          );
-        }
-
-        throw new Error(
-          payload?.message || "Nao foi possivel concluir seu cadastro agora. Tente novamente em instantes.",
-        );
+      if (response.status === 200) {
+        setEmail("");
+        setWebsite("");
+        setStatus({
+          kind: "success",
+          message: "Cadastro recebido. Avisaremos você sobre as novidades da CloudStudy.",
+        });
+        return;
       }
 
-      setValues(initialValues);
-      localStorage.removeItem(storageKey);
+      setStatus({ kind: "error", message: getErrorMessage(response.status) });
+    } catch {
+      resetTurnstile();
       setStatus({
-        tone: "success",
-        message:
-          payload?.message ||
-          "Cadastro confirmado. Voce entrou na lista de espera da CloudStudy.",
-      });
-    } catch (error) {
-      setStatus({
-        tone: "error",
-        message:
-          error instanceof Error
-            ? error.message
-            : "Tivemos um problema ao enviar. Tente novamente em instantes.",
+        kind: "error",
+        message: "O cadastro está temporariamente indisponível. Tente novamente em instantes.",
       });
     } finally {
+      submitInFlightRef.current = false;
       setIsSubmitting(false);
     }
   }
 
-  return (
-    <div className={`rounded-[1.75rem] border p-5 md:p-6 ${styles.panel} ${className ?? ""}`}>
-      {title ? (
-        <h3 className="text-xl font-semibold tracking-[-0.04em] md:text-2xl">{title}</h3>
-      ) : null}
-      {description ? <p className={`mt-3 text-sm leading-7 ${styles.text}`}>{description}</p> : null}
+  const isConfigured = Boolean(WAITLIST_API_URL && TURNSTILE_SITE_KEY);
 
-      <form className="mt-5 space-y-3" onSubmit={handleSubmit} noValidate aria-busy={isSubmitting}>
-        <div>
-          <label className="sr-only" htmlFor={`lead-email-${source}`}>
-            Email
-          </label>
+  return (
+    <>
+      <Script
+        id="cloudflare-turnstile"
+        src={TURNSTILE_SCRIPT_URL}
+        strategy="afterInteractive"
+        onReady={() => setIsTurnstileReady(true)}
+        onError={() => {
+          setIsTurnstileReady(false);
+          setStatus({
+            kind: "error",
+            message: "Não foi possível carregar a verificação. Tente novamente.",
+          });
+        }}
+      />
+
+      <form
+        className="mt-8 w-full max-w-xl"
+        onSubmit={handleSubmit}
+        noValidate
+        aria-busy={isSubmitting}
+      >
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <div className="min-w-0 flex-1">
+            <label htmlFor="waitlist-email" className="sr-only">
+              Seu email
+            </label>
+            <input
+              id="waitlist-email"
+              name="email"
+              type="email"
+              inputMode="email"
+              autoComplete="email"
+              maxLength={254}
+              required
+              disabled={isSubmitting}
+              value={email}
+              onChange={(event) => {
+                setEmail(event.target.value);
+                if (status.kind !== "idle") setStatus({ kind: "idle", message: "" });
+              }}
+              placeholder="Seu melhor email"
+              className="min-h-14 w-full rounded-2xl border-2 border-white/30 bg-white px-4 text-base font-semibold text-[#0b2a6f] outline-none placeholder:text-slate-400 focus:border-[#0b2a6f] focus:ring-4 focus:ring-white/20 disabled:cursor-not-allowed disabled:opacity-70"
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={isSubmitting || !isConfigured}
+            className="inline-flex min-h-14 shrink-0 items-center justify-center gap-2 rounded-2xl border-b-4 border-slate-200 bg-white px-6 py-3 text-base font-bold text-[#0b2a6f] transition-colors hover:bg-blue-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white disabled:cursor-not-allowed disabled:opacity-70 sm:px-7"
+          >
+            {isSubmitting ? (
+              <>
+                <LoaderCircle aria-hidden="true" className="h-5 w-5 animate-spin" />
+                Enviando...
+              </>
+            ) : (
+              <>
+                Quero participar
+                <Send aria-hidden="true" className="h-5 w-5" />
+              </>
+            )}
+          </button>
+        </div>
+
+        <div
+          aria-hidden="true"
+          className="absolute -left-[10000px] top-auto h-px w-px overflow-hidden"
+        >
+          <label htmlFor="waitlist-website">Website</label>
           <input
-            id={`lead-email-${source}`}
-            name="email"
-            type="email"
-            autoComplete="email"
-            inputMode="email"
-            required
-            disabled={isSubmitting}
-            placeholder={emailPlaceholder}
-            className={baseFieldClassName}
-            value={values.email}
-            onChange={(event) => updateValue("email", event.target.value)}
+            id="waitlist-website"
+            name="website"
+            type="text"
+            tabIndex={-1}
+            autoComplete="off"
+            value={website}
+            onChange={(event) => setWebsite(event.target.value)}
           />
         </div>
 
-        {showCertificationField ? (
-          <div>
-            <label className="sr-only" htmlFor={`lead-certification-${source}`}>
-              Qual certificacao AWS voce quer tirar
-            </label>
-            <select
-              id={`lead-certification-${source}`}
-              name="certification_interest"
-              disabled={isSubmitting}
-              className={baseFieldClassName}
-              value={values.certificationInterest}
-              onChange={(event) => updateValue("certificationInterest", event.target.value)}
-            >
-              <option value="">Qual certificacao AWS voce quer tirar? (opcional)</option>
-              {leadCertificationOptions.map((option) => (
-                <option
-                  key={option.value}
-                  value={option.value}
-                  className={tone === "dark" ? "bg-slate-950 text-white" : "bg-white text-slate-950"}
-                >
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </div>
-        ) : null}
-
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className={`inline-flex w-full items-center justify-center gap-2 rounded-[1rem] px-5 py-3 text-sm font-semibold transition hover:translate-y-[-1px] disabled:cursor-not-allowed disabled:opacity-70 ${styles.button}`}
-        >
-          {isSubmitting ? (
-            <>
-              <LoaderCircle className="h-4 w-4 animate-spin" />
-              Enviando...
-            </>
-          ) : (
-            <>
-              {buttonLabel}
-              <Send className="h-4 w-4" />
-            </>
-          )}
-        </button>
-
-        <p className={`text-xs leading-6 ${styles.helper}`}>{helperText}</p>
-
-        {status.tone !== "idle" ? (
+        <div className="mt-4 min-h-[65px] w-full overflow-hidden">
           <div
-            className={`flex items-start gap-3 rounded-[1rem] border px-4 py-3 text-sm leading-6 ${
-              status.tone === "success"
-                ? tone === "light"
-                  ? "border-slate-950 bg-slate-950 text-white shadow-[0_14px_30px_rgba(15,23,42,0.18)]"
-                  : "border-emerald-400/25 bg-emerald-500/10 text-emerald-100"
-                : tone === "light"
-                  ? "border-rose-300 bg-rose-50 text-rose-900"
-                  : "border-rose-400/25 bg-rose-500/10 text-rose-100"
-            }`}
-            aria-live="polite"
-          >
-            {status.tone === "success" ? (
-              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
-            ) : (
-              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
-            )}
-            <span>{status.message}</span>
-          </div>
-        ) : null}
+            ref={turnstileContainerRef}
+            aria-label="Verificação de segurança"
+            className="inline-block w-full max-w-full overflow-hidden rounded-lg bg-white"
+          />
+        </div>
+
+        <div aria-live="polite" aria-atomic="true" className="min-h-8 pt-3">
+          {status.kind !== "idle" ? (
+            <p
+              className={`flex items-start gap-2 text-sm font-semibold leading-6 ${
+                status.kind === "success" ? "text-emerald-100" : "text-white"
+              }`}
+            >
+              {status.kind === "success" ? (
+                <CheckCircle2 aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0" />
+              ) : null}
+              <span>{status.message}</span>
+            </p>
+          ) : null}
+        </div>
       </form>
-    </div>
+    </>
   );
 }
