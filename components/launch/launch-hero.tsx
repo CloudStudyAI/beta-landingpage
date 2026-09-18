@@ -5,6 +5,7 @@ import { ArrowRight, Check } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 
 import heroRobot from "../../robos/3.svg";
+import { SIGNUP_URL } from "../../lib/launch-links";
 
 const valuePoints = ["Trilha organizada", "Próximo passo visível", "Estudo no seu ritmo"] as const;
 const floatDuration = 4.6;
@@ -27,8 +28,8 @@ export function LaunchHero() {
           </p>
 
           <div className="mx-auto mt-8 flex max-w-sm flex-col gap-3 sm:max-w-none sm:flex-row sm:justify-center lg:justify-start">
-            <a href="#lista-de-espera" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl border-b-4 border-[#0b56bd] bg-[#1479ff] px-7 py-3 text-base font-bold text-white transition-colors hover:bg-[#0967e5] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600">
-              Quero participar <ArrowRight aria-hidden="true" className="h-5 w-5" />
+            <a href={SIGNUP_URL} className="inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl border-b-4 border-[#0b56bd] bg-[#1479ff] px-7 py-3 text-base font-bold text-white transition-colors hover:bg-[#0967e5] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600">
+              Criar conta <ArrowRight aria-hidden="true" className="h-5 w-5" />
             </a>
             <a href="#plataforma" className="inline-flex min-h-14 items-center justify-center rounded-2xl border-2 border-slate-200 bg-white px-7 py-3 text-base font-bold text-[#0b2a6f] transition-colors hover:border-blue-200 hover:bg-blue-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600">
               Conhecer a plataforma

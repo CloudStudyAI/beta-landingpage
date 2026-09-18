@@ -16,7 +16,7 @@ export function FinalCtaSection() {
             Seu próximo passo pode começar agora.
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-base leading-7 text-blue-50 sm:text-lg sm:leading-8 lg:mx-0">
-            Entre na lista e acompanhe as novidades, conteúdos e próximos passos da CloudStudy.
+            Receba novidades, conteúdos e atualizações da CloudStudy.
           </p>
           <div className="mx-auto flex justify-center lg:mx-0 lg:justify-start">
             <LaunchLeadForm />

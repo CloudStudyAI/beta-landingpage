@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 
-import thinkingRobot from "../../robos/4.svg";
+import happyRobot from "../../robos/1.svg";
 
 const studySteps = [
   { description: "Entenda os conceitos essenciais sem conteúdo solto.", title: "Aprenda" },
@@ -16,7 +16,7 @@ const desktopMarkerOffsets = ["lg:top-[5rem]", "lg:top-6", "lg:top-[6.5rem]", "l
 const premiumEase = [0.22, 1, 0.36, 1] as const;
 const stepRevealDelay = 0.675;
 const stepRevealStagger = 0.225;
-const nimboRevealDelay = 2.25;
+const nimboRevealDelay = 1.1;
 
 export function StudyCycleSection() {
   const prefersReducedMotion = useReducedMotion();
@@ -109,8 +109,8 @@ export function StudyCycleSection() {
             }}
           >
             <Image
-              src={thinkingRobot}
-              alt="Nimbo acompanhando o ciclo de estudo."
+              src={happyRobot}
+              alt="Nimbo feliz acompanhando o ciclo de estudo."
               sizes="(min-width: 1024px) 224px, (min-width: 640px) 192px, (min-width: 390px) 176px, 160px"
               className="h-auto w-40 drop-shadow-[0_18px_16px_rgba(11,42,111,0.14)] min-[390px]:w-44 sm:w-48 lg:w-56"
             />

@@ -1,8 +1,11 @@
 "use client";
 
 import { useId, useState } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Plus } from "lucide-react";
+
+import thinkingRobot from "../../robos/4.svg";
 
 const faqItems = [
   {
@@ -106,19 +109,34 @@ function FaqItem({ answer, initiallyOpen, question }: { answer: string; initiall
 
 export function FaqSection() {
   return (
-    <section id="faq" aria-labelledby="faq-title" className="scroll-mt-8 bg-white px-4 py-16 sm:px-8 sm:py-20 lg:py-28">
-      <div className="mx-auto max-w-4xl">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 id="faq-title" className="text-balance font-display text-3xl font-bold leading-[1.08] tracking-[-0.05em] text-[#0b2a6f] sm:text-5xl">
-            Tire suas dúvidas e comece com clareza.
-          </h2>
-          <p className="mt-5 text-base leading-7 text-slate-600 sm:text-lg">O essencial para decidir se a CloudStudy faz sentido para o seu momento.</p>
+    <section id="faq" aria-labelledby="faq-title" className="scroll-mt-8 bg-white px-4 py-16 sm:px-8 sm:py-20 lg:py-24">
+      <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[minmax(0,1fr)_17rem] lg:items-center lg:gap-14">
+        <div>
+          <div className="mx-auto max-w-2xl text-center lg:mx-0 lg:text-left">
+            <h2 id="faq-title" className="text-balance font-display text-3xl font-bold leading-[1.08] tracking-[-0.05em] text-[#0b2a6f] sm:text-5xl">
+              Tire suas dúvidas e comece com clareza.
+            </h2>
+            <p className="mt-5 text-base leading-7 text-slate-600 sm:text-lg">O essencial para decidir se a CloudStudy faz sentido para o seu momento.</p>
+          </div>
+
+          <div className="mt-10 grid gap-3 sm:mt-12">
+            {faqItems.map((item, index) => (
+              <FaqItem key={item.question} answer={item.answer} initiallyOpen={index === 0} question={item.question} />
+            ))}
+          </div>
         </div>
 
-        <div className="mt-10 grid gap-3 sm:mt-12">
-          {faqItems.map((item, index) => (
-            <FaqItem key={item.question} answer={item.answer} initiallyOpen={index === 0} question={item.question} />
-          ))}
+        <div className="relative mx-auto h-56 w-56 sm:h-64 sm:w-64 lg:mr-0 lg:h-72 lg:w-[17rem]">
+          <div
+            aria-hidden="true"
+            className="absolute left-1/2 top-1/2 h-44 w-52 -translate-x-1/2 -translate-y-1/2 -rotate-6 rounded-[55%_45%_52%_48%_/_46%_54%_44%_56%] bg-[#1877f2] sm:h-52 sm:w-60 lg:h-56 lg:w-64"
+          />
+          <Image
+            src={thinkingRobot}
+            alt="Nimbo pensando sobre as perguntas frequentes."
+            sizes="(min-width: 1024px) 256px, (min-width: 640px) 224px, 192px"
+            className="absolute left-1/2 top-1/2 h-52 w-48 -translate-x-1/2 -translate-y-1/2 object-contain sm:h-60 sm:w-56 lg:h-64 lg:w-64"
+          />
         </div>
       </div>
     </section>

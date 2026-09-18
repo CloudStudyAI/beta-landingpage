@@ -242,7 +242,7 @@ export function LaunchLeadForm() {
               </>
             ) : (
               <>
-                Quero participar
+                Quero receber novidades
                 <Send aria-hidden="true" className="h-5 w-5" />
               </>
             )}
