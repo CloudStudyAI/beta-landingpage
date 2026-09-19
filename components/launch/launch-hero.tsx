@@ -4,7 +4,6 @@ import Image from "next/image";
 import { ArrowRight, Check } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 
-import heroRobot from "../../robos/3.svg";
 import { SIGNUP_URL } from "../../lib/launch-links";
 
 const valuePoints = ["Trilha organizada", "Próximo passo visível", "Estudo no seu ritmo"] as const;
@@ -55,7 +54,7 @@ export function LaunchHero() {
                   animate={prefersReducedMotion ? { y: 0, scale: 1 } : { y: [0, "var(--nimbo-float-y)", 0], scale: [1, 1.01, 1] }}
                   transition={prefersReducedMotion ? { duration: 0 } : { duration: floatDuration, ease: "easeInOut", repeat: Infinity }}
                 >
-                  <Image src={heroRobot} alt="Nimbo, mentor da CloudStudy, apresentando a jornada de estudos." priority sizes="(min-width: 1024px) 500px, 88vw" className="h-auto w-full" />
+                  <Image src="/launch-assets/robot-hero.webp" alt="Nimbo, mentor da CloudStudy, apresentando a jornada de estudos." width={960} height={960} priority sizes="(min-width: 1024px) 500px, 88vw" className="h-auto w-full" />
                 </motion.div>
               </div>
             </div>

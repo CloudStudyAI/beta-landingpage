@@ -1,46 +1,40 @@
 "use client";
 
 import { useRef } from "react";
-import Image, { type StaticImageData } from "next/image";
+import Image from "next/image";
 import { useInView } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
-import solutionsArchitectMap from "../../mapas/1 (1).svg";
-import cloudPractitionerMap from "../../mapas/2 (1).svg";
-import aiPractitionerMap from "../../mapas/3 (1).svg";
-import solutionsArchitectBadge from "../../mapas/certificações/1 (3).svg";
-import cloudPractitionerBadge from "../../mapas/certificações/2 (3).svg";
-import aiPractitionerBadge from "../../mapas/certificações/3 (3).svg";
 import { SIGNUP_URL } from "../../lib/launch-links";
 
 type CertificationPath = {
-  badge: StaticImageData;
+  badge: string;
   code: string;
   description: string;
-  map: StaticImageData;
+  map: string;
   title: string;
 };
 
 const certificationPaths: readonly CertificationPath[] = [
   {
-    badge: cloudPractitionerBadge,
+    badge: "/launch-assets/badge-clf.webp",
     code: "CLF-C02",
     description: "Construa sua base em cloud, segurança, custos e serviços essenciais da AWS.",
-    map: cloudPractitionerMap,
+    map: "/launch-assets/map-clf.webp",
     title: "AWS Certified Cloud Practitioner",
   },
   {
-    badge: solutionsArchitectBadge,
+    badge: "/launch-assets/badge-saa.webp",
     code: "SAA-C03",
     description: "Estude arquitetura de soluções escaláveis e resilientes para a certificação Associate.",
-    map: solutionsArchitectMap,
+    map: "/launch-assets/map-saa.webp",
     title: "AWS Certified Solutions Architect – Associate",
   },
   {
-    badge: aiPractitionerBadge,
+    badge: "/launch-assets/badge-aif.webp",
     code: "AIF-C01",
     description: "Entenda fundamentos de IA, IA generativa e serviços relacionados na AWS.",
-    map: aiPractitionerMap,
+    map: "/launch-assets/map-aif.webp",
     title: "AWS Certified AI Practitioner",
   },
 ] as const;
@@ -76,6 +70,8 @@ function CertificationPathBlock({ certification, reversed }: { certification: Ce
           <Image
             src={certification.map}
             alt={`Mapa da trilha ${certification.title} na CloudStudy.`}
+            width={1440}
+            height={810}
             sizes="(min-width: 1024px) 650px, (min-width: 640px) 704px, calc(100vw - 48px)"
             className="h-full w-full object-contain"
           />

@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 
-import happyRobot from "../../robos/1.svg";
 
 const studySteps = [
   { description: "Entenda os conceitos essenciais sem conteúdo solto.", title: "Aprenda" },
@@ -23,7 +22,7 @@ export function StudyCycleSection() {
 
   return (
     <section id="como-funciona" aria-labelledby="study-cycle-title" className="relative isolate scroll-mt-8 overflow-hidden px-5 py-20 sm:px-8 sm:py-24 lg:py-32">
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-6xl">
         <div className="mx-auto max-w-3xl text-center md:mx-0 md:text-left">
           <h2 id="study-cycle-title" className="text-balance font-display text-3xl font-bold leading-[1.08] tracking-[-0.05em] text-[#0b2a6f] sm:text-5xl">
             Um ciclo simples para estudar com consistência.
@@ -109,8 +108,10 @@ export function StudyCycleSection() {
             }}
           >
             <Image
-              src={happyRobot}
+              src="/launch-assets/robot-happy.webp"
               alt="Nimbo feliz acompanhando o ciclo de estudo."
+              width={960}
+              height={960}
               sizes="(min-width: 1024px) 224px, (min-width: 640px) 192px, (min-width: 390px) 176px, 160px"
               className="h-auto w-40 drop-shadow-[0_18px_16px_rgba(11,42,111,0.14)] min-[390px]:w-44 sm:w-48 lg:w-56"
             />

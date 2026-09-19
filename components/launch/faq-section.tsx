@@ -5,7 +5,6 @@ import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Plus } from "lucide-react";
 
-import thinkingRobot from "../../robos/4.svg";
 
 const faqItems = [
   {
@@ -17,7 +16,7 @@ const faqItems = [
     question: "Preciso já conhecer AWS?",
   },
   {
-    answer: "Ao clicar em criar conta, você segue para a aplicação da CloudStudy, onde faz seu cadastro e acessa a experiência disponível.",
+    answer: "Ao clicar em criar conta, você segue para a aplicação da CloudStudy. O cadastro identifica sua conta; para estudar uma certificação, é necessário ter acesso comercial ativo a ela.",
     question: "Como começo a estudar?",
   },
   {
@@ -132,8 +131,10 @@ export function FaqSection() {
             className="absolute left-1/2 top-1/2 h-44 w-52 -translate-x-1/2 -translate-y-1/2 -rotate-6 rounded-[55%_45%_52%_48%_/_46%_54%_44%_56%] bg-[#1877f2] sm:h-52 sm:w-60 lg:h-56 lg:w-64"
           />
           <Image
-            src={thinkingRobot}
+            src="/launch-assets/robot-thinking.webp"
             alt="Nimbo pensando sobre as perguntas frequentes."
+            width={960}
+            height={960}
             sizes="(min-width: 1024px) 256px, (min-width: 640px) 224px, 192px"
             className="absolute left-1/2 top-1/2 h-52 w-48 -translate-x-1/2 -translate-y-1/2 object-contain sm:h-60 sm:w-56 lg:h-64 lg:w-64"
           />
