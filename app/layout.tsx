@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Manrope } from "next/font/google";
-
-import { IntroGate } from "../components/IntroGate";
+import { Manrope, Plus_Jakarta_Sans } from "next/font/google";
 
 import "./globals.css";
 
@@ -18,13 +16,15 @@ const bodyFont = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "CloudStudy",
+  title: "Cloud Study | Preparação para certificações AWS",
   description:
-    "Landing page pre-launch da CloudStudy para captar interessados em trilhas inteligentes de certificacoes AWS guiadas por IA.",
-  icons: {
-    icon: "/favicon-cloudstudy.png",
-    shortcut: "/favicon-cloudstudy.png",
-    apple: "/favicon-cloudstudy.png",
+    "Prepare-se para certificações AWS com aulas, simulados, flashcards e trilhas de estudo em uma única plataforma.",
+  openGraph: {
+    title: "Cloud Study | Preparação para certificações AWS",
+    description:
+      "Prepare-se para certificações AWS com aulas, simulados, flashcards e trilhas de estudo em uma única plataforma.",
+    locale: "pt_BR",
+    type: "website",
   },
 };
 
@@ -36,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={`${displayFont.variable} ${bodyFont.variable} antialiased`}>
-        <IntroGate>{children}</IntroGate>
+        {children}
       </body>
     </html>
   );

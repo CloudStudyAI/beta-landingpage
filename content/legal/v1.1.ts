@@ -14,9 +14,10 @@ export type LegalDocument = {
   sections: readonly LegalSection[];
 };
 
-export const LEGAL_VERSION = "1.1";
-export const LEGAL_EFFECTIVE_DATE_ISO = "2026-09-01";
-export const LEGAL_EFFECTIVE_DATE_LABEL = "1 de setembro de 2026";
+export const LEGAL_VERSION = "1.2";
+export const REFUND_POLICY_VERSION = "1.3";
+export const LEGAL_EFFECTIVE_DATE_ISO = "2026-09-09";
+export const LEGAL_EFFECTIVE_DATE_LABEL = "9 de setembro de 2026";
 export const LEGAL_BASE_URL = "https://www.cloudstudy.com.br";
 export const LEGAL_URLS = {
   terms: `${LEGAL_BASE_URL}/termos`,
@@ -121,9 +122,9 @@ export const TERMS_DOCUMENT: LegalDocument = {
       ],
     },
     {
-      title: "11. Assinatura mensal e compra anual pré-paga",
+      title: "11. Plano mensal e compra anual pré-paga",
       paragraphs: [
-        "O plano mensal é contratado como assinatura recorrente, cobrada no valor mensal informado na oferta e renovada a cada ciclo até cancelamento.",
+        "No plano mensal, o pagamento por cartão cria uma assinatura recorrente, cobrada no valor informado na oferta e renovada a cada ciclo até cancelamento. O pagamento mensal por Pix é uma compra única pré-paga, libera 30 (trinta) dias de acesso após a confirmação e exige uma nova contratação ao final, sem renovação automática ou período gratuito.",
         "O plano anual vigente é uma compra única pré-paga: o valor total anual informado é cobrado na contratação, o acesso vale pelo período indicado na oferta e não há renovação automática ao final. O valor equivalente mensal exibido é apenas uma referência de comparação.",
         "Quando o processador oferecer parcelamento para a compra anual, as parcelas representam a divisão do valor total da mesma compra e não criam mensalidade, assinatura recorrente ou nova renovação automática.",
       ],
@@ -137,7 +138,7 @@ export const TERMS_DOCUMENT: LegalDocument = {
     {
       title: "13. Processamento de pagamento",
       paragraphs: [
-        "Os pagamentos são processados por provedores especializados: atualmente, a Stripe processa a assinatura mensal e o Mercado Pago processa a compra anual pré-paga, inclusive por Pix ou cartão quando disponível. A Cloud Study não armazena o número completo do cartão ou CVC.",
+        "Os pagamentos são processados por provedores especializados: atualmente, a Stripe processa a assinatura mensal por cartão; o Mercado Pago processa as compras pré-pagas por Pix e a compra anual por Pix ou cartão quando disponível. A Cloud Study não armazena o número completo do cartão ou CVC.",
         "A utilização de um processador de pagamento não transfere ao usuário responsabilidades que a legislação atribua à Cloud Study como fornecedora. Eventos assinados do provedor são utilizados para confirmar pagamento, renovação, falha, cancelamento e outros estados financeiros.",
       ],
     },
@@ -284,7 +285,7 @@ export const PRIVACY_DOCUMENT: LegalDocument = {
     {
       title: "6. Pagamentos, Stripe e Mercado Pago",
       paragraphs: [
-        "A Stripe processa atualmente as assinaturas mensais. O Mercado Pago processa as compras anuais pré-pagas, inclusive por Pix ou cartão quando disponível. Dados completos de cartão e CVC são tratados nos ambientes seguros desses provedores e não são armazenados pela Cloud Study.",
+        "A Stripe processa atualmente as assinaturas mensais por cartão. O Mercado Pago processa compras pré-pagas por Pix e compras anuais pré-pagas por Pix ou cartão quando disponível. Dados completos de cartão e CVC são tratados nos ambientes seguros desses provedores e não são armazenados pela Cloud Study.",
         "Recebemos e conservamos apenas identificadores e estados necessários à operação e reconciliação, como cliente, sessão ou intenção de pagamento, assinatura, fatura, cobrança, identificador da transação, meio de pagamento em nível não sensível, valores, moeda, datas e status. No Pix, o código e o QR Code são exibidos para concluir a cobrança e não substituem a confirmação autoritativa do pagamento.",
       ],
     },
@@ -359,7 +360,7 @@ export const REFUND_DOCUMENT: LegalDocument = {
   title: "Política de Cancelamento e Reembolso",
   shortTitle: "Cancelamento e Reembolso",
   description: "Regras de cancelamento, renovação, direito de arrependimento, estornos e cobranças indevidas.",
-  version: LEGAL_VERSION,
+  version: REFUND_POLICY_VERSION,
   effectiveDate: LEGAL_EFFECTIVE_DATE_LABEL,
   sections: [
     {
@@ -381,9 +382,9 @@ export const REFUND_DOCUMENT: LegalDocument = {
       ],
     },
     {
-      title: "4. Pix e parcelamento da compra anual",
+      title: "4. Pix e parcelamento",
       paragraphs: [
-        "O Pix precisa ser efetivamente pago e confirmado pelo processador antes da liberação do acesso. A simples geração do QR Code ou do código Pix Copia e Cola não confirma pagamento.",
+        "O Pix precisa ser efetivamente pago e confirmado pelo processador antes da liberação do acesso. A simples geração do QR Code ou do código Pix Copia e Cola não confirma pagamento. No plano mensal, o Pix libera 30 (trinta) dias de acesso, sem período gratuito nem renovação automática.",
         "Quando houver parcelamento por cartão, as parcelas dividem o valor total da compra anual conforme as condições apresentadas pelo Mercado Pago. Elas não transformam a compra em assinatura mensal nem geram renovação automática.",
       ],
     },
@@ -391,13 +392,13 @@ export const REFUND_DOCUMENT: LegalDocument = {
       title: "5. Direito de arrependimento",
       paragraphs: [
         "Quando aplicável o art. 49 do Código de Defesa do Consumidor às compras realizadas fora do estabelecimento comercial, inclusive pela internet, o consumidor poderá exercer o direito de arrependimento no prazo legal de 7 (sete) dias, contado na forma prevista em lei, sem necessidade de justificar a desistência.",
-        "Recebida a solicitação válida dentro do prazo legal, serão adotadas as providências de cancelamento e restituição de acordo com a legislação e com os procedimentos do meio de pagamento utilizado.",
+        "Recebida a solicitação válida dentro do prazo legal, o acesso vinculado à contratação é encerrado imediatamente e a Cloud Study solicita a restituição integral ao meio de pagamento. Se o provedor informar falha ou recusa do reembolso, o acesso é restabelecido para o período ainda devido.",
       ],
     },
     {
       title: "6. Cancelamento após o prazo de arrependimento",
       paragraphs: [
-        "Após o prazo legal de arrependimento, o cancelamento da assinatura mensal interrompe renovações futuras. A compra anual pré-paga não possui renovação automática para cancelar. Nenhuma das modalidades gera automaticamente reembolso proporcional do período já contratado e disponibilizado, ressalvadas as hipóteses legais, descumprimento da oferta, falha relevante atribuível à Cloud Study ou condição promocional expressa mais favorável ao consumidor.",
+        "Após o prazo legal de arrependimento, o cancelamento da assinatura mensal por cartão interrompe renovações futuras. As compras pré-pagas, mensais por Pix ou anuais, não possuem renovação automática para cancelar. Nenhuma das modalidades gera automaticamente reembolso proporcional do período já contratado e disponibilizado, ressalvadas as hipóteses legais, descumprimento da oferta, falha relevante atribuível à Cloud Study ou condição promocional expressa mais favorável ao consumidor.",
       ],
     },
     {
@@ -416,7 +417,7 @@ export const REFUND_DOCUMENT: LegalDocument = {
       title: "9. Como cancelar ou solicitar reembolso",
       paragraphs: [
         `O usuário pode utilizar as ferramentas de gerenciamento disponibilizadas na conta ou entrar em contato pelo e-mail ${LEGAL_OPERATOR.supportEmail}. A solicitação deve permitir a identificação segura da conta e da cobrança.`,
-        "Solicitações de arrependimento receberão confirmação de recebimento pelo canal aplicável e serão processadas conforme as regras do meio de pagamento e a legislação vigente.",
+        "Solicitações de arrependimento recebem confirmação de recebimento pelo canal aplicável. A Cloud Study processa o reembolso integral de forma idempotente, confirma o resultado com o meio de pagamento e mantém registros auditáveis da solicitação.",
       ],
     },
     {
