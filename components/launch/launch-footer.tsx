@@ -1,3 +1,5 @@
+"use client";
+
 import { LOGIN_URL, SIGNUP_URL } from "../../lib/launch-links";
 
 const footerGroups = [
@@ -62,6 +64,15 @@ export function LaunchFooter() {
                   </li>
                 ))}
               </ul>
+              {group.title === "Legal" ? (
+                <button
+                  type="button"
+                  onClick={() => window.dispatchEvent(new Event("cloudstudy:marketing-preferences"))}
+                  className="mt-3 rounded text-sm font-semibold leading-5 text-blue-50/80 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+                >
+                  Preferências de marketing
+                </button>
+              ) : null}
             </nav>
           ))}
         </div>

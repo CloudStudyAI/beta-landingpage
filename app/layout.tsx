@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Manrope, Plus_Jakarta_Sans } from "next/font/google";
 
 import "./globals.css";
+import "./tracking.css";
+import { LandingTracking } from "../components/landing-tracking";
 
 const displayFont = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -35,8 +37,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
+      <head>
+        <meta name="facebook-domain-verification" content="457w3x34nzob0ykpl2kgckvmvptjvm" />
+      </head>
       <body className={`${displayFont.variable} ${bodyFont.variable} antialiased`}>
         {children}
+        <LandingTracking />
       </body>
     </html>
   );
