@@ -53,7 +53,6 @@ export function LandingTracking() {
   const [ready, setReady] = useState(false);
   const [preferencesOpen, setPreferencesOpen] = useState(false);
   const lastPageView = useRef<string | null>(null);
-  const rejectButton = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     setChoice(readMarketingConsent(document.cookie));
@@ -94,10 +93,6 @@ export function LandingTracking() {
     window.addEventListener("cloudstudy:marketing-preferences", open);
     return () => window.removeEventListener("cloudstudy:marketing-preferences", open);
   }, []);
-
-  useEffect(() => {
-    if (ready && (!choice || preferencesOpen)) rejectButton.current?.focus();
-  }, [choice, preferencesOpen, ready]);
 
   useEffect(() => {
     if (!ready) return;
@@ -164,16 +159,15 @@ export function LandingTracking() {
   return (
     <aside className="marketing-consent" role="dialog" aria-modal="false" aria-label="Preferências de marketing">
       <div>
-        <strong>Pixel opcional nesta página</strong>
+        <strong>Privacidade e cookies</strong>
         <p>
-          Com sua permissão, usamos o Pixel da Meta para medir visitas e cliques
-          em Criar conta ou Experimentar. Esta escolha não altera a medição da
-          sua conta, controlada separadamente no aplicativo. <a href="/privacidade/marketing">Como funciona</a>
+          Com sua autorização, usamos tecnologias da Meta para medir visitas e cliques nesta página.
+          Isso é opcional e não afeta seu acesso. <a href="/privacidade/marketing">Saiba mais</a>
         </p>
       </div>
       <div className="marketing-consent-actions">
-        <button ref={rejectButton} type="button" onClick={() => saveChoice("rejected")}>Recusar</button>
-        <button type="button" onClick={() => saveChoice("accepted")}>Aceitar Pixel</button>
+        <button type="button" onClick={() => saveChoice("rejected")}>Recusar</button>
+        <button type="button" onClick={() => saveChoice("accepted")}>Aceitar</button>
       </div>
     </aside>
   );
