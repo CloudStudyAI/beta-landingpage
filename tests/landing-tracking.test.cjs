@@ -149,8 +149,12 @@ test("landing copy keeps the free-experience promise and never publishes real ph
   assert.equal(read("components/launch/final-cta-section.tsx").includes("depende de uma contratação ativa"), false);
   assert.equal(read("components/launch/faq-section.tsx").includes("é necessário ter acesso comercial ativo"), false);
   assert.match(read("components/launch/launch-hero.tsx"), /Experimentar grátis/);
-  // depoimentos: nenhum telefone completo no código (só DDD + máscara)
+  // depoimentos: nenhum telefone completo no código e todas as imagens tratadas existem
   const testimonials = read("components/launch/testimonials-section.tsx");
   assert.equal(/\d{4,5}[-\s]?\d{4}/.test(testimonials), false);
-  assert.match(testimonials, /•••••-••••/);
+  const sources = [...testimonials.matchAll(/src: "(\/testimonials\/[a-z0-9-]+\.webp)"/g)].map((m) => m[1]);
+  assert.ok(sources.length >= 5);
+  for (const src of sources) {
+    assert.ok(fs.existsSync(path.join(__dirname, "../public", src)), `${src} não existe em public/`);
+  }
 });
