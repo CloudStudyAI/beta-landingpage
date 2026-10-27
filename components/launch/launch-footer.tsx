@@ -35,9 +35,9 @@ const footerGroups = [
   },
   {
     links: [
-      { href: "https://www.linkedin.com/company/cloudstudy-ai/", label: "LinkedIn" },
+      { href: "https://www.linkedin.com/company/cloudstudy-ai/posts/?feedView=all", label: "LinkedIn" },
       { href: "https://www.instagram.com/cloudstudy.ai/", label: "Instagram" },
-      { href: "https://chat.whatsapp.com/Lsuexbkt1oELAGX8nCH2La", label: "Comunidade" },
+      { href: "https://chat.whatsapp.com/Lsuexbkt1oELAGX8nCH2La?mode=gi_t", label: "Comunidade no WhatsApp" },
     ],
     title: "Social",
   },

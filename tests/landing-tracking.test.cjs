@@ -158,3 +158,15 @@ test("landing copy keeps the free-experience promise and never publishes real ph
     assert.ok(fs.existsSync(path.join(__dirname, "../public", src)), `${src} não existe em public/`);
   }
 });
+
+test("every launch CTA carries a safe position label and no placeholder data ships", () => {
+  const dir = path.join(__dirname, "../components/launch");
+  const positions = [];
+  for (const file of fs.readdirSync(dir).filter((name) => name.endsWith(".tsx"))) {
+    const source = fs.readFileSync(path.join(dir, file), "utf8");
+    for (const match of source.matchAll(/data-cta-position="([^"]+)"/g)) positions.push(match[1]);
+    assert.equal(/\[N\]|\[%\]/.test(source), false, `${file} contém dado de exemplo não preenchido`);
+  }
+  for (const label of ["menu", "hero", "produto", "final"]) assert.ok(positions.includes(label), `falta posição ${label}`);
+  for (const position of positions) assert.match(position, /^[a-z0-9][a-z0-9_-]{0,39}$/);
+});
