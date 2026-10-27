@@ -5,7 +5,7 @@ import { LOGIN_URL, SIGNUP_URL } from "../../lib/launch-links";
 
 export function FinalCtaSection() {
   return (
-    <section id="comecar" aria-labelledby="final-cta-title" className="relative mt-24 scroll-mt-24 bg-[#1877f2] px-5 pb-8 pt-8 text-white sm:mt-36 sm:px-8 sm:pb-10 lg:mt-44 lg:pt-4">
+    <section id="comecar" aria-labelledby="final-cta-title" className="relative mt-24 scroll-mt-24 bg-gradient-to-b from-[#1877f2] to-[#1250b0] px-5 pb-8 pt-8 text-white sm:mt-36 sm:px-8 sm:pb-10 lg:mt-44 lg:pt-4">
       <svg aria-hidden="true" viewBox="0 0 1440 180" preserveAspectRatio="none" className="pointer-events-none absolute inset-x-0 -top-[95px] h-24 w-full fill-[#1877f2] sm:-top-[143px] sm:h-36 lg:-top-[175px] lg:h-44">
         <path d="M0 34C270 34 305 158 720 158S1170 34 1440 34V180H0Z" />
       </svg>

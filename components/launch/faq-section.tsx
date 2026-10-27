@@ -5,6 +5,8 @@ import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Plus } from "lucide-react";
 
+import { SideWave } from "./side-wave";
+
 
 const faqItems = [
   {
@@ -120,8 +122,9 @@ function FaqItem({ answer, initiallyOpen, question }: { answer: string; initiall
 
 export function FaqSection() {
   return (
-    <section id="faq" aria-labelledby="faq-title" className="scroll-mt-24 bg-white px-4 py-16 sm:px-8 sm:py-20 lg:py-24">
-      <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[minmax(0,1fr)_17rem] lg:items-center lg:gap-14">
+    <section id="faq" aria-labelledby="faq-title" className="relative isolate scroll-mt-24 overflow-x-clip bg-white px-4 py-16 sm:px-8 sm:py-20 lg:py-24">
+      <SideWave id="wave-d" side="left" className="top-16 h-[32rem] lg:h-[38rem]" />
+      <div className="relative z-10 mx-auto grid max-w-6xl gap-10 lg:grid-cols-[minmax(0,1fr)_17rem] lg:items-center lg:gap-14">
         <div>
           <div className="mx-auto max-w-2xl text-center lg:mx-0 lg:text-left">
             <p className="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#1479ff]">Dúvidas</p>

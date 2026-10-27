@@ -1,5 +1,7 @@
 import Image from "next/image";
 
+import { SideWave } from "./side-wave";
+
 // Prints de mensagens enviadas espontaneamente por membros da comunidade e liberadas para uso.
 // Tratamento aplicado às imagens em public/testimonials (ver docs do plano de conversão):
 //  - recorte só da mensagem, sem foto de perfil nem o restante do grupo;
@@ -54,8 +56,9 @@ const columns: readonly (readonly Testimonial[])[] = [
 
 export function TestimonialsSection() {
   return (
-    <section id="depoimentos" aria-labelledby="testimonials-title" className="scroll-mt-24 bg-white px-5 py-16 sm:px-8 sm:py-20 lg:py-24">
-      <div className="mx-auto max-w-6xl">
+    <section id="depoimentos" aria-labelledby="testimonials-title" className="relative isolate scroll-mt-24 overflow-x-clip bg-white px-5 py-16 sm:px-8 sm:py-20 lg:py-24">
+      <SideWave id="wave-c" side="right" className="top-16 h-[34rem] lg:h-[40rem]" />
+      <div className="relative z-10 mx-auto max-w-6xl">
         <div className="mx-auto max-w-3xl text-center">
           <p className="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#1479ff]">Depoimentos</p>
           <h2 id="testimonials-title" className="text-balance font-display text-3xl font-extrabold leading-[1.08] tracking-[-0.05em] text-[#0b2a6f] sm:text-5xl mt-3">
