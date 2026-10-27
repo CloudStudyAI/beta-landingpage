@@ -1,6 +1,6 @@
 import { ArrowRight, Check } from "lucide-react";
 
-import { SIGNUP_URL } from "../../lib/launch-links";
+import { SIGNUP_URL, START_URL } from "../../lib/launch-links";
 import { ALL_ACCESS_MONTHLY_CENTS, LIFETIME_PRICES_CENTS, formatBrl } from "../../lib/launch-pricing";
 
 const freeFeatures = [
@@ -58,7 +58,7 @@ export function PricingSection() {
             </ul>
             <div className="mt-auto pt-8">
               <a
-                href={SIGNUP_URL}
+                href={START_URL}
                 data-cta="experimentar"
                 data-cta-position="planos-gratis"
                 className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl border-b-4 border-[#0b56bd] bg-[#1479ff] px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-[#0967e5] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600"

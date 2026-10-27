@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 
-import { LOGIN_URL, SIGNUP_URL } from "../../lib/launch-links";
+import { LOGIN_URL, START_URL } from "../../lib/launch-links";
 
 export function FinalCtaSection() {
   return (
@@ -19,7 +19,7 @@ export function FinalCtaSection() {
             Crie sua conta, escolha uma certificação e comece com a experiência grátis. Quando quiser liberar todo o conteúdo, você escolhe o plano.
           </p>
           <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row lg:justify-start">
-            <a href={SIGNUP_URL} data-cta="experimentar" data-cta-position="final" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl border-b-4 border-slate-200 bg-white px-7 py-3 text-base font-bold text-[#0b2a6f] transition-colors hover:bg-blue-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
+            <a href={START_URL} data-cta="experimentar" data-cta-position="final" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl border-b-4 border-slate-200 bg-white px-7 py-3 text-base font-bold text-[#0b2a6f] transition-colors hover:bg-blue-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
               Experimentar grátis <ArrowRight aria-hidden="true" className="h-5 w-5" />
             </a>
             <a href={LOGIN_URL} className="inline-flex min-h-11 items-center rounded-lg px-2 text-sm font-semibold text-white underline underline-offset-4 transition-colors hover:text-blue-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">

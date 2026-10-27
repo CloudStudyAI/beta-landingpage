@@ -1,4 +1,4 @@
-import { LOGIN_URL, SIGNUP_URL } from "../../lib/launch-links";
+import { LOGIN_URL, START_URL } from "../../lib/launch-links";
 
 const navItems = [
   { href: "#produto", label: "Produto" },
@@ -31,7 +31,7 @@ export function LaunchHeader() {
           <a href={LOGIN_URL} className={`inline-flex min-h-11 items-center justify-center rounded-xl px-2 text-xs font-bold text-slate-200 transition-colors hover:text-white sm:px-3 sm:text-sm ${focusRing}`}>
             Entrar
           </a>
-          <a href={SIGNUP_URL} data-cta="experimentar" data-cta-position="menu" className={`inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-xl border-b-4 border-[#0b56bd] bg-[#1479ff] px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-[#0967e5] sm:px-5 sm:text-sm ${focusRing}`}>
+          <a href={START_URL} data-cta="experimentar" data-cta-position="menu" className={`inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-xl border-b-4 border-[#0b56bd] bg-[#1479ff] px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-[#0967e5] sm:px-5 sm:text-sm ${focusRing}`}>
             Experimentar grátis
           </a>
         </div>

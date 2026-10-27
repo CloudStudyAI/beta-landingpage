@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useInView } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
-import { SIGNUP_URL } from "../../lib/launch-links";
+import { START_URL } from "../../lib/launch-links";
 
 type CertificationPath = {
   badge: string;
@@ -78,7 +78,7 @@ function CertificationPathBlock({ certification, reversed }: { certification: Ce
         </div>
       </figure>
 
-      <a href={SIGNUP_URL} data-cta="experimentar" data-cta-position={`cert-${certification.code.toLowerCase()}`} aria-label={`Iniciar experiência grátis em ${certification.title}`} className={`${textPosition} inline-flex min-h-12 w-full items-center justify-center gap-2 self-start rounded-2xl border-b-4 border-[#0b56bd] bg-[#1479ff] px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-[#0967e5] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600 sm:w-auto lg:row-start-2`}>
+      <a href={START_URL} data-cta="experimentar" data-cta-position={`cert-${certification.code.toLowerCase()}`} aria-label={`Iniciar experiência grátis em ${certification.title}`} className={`${textPosition} inline-flex min-h-12 w-full items-center justify-center gap-2 self-start rounded-2xl border-b-4 border-[#0b56bd] bg-[#1479ff] px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-[#0967e5] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600 sm:w-auto lg:row-start-2`}>
         Iniciar experiência grátis <ArrowRight aria-hidden="true" className="h-4 w-4" />
       </a>
     </li>

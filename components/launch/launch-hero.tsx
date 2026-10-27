@@ -4,7 +4,7 @@ import Image from "next/image";
 import { ArrowRight, Check } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 
-import { SIGNUP_URL } from "../../lib/launch-links";
+import { START_URL } from "../../lib/launch-links";
 
 const trailSteps = [
   { done: true, label: "Introdução à computação em nuvem" },
@@ -47,7 +47,7 @@ export function LaunchHero() {
         </p>
 
         <div className="mt-8 flex w-full max-w-sm flex-col gap-3 sm:mt-9 sm:w-auto sm:max-w-none sm:flex-row">
-          <a href={SIGNUP_URL} data-cta="experimentar" data-cta-position="hero" className={`inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl border-b-4 border-[#0b56bd] bg-[#1479ff] px-8 py-3 text-base font-bold text-white shadow-[0_14px_40px_-14px_rgba(20,121,255,0.9)] transition-colors hover:bg-[#0967e5] ${focusRing}`}>
+          <a href={START_URL} data-cta="experimentar" data-cta-position="hero" className={`inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl border-b-4 border-[#0b56bd] bg-[#1479ff] px-8 py-3 text-base font-bold text-white shadow-[0_14px_40px_-14px_rgba(20,121,255,0.9)] transition-colors hover:bg-[#0967e5] ${focusRing}`}>
             Experimentar grátis <ArrowRight aria-hidden="true" className="h-5 w-5" />
           </a>
           <a href="#como-funciona" className={`inline-flex min-h-14 items-center justify-center rounded-2xl border-2 border-white/25 px-7 py-3 text-base font-bold text-white transition-colors hover:bg-white/10 ${focusRing}`}>

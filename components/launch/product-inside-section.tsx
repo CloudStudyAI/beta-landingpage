@@ -4,7 +4,7 @@ import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 
-import { SIGNUP_URL } from "../../lib/launch-links";
+import { START_URL } from "../../lib/launch-links";
 
 const premiumEase = [0.22, 1, 0.36, 1] as const;
 const monoLabel = "font-mono text-[0.6875rem] font-bold uppercase tracking-[0.14em]";
@@ -89,7 +89,7 @@ export function ProductInsideSection() {
         </div>
 
         <div className="mt-8 flex flex-col items-center gap-3 text-center sm:mt-10">
-          <a href={SIGNUP_URL} data-cta="experimentar" data-cta-position="produto" className={`inline-flex min-h-14 w-full max-w-sm items-center justify-center gap-2 rounded-2xl border-b-4 border-[#0b56bd] bg-[#1479ff] px-8 py-3 text-base font-bold text-white transition-colors hover:bg-[#0967e5] sm:w-auto ${focusRing}`}>
+          <a href={START_URL} data-cta="experimentar" data-cta-position="produto" className={`inline-flex min-h-14 w-full max-w-sm items-center justify-center gap-2 rounded-2xl border-b-4 border-[#0b56bd] bg-[#1479ff] px-8 py-3 text-base font-bold text-white transition-colors hover:bg-[#0967e5] sm:w-auto ${focusRing}`}>
             Experimentar grátis <ArrowRight aria-hidden="true" className="h-5 w-5" />
           </a>
           <p className="text-xs leading-5 text-slate-500 sm:text-sm">Telas e dados de exemplo, para ilustrar como o produto funciona.</p>

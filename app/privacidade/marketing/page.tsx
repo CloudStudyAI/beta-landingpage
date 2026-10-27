@@ -13,11 +13,11 @@ export default function MarketingPrivacyNotice() {
     <main className="mx-auto min-h-screen max-w-3xl px-5 py-12 text-slate-800 sm:py-20">
       <Link href="/privacidade" className="text-sm font-semibold text-blue-700 underline">Política de Privacidade</Link>
       <h1 className="mt-8 text-3xl font-bold text-slate-950 sm:text-4xl">Medição de marketing</h1>
-      <p className="mt-3 text-sm text-slate-600">Aviso complementar publicado em 25 de outubro de 2026.</p>
+      <p className="mt-3 text-sm text-slate-600">Aviso complementar atualizado em 27 de outubro de 2026.</p>
       <div className="mt-9 space-y-7 text-base leading-7">
         <section>
           <h2 className="text-xl font-semibold text-slate-950">Escolha opcional</h2>
-          <p className="mt-2">O aceite de marketing é separado dos Termos de Uso. Você pode recusar sem perder a experiência gratuita ou o acesso contratado. O Pixel desta landing e os eventos da sua conta têm escolhas independentes: altere a primeira em Preferências de marketing na landing e a segunda em Configurações da conta no aplicativo.</p>
+          <p className="mt-2">O aceite de marketing é separado dos Termos de Uso. Você pode recusar sem perder a experiência gratuita ou o acesso contratado. Há uma única escolha, feita no aviso de privacidade desta landing: ela vale para a medição da landing e para os eventos do cadastro feito em seguida no aplicativo, no mesmo navegador. Antes do cadastro, altere em Preferências de marketing na landing; depois, a escolha da conta fica em Configurações no aplicativo.</p>
         </section>
         <section>
           <h2 className="text-xl font-semibold text-slate-950">Pixel na landing</h2>
@@ -29,11 +29,11 @@ export default function MarketingPrivacyNotice() {
         </section>
         <section>
           <h2 className="text-xl font-semibold text-slate-950">Conversões do aplicativo</h2>
-          <p className="mt-2">O cadastro oferece uma escolha própria de marketing, desmarcada inicialmente. Com seu aceite, a API pode enviar à Meta eventos de cadastro confirmado, início efetivo da experiência gratuita, checkout criado e primeira compra aprovada. Compras pendentes, renovações e liberações administrativas não são contabilizadas como primeira compra. Identificadores de correspondência são protegidos por hash; o evento de compra inclui valor e moeda pagos. O token da API de Conversões fica somente no servidor.</p>
+          <p className="mt-2">Se você aceitou neste aviso antes de se cadastrar, a API pode enviar à Meta eventos de cadastro confirmado, início efetivo da experiência gratuita, checkout criado e primeira compra aprovada. Compras pendentes, renovações e liberações administrativas não são contabilizadas como primeira compra. Identificadores de correspondência são protegidos por hash; o evento de compra inclui valor e moeda pagos. O token da API de Conversões fica somente no servidor. Se você recusou, ou se cadastrou sem ter feito essa escolha no mesmo navegador, nenhum evento da conta é enviado.</p>
         </section>
         <section>
           <h2 className="text-xl font-semibold text-slate-950">Revogação e contato</h2>
-          <p className="mt-2">Recusar o Pixel aqui interrompe novos eventos desta landing, mas não revoga o aceite dado separadamente no cadastro. Para parar os eventos da conta, revogue em Configurações no aplicativo. A revogação não desfaz eventos já transmitidos. Para dúvidas sobre privacidade, escreva para <a className="text-blue-700 underline" href={`mailto:${LEGAL_OPERATOR.privacyEmail}`}>{LEGAL_OPERATOR.privacyEmail}</a>.</p>
+          <p className="mt-2">Recusar aqui interrompe novos eventos desta landing e, se feito antes do cadastro, impede os eventos da conta. Depois do cadastro, mudar a preferência na landing não altera a conta: para parar os eventos da conta, revogue em Configurações no aplicativo. A revogação não desfaz eventos já transmitidos. Para dúvidas sobre privacidade, escreva para <a className="text-blue-700 underline" href={`mailto:${LEGAL_OPERATOR.privacyEmail}`}>{LEGAL_OPERATOR.privacyEmail}</a>.</p>
         </section>
       </div>
     </main>

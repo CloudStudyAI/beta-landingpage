@@ -108,8 +108,9 @@ export function authHref(
   nowSeconds = Math.floor(Date.now() / 1000),
 ): string {
   const source = new URL(href);
-  const destination = new URL("/auth", APP_BASE_URL);
-  if (source.searchParams.get("mode") === "login") destination.searchParams.set("mode", "login");
+  const isStart = source.pathname === "/comecar";
+  const destination = new URL(isStart ? "/comecar" : "/auth", APP_BASE_URL);
+  if (!isStart && source.searchParams.get("mode") === "login") destination.searchParams.set("mode", "login");
   if (attribution && attribution.capturedAt <= nowSeconds &&
       nowSeconds - attribution.capturedAt <= UTM_MAX_AGE_SECONDS) {
     for (const key of UTM_KEYS) {

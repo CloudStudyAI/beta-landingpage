@@ -43,7 +43,7 @@ function sendPixel(event: "PageView" | "LandingCTA", cta?: CtaKind, position?: s
 function isAuthLink(anchor: HTMLAnchorElement): boolean {
   try {
     const url = new URL(anchor.href);
-    return url.origin === APP_BASE_URL && url.pathname === "/auth";
+    return url.origin === APP_BASE_URL && (url.pathname === "/auth" || url.pathname === "/comecar");
   } catch {
     return false;
   }
@@ -163,8 +163,8 @@ export function LandingTracking() {
       <div>
         <strong>Privacidade e cookies</strong>
         <p>
-          Com sua autorização, usamos tecnologias da Meta para medir visitas e cliques nesta página.
-          Isso é opcional e não afeta seu acesso. <a href="/privacidade/marketing">Saiba mais</a>
+          Usamos cookies para medir nossos anúncios. Opcional e não afeta seu acesso.{" "}
+          <a href="/privacidade/marketing">Saiba mais</a>
         </p>
       </div>
       <div className="marketing-consent-actions">

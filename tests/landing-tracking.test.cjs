@@ -85,6 +85,17 @@ test("auth links carry UTMs and capture time without implying app consent", () =
   assert.equal(accepted.searchParams.has("marketing_checkbox"), false);
 });
 
+test("free-start links keep pointing to /comecar and carry the same UTMs", () => {
+  assert.equal(links.START_URL, "https://app.cloudstudy.com.br/comecar");
+  const attribution = { capturedAt: 1_700_000_000, utms: { utm_source: "meta", utm_campaign: "launch" } };
+  const url = new URL(tracking.authHref(links.START_URL, attribution, 1_700_000_001));
+  assert.equal(url.pathname, "/comecar");
+  assert.equal(url.searchParams.get("utm_source"), "meta");
+  assert.equal(url.searchParams.get("utm_captured_at"), "1700000000");
+  assert.equal(url.searchParams.has("mode"), false);
+  assert.equal(new URL(tracking.authHref(`${links.START_URL}?mode=login`, null)).searchParams.has("mode"), false);
+});
+
 test("expired attribution is never sent to auth even from an already-open page", () => {
   const attribution = { capturedAt: 1_700_000_000, utms: { utm_source: "meta" } };
   const url = new URL(tracking.authHref(links.SIGNUP_URL, attribution, 1_700_000_000 + 30 * 86400 + 1));
@@ -114,7 +125,7 @@ test("landing Pixel consent uses its own cookie without setting app consent", ()
 
 test("the supplementary marketing notice discloses Pixel, CAPI and revocation without editing accepted policy", () => {
   const disclosure = fs.readFileSync(path.join(__dirname, "../app/privacidade/marketing/page.tsx"), "utf8");
-  for (const detail of ["Pixel da Meta", "API de Conversões", "30 dias", "Configurações", "desmarcada inicialmente"]) {
+  for (const detail of ["Pixel da Meta", "API de Conversões", "30 dias", "Configurações", "única escolha", "nenhum evento da conta é enviado"]) {
     assert.match(disclosure, new RegExp(detail));
   }
 });
