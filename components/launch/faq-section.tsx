@@ -124,7 +124,8 @@ export function FaqSection() {
       <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[minmax(0,1fr)_17rem] lg:items-center lg:gap-14">
         <div>
           <div className="mx-auto max-w-2xl text-center lg:mx-0 lg:text-left">
-            <h2 id="faq-title" className="text-balance font-display text-3xl font-bold leading-[1.08] tracking-[-0.05em] text-[#0b2a6f] sm:text-5xl">
+            <p className="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#1479ff]">Dúvidas</p>
+            <h2 id="faq-title" className="text-balance font-display text-3xl font-extrabold leading-[1.08] tracking-[-0.05em] text-[#0b2a6f] sm:text-5xl mt-3">
               Tire suas dúvidas e comece com clareza.
             </h2>
             <p className="mt-5 text-base leading-7 text-slate-600 sm:text-lg">O essencial para decidir se a CloudStudy faz sentido para o seu momento.</p>

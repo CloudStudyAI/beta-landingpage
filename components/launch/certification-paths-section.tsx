@@ -54,7 +54,7 @@ function CertificationPathBlock({ certification, reversed }: { certification: Ce
         <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-start sm:text-left">
           <Image src={certification.badge} alt="" width={72} height={72} className="h-14 w-14 shrink-0 object-contain sm:h-[72px] sm:w-[72px]" />
           <div className="min-w-0">
-            <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#1479ff]">{certification.code}</p>
+            <p className="font-mono text-xs font-bold uppercase tracking-[0.14em] text-[#1479ff]">{certification.code}</p>
             <h3 className="mt-2 font-display text-2xl font-bold leading-tight tracking-[-0.04em] text-[#0b2a6f] sm:text-3xl">{certification.title}</h3>
           </div>
         </div>
@@ -90,7 +90,8 @@ export function CertificationPathsSection() {
     <section id="certificacoes" aria-labelledby="certification-paths-title" className="scroll-mt-24 px-5 py-16 sm:px-8 sm:py-20 lg:py-28">
       <div className="mx-auto max-w-6xl">
         <div className="mx-auto max-w-3xl text-center md:mx-0 md:text-left">
-          <h2 id="certification-paths-title" className="text-balance font-display text-3xl font-bold leading-[1.08] tracking-[-0.05em] text-[#0b2a6f] sm:text-5xl">
+          <p className="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#1479ff]">Certificações</p>
+          <h2 id="certification-paths-title" className="text-balance font-display text-3xl font-extrabold leading-[1.08] tracking-[-0.05em] text-[#0b2a6f] sm:text-5xl mt-3">
             Escolha sua certificação.
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8 md:mx-0">
