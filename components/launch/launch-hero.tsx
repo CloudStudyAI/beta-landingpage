@@ -13,7 +13,7 @@ export function LaunchHero() {
   const prefersReducedMotion = useReducedMotion();
 
   return (
-    <section id="top" aria-labelledby="launch-hero-title" className="relative isolate overflow-hidden bg-white px-5 pb-16 pt-40 sm:px-8 sm:pb-20 sm:pt-52 lg:pb-24 lg:pt-64">
+    <section id="top" aria-labelledby="launch-hero-title" className="relative isolate overflow-hidden bg-white px-5 pb-16 pt-[10.75rem] sm:px-8 sm:pb-20 sm:pt-56 lg:pb-24 lg:pt-[17rem]">
       <svg aria-hidden="true" viewBox="0 0 1440 260" preserveAspectRatio="none" focusable="false" className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-32 w-full fill-[#1877f2] sm:h-44 lg:h-56">
         <path d="M0 0h1440v220c-270 0-305-100-720-100S270 220 0 220Z" />
       </svg>
@@ -27,13 +27,16 @@ export function LaunchHero() {
           </p>
 
           <div className="mx-auto mt-8 flex max-w-sm flex-col gap-3 sm:max-w-none sm:flex-row sm:justify-center lg:justify-start">
-            <a href={SIGNUP_URL} className="inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl border-b-4 border-[#0b56bd] bg-[#1479ff] px-7 py-3 text-base font-bold text-white transition-colors hover:bg-[#0967e5] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600">
-              Criar conta <ArrowRight aria-hidden="true" className="h-5 w-5" />
+            <a href={SIGNUP_URL} data-cta="experimentar" data-cta-position="hero" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl border-b-4 border-[#0b56bd] bg-[#1479ff] px-7 py-3 text-base font-bold text-white transition-colors hover:bg-[#0967e5] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600">
+              Experimentar grátis <ArrowRight aria-hidden="true" className="h-5 w-5" />
             </a>
-            <a href="#plataforma" className="inline-flex min-h-14 items-center justify-center rounded-2xl border-2 border-slate-200 bg-white px-7 py-3 text-base font-bold text-[#0b2a6f] transition-colors hover:border-blue-200 hover:bg-blue-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600">
-              Conhecer a plataforma
+            <a href="#como-funciona" className="inline-flex min-h-14 items-center justify-center rounded-2xl border-2 border-slate-200 bg-white px-7 py-3 text-base font-bold text-[#0b2a6f] transition-colors hover:border-blue-200 hover:bg-blue-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600">
+              Ver como funciona
             </a>
           </div>
+          <p className="mx-auto mt-4 max-w-sm text-sm font-semibold text-slate-500 sm:max-w-none lg:mx-0">
+            Sem cartão de crédito. Crie sua conta e escolha uma certificação.
+          </p>
 
           <ul className="mt-8 flex flex-col items-center justify-center gap-x-5 gap-y-3 text-sm font-semibold text-slate-600 sm:flex-row sm:flex-wrap sm:items-stretch lg:max-w-[31rem] lg:justify-between lg:gap-x-3">
             {valuePoints.map((point) => (

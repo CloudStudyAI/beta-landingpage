@@ -118,3 +118,39 @@ test("the supplementary marketing notice discloses Pixel, CAPI and revocation wi
     assert.match(disclosure, new RegExp(detail));
   }
 });
+
+test("CTA clicks prefer explicit attributes and only accept safe position labels", () => {
+  assert.deepEqual({ ...tracking.resolveCta("Qualquer texto", "experimentar", "hero") }, { cta: "experimentar", position: "hero" });
+  assert.deepEqual({ ...tracking.resolveCta("Experimentar grátis", "criar_conta", "planos-all-access") }, { cta: "criar_conta", position: "planos-all-access" });
+  // posição com texto livre, e-mail ou tamanho excessivo nunca chega ao Pixel
+  assert.equal(tracking.resolveCta("x", "experimentar", "alice@example.com").position, null);
+  assert.equal(tracking.resolveCta("x", "experimentar", "A".repeat(80)).position, null);
+  assert.equal(tracking.resolveCta("x", "experimentar", "Hero Section").position, null);
+  // sem atributo, o texto antigo ainda classifica; links de login não são CTA
+  assert.equal(tracking.resolveCta("Experimentar grátis").cta, "experimentar");
+  assert.equal(tracking.resolveCta("Criar conta").cta, "criar_conta");
+  assert.equal(tracking.resolveCta("Entrar"), null);
+  assert.equal(tracking.resolveCta("Entrar", "outro", "hero"), null);
+});
+
+test("public prices on the landing match the commercial catalog", () => {
+  const pricing = loadModule("lib/launch-pricing.ts");
+  assert.equal(pricing.ALL_ACCESS_MONTHLY_CENTS, 4990);
+  assert.equal(pricing.LIFETIME_PRICES_CENTS["CLF-C02"], 12990);
+  assert.equal(pricing.LIFETIME_PRICES_CENTS["AIF-C01"], 12990);
+  assert.equal(pricing.LIFETIME_PRICES_CENTS["SAA-C03"], 15990);
+  assert.match(pricing.formatBrl(4990).replace(/\s/g, " "), /^R\$ 49,90$/);
+  assert.match(pricing.formatBrl(15990).replace(/\s/g, " "), /^R\$ 159,90$/);
+});
+
+test("landing copy keeps the free-experience promise and never publishes real phone numbers", () => {
+  const read = (file) => fs.readFileSync(path.join(__dirname, "../", file), "utf8");
+  // a promessa do anúncio não pode voltar a dizer que toda aula exige contratação
+  assert.equal(read("components/launch/final-cta-section.tsx").includes("depende de uma contratação ativa"), false);
+  assert.equal(read("components/launch/faq-section.tsx").includes("é necessário ter acesso comercial ativo"), false);
+  assert.match(read("components/launch/launch-hero.tsx"), /Experimentar grátis/);
+  // depoimentos: nenhum telefone completo no código (só DDD + máscara)
+  const testimonials = read("components/launch/testimonials-section.tsx");
+  assert.equal(/\d{4,5}[-\s]?\d{4}/.test(testimonials), false);
+  assert.match(testimonials, /•••••-••••/);
+});

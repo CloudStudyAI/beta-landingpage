@@ -4,14 +4,16 @@ import { FinalCtaSection } from "../components/launch/final-cta-section";
 import { LaunchFooter } from "../components/launch/launch-footer";
 import { LaunchHeader } from "../components/launch/launch-header";
 import { LaunchHero } from "../components/launch/launch-hero";
+import { PricingSection } from "../components/launch/pricing-section";
 import { StudyCycleSection } from "../components/launch/study-cycle-section";
+import { TestimonialsSection } from "../components/launch/testimonials-section";
 
 export default function HomePage() {
   return (
     <main className="page-shell min-h-screen overflow-x-clip bg-white text-[var(--color-text)]">
       <LaunchHeader />
       <LaunchHero />
-      <div id="plataforma" className="relative isolate scroll-mt-8 overflow-x-clip overflow-y-visible bg-white">
+      <div id="plataforma" className="relative isolate scroll-mt-24 overflow-x-clip overflow-y-visible bg-white">
         <svg
           aria-hidden="true"
           viewBox="0 0 260 1800"
@@ -35,6 +37,8 @@ export default function HomePage() {
           <CertificationPathsSection />
         </div>
       </div>
+      <PricingSection />
+      <TestimonialsSection />
       <FaqSection />
       <FinalCtaSection />
       <LaunchFooter />

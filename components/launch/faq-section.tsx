@@ -16,8 +16,20 @@ const faqItems = [
     question: "Preciso já conhecer AWS?",
   },
   {
-    answer: "Ao clicar em criar conta, você segue para a aplicação da CloudStudy. O cadastro identifica sua conta; para estudar uma certificação, é necessário ter acesso comercial ativo a ela.",
+    answer: "Clique em Experimentar grátis, crie sua conta e escolha uma certificação. Você começa pela experiência grátis e, quando quiser liberar todo o conteúdo, escolhe o All Access ou o acesso vitalício à certificação.",
     question: "Como começo a estudar?",
+  },
+  {
+    answer: "Não. A experiência grátis não pede cartão de crédito.",
+    question: "Preciso de cartão para testar?",
+  },
+  {
+    answer: "Por certificação, você experimenta aulas selecionadas, 12 flashcards e um diagnóstico de 10 questões. O catálogo completo, com simulados e todo o conteúdo, é liberado com uma assinatura ou com o acesso vitalício.",
+    question: "O que a experiência grátis inclui?",
+  },
+  {
+    answer: "Sim. A assinatura mensal no cartão pode ser cancelada a qualquer momento e o acesso segue até o fim do período já pago. O Pix libera 30 dias de All Access e não renova automaticamente. As condições completas estão na Política de Cancelamento e Reembolso.",
+    question: "Posso cancelar quando quiser?",
   },
   {
     answer: "A plataforma organiza o próximo passo para facilitar sessões curtas ou mais longas. Você retoma de onde parou conforme a sua rotina.",
@@ -108,7 +120,7 @@ function FaqItem({ answer, initiallyOpen, question }: { answer: string; initiall
 
 export function FaqSection() {
   return (
-    <section id="faq" aria-labelledby="faq-title" className="scroll-mt-8 bg-white px-4 py-16 sm:px-8 sm:py-20 lg:py-24">
+    <section id="faq" aria-labelledby="faq-title" className="scroll-mt-24 bg-white px-4 py-16 sm:px-8 sm:py-20 lg:py-24">
       <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[minmax(0,1fr)_17rem] lg:items-center lg:gap-14">
         <div>
           <div className="mx-auto max-w-2xl text-center lg:mx-0 lg:text-left">

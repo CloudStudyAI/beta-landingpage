@@ -44,6 +44,26 @@ function cleanUtms(input: URLSearchParams | Record<string, unknown>): Attributio
   return utms;
 }
 
+export type CtaKind = "criar_conta" | "experimentar";
+
+const CTA_POSITION = /^[a-z0-9][a-z0-9_-]{0,39}$/;
+
+// Classifica o clique de um botão que leva ao cadastro. Atributos explícitos
+// (data-cta / data-cta-position) têm prioridade; o texto do botão fica só como
+// reserva para links antigos. A posição é validada para nunca carregar texto livre.
+export function resolveCta(
+  label: string,
+  kind?: string | null,
+  position?: string | null,
+): { cta: CtaKind; position: string | null } | null {
+  const safePosition = position && CTA_POSITION.test(position) ? position : null;
+  if (kind === "experimentar" || kind === "criar_conta") return { cta: kind, position: safePosition };
+  const text = label.trim().toLowerCase();
+  if (text.includes("experimentar")) return { cta: "experimentar", position: safePosition };
+  if (text.includes("criar conta")) return { cta: "criar_conta", position: safePosition };
+  return null;
+}
+
 export function readAttribution(storage: StorageLike, nowSeconds: number): Attribution | null {
   try {
     const raw = storage.getItem(UTM_STORAGE_KEY);
