@@ -59,10 +59,6 @@
   animation: testimonialsMarquee 48s linear infinite;
 }
 
-.testimonials-track:hover {
-  animation-play-state: paused;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .testimonials-track {
     animation: none;
