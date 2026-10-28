@@ -60,8 +60,7 @@ export function TestimonialsSection() {
       <SideWave id="wave-c" side="right" className="top-16 h-[34rem] lg:h-[40rem]" />
       <div className="relative z-10 mx-auto max-w-6xl">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#1479ff]">Depoimentos</p>
-          <h2 id="testimonials-title" className="text-balance font-display text-3xl font-extrabold leading-[1.08] tracking-[-0.05em] text-[#0b2a6f] sm:text-5xl mt-3">
+          <h2 id="testimonials-title" className="text-balance font-display text-3xl font-extrabold leading-[1.08] tracking-[-0.05em] text-[#0b2a6f] sm:text-5xl">
             O que diz quem já testou.
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">

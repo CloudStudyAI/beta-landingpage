@@ -33,8 +33,7 @@ export function PricingSection() {
     <section id="planos" aria-labelledby="pricing-title" className="scroll-mt-24 bg-white px-5 py-16 sm:px-8 sm:py-20 lg:py-24">
       <div className="mx-auto max-w-6xl">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#1479ff]">Planos</p>
-          <h2 id="pricing-title" className="text-balance font-display text-3xl font-extrabold leading-[1.08] tracking-[-0.05em] text-[#0b2a6f] sm:text-5xl mt-3">
+          <h2 id="pricing-title" className="text-balance font-display text-3xl font-extrabold leading-[1.08] tracking-[-0.05em] text-[#0b2a6f] sm:text-5xl">
             Comece grátis. Libere tudo quando quiser.
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
@@ -44,8 +43,7 @@ export function PricingSection() {
 
         <div className="mt-12 grid gap-5 lg:mt-14 lg:grid-cols-3 lg:items-stretch lg:gap-6">
           <article className={`${cardBase} border-slate-200`}>
-            <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#1479ff]">Para começar</p>
-            <h3 className="mt-2 font-display text-2xl font-bold tracking-[-0.04em] text-[#0b2a6f]">Experiência grátis</h3>
+            <h3 className="font-display text-2xl font-bold tracking-[-0.04em] text-[#0b2a6f]">Experiência grátis</h3>
             <p className="mt-5 font-display text-4xl font-bold tracking-[-0.05em] text-[#0b2a6f]">{formatBrl(0)}</p>
             <p className="mt-1 text-sm font-semibold text-slate-500">por certificação, sem cartão</p>
             <ul className="mt-6 grid gap-3 text-sm leading-6 text-slate-700">
@@ -69,8 +67,7 @@ export function PricingSection() {
           </article>
 
           <article className={`${cardBase} border-[#1479ff] shadow-[0_18px_40px_-28px_rgba(20,121,255,0.55)]`}>
-            <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#1479ff]">Todas as certificações</p>
-            <h3 className="mt-2 font-display text-2xl font-bold tracking-[-0.04em] text-[#0b2a6f]">All Access</h3>
+            <h3 className="font-display text-2xl font-bold tracking-[-0.04em] text-[#0b2a6f]">All Access</h3>
             <p className="mt-5 font-display text-4xl font-bold tracking-[-0.05em] text-[#0b2a6f]">
               {formatBrl(ALL_ACCESS_MONTHLY_CENTS)}
               <span className="ml-1.5 text-base font-semibold tracking-normal text-slate-500">/ mês</span>
@@ -97,8 +94,7 @@ export function PricingSection() {
           </article>
 
           <article className={`${cardBase} border-slate-200`}>
-            <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#1479ff]">Pagamento único</p>
-            <h3 className="mt-2 font-display text-2xl font-bold tracking-[-0.04em] text-[#0b2a6f]">Acesso vitalício</h3>
+            <h3 className="font-display text-2xl font-bold tracking-[-0.04em] text-[#0b2a6f]">Acesso vitalício</h3>
             <p className="mt-5 font-display text-4xl font-bold tracking-[-0.05em] text-[#0b2a6f]">
               <span className="mr-1.5 text-base font-semibold tracking-normal text-slate-500">a partir de</span>
               {formatBrl(lifetimeFrom)}

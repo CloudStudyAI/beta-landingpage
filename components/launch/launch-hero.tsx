@@ -20,7 +20,6 @@ const areas = [
 ] as const;
 
 const premiumEase = [0.22, 1, 0.36, 1] as const;
-const labelClass = "font-mono text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#7fb6ff]";
 const focusRing = "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-300";
 
 export function LaunchHero() {
@@ -98,8 +97,7 @@ export function LaunchHero() {
 
             <div className="flex flex-col gap-4">
               <div className="hidden rounded-[1.125rem] border border-white/10 bg-white/[0.04] p-5 md:block">
-                <p className={labelClass}>Trilha · CLF-C02</p>
-                <ul className="mt-4 grid gap-3">
+                <ul aria-label="Exemplo: trilha CLF-C02" className="grid gap-3">
                   {trailSteps.map((step) => (
                     <li
                       key={step.label}
@@ -118,8 +116,7 @@ export function LaunchHero() {
                 </ul>
               </div>
 
-              <div className="flex flex-1 flex-col gap-4 rounded-[1.125rem] border border-white/10 bg-white/[0.04] p-5">
-                <p className={labelClass}>Desempenho por área</p>
+              <div role="group" aria-label="Exemplo: desempenho por área" className="flex flex-1 flex-col gap-4 rounded-[1.125rem] border border-white/10 bg-white/[0.04] p-5">
                 {areas.map((area, index) => (
                   <div key={area.label}>
                     <p className="text-[0.8125rem] font-bold text-slate-300">{area.label}</p>
