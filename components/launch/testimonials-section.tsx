@@ -1,7 +1,5 @@
 import Image from "next/image";
 
-import { SideWave } from "./side-wave";
-
 // Prints de mensagens enviadas espontaneamente por membros da comunidade e liberadas para uso.
 // Tratamento aplicado às imagens em public/testimonials (ver docs do plano de conversão):
 //  - recorte só da mensagem, sem foto de perfil nem o restante do grupo;
@@ -72,9 +70,8 @@ function TestimonialCard({ item, duplicate }: { item: Testimonial; duplicate: bo
 
 export function TestimonialsSection() {
   return (
-    <section id="depoimentos" aria-labelledby="testimonials-title" className="relative isolate scroll-mt-24 overflow-x-clip bg-white py-16 sm:py-20 lg:py-24">
-      <SideWave id="wave-c" side="right" className="top-16 h-[34rem] lg:h-[40rem]" />
-      <div className="relative z-10 mx-auto max-w-6xl px-5 sm:px-8">
+    <section id="depoimentos" aria-labelledby="testimonials-title" className="scroll-mt-24 overflow-x-clip bg-white py-16 sm:py-20 lg:py-24">
+      <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <h2 id="testimonials-title" className="text-balance font-display text-3xl font-extrabold leading-[1.08] tracking-[-0.05em] text-[#0b2a6f] sm:text-5xl">
             O que diz quem já testou.
@@ -85,7 +82,7 @@ export function TestimonialsSection() {
         </div>
       </div>
 
-      <div className="relative z-10 mt-12 overflow-hidden motion-reduce:overflow-x-auto sm:mt-14">
+      <div className="mt-12 overflow-hidden motion-reduce:overflow-x-auto sm:mt-14">
         <ul className="testimonials-track flex w-max gap-5 px-5 will-change-transform motion-reduce:gap-5 sm:gap-6 sm:px-8">
           {trackTestimonials.map((item, index) => (
             <li key={`${item.src}-${index}`}>
@@ -95,7 +92,7 @@ export function TestimonialsSection() {
         </ul>
       </div>
 
-      <p className="relative z-10 mx-auto mt-10 max-w-2xl px-5 text-center text-xs leading-5 text-slate-500 sm:px-8 sm:text-sm">
+      <p className="mx-auto mt-10 max-w-2xl px-5 text-center text-xs leading-5 text-slate-500 sm:px-8 sm:text-sm">
         Alguns relatos individuais.
       </p>
     </section>
