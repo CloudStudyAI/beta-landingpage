@@ -1,8 +1,9 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { ArrowRight, Check } from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 import { START_URL } from "../../lib/launch-links";
 
@@ -11,6 +12,26 @@ const trailSteps = [
   { done: true, label: "Amazon EC2" },
   { current: true, label: "Segurança e conformidade" },
   { label: "Amazon S3" },
+] as const;
+
+// Mesmos mapas usados em certification-paths-section.tsx; mesma proporção (1440x810),
+// então a troca entre eles não pula de tamanho durante o crossfade.
+const heroMaps = [
+  {
+    alt: "Mapa do tesouro com os 18 módulos da trilha do Cloud Practitioner, do início da jornada até a certificação.",
+    code: "CLF-C02",
+    src: "/launch-assets/map-clf.webp",
+  },
+  {
+    alt: "Mapa do tesouro com a trilha de módulos do Solutions Architect, do início da jornada até a certificação.",
+    code: "SAA-C03",
+    src: "/launch-assets/map-saa.webp",
+  },
+  {
+    alt: "Mapa do tesouro com a trilha de módulos do AI Practitioner, do início da jornada até a certificação.",
+    code: "AIF-C01",
+    src: "/launch-assets/map-aif.webp",
+  },
 ] as const;
 
 const areas = [
@@ -24,6 +45,21 @@ const focusRing = "focus-visible:outline focus-visible:outline-2 focus-visible:o
 
 export function LaunchHero() {
   const reduce = useReducedMotion();
+  const [activeMapIndex, setActiveMapIndex] = useState(0);
+
+  // setTimeout (not setInterval) re-arms on every activeMapIndex change, so a
+  // manual click below restarts the countdown instead of racing the next auto-advance.
+  useEffect(() => {
+    if (reduce) return;
+    const timer = window.setTimeout(() => {
+      setActiveMapIndex((current) => (current + 1) % heroMaps.length);
+    }, 4200);
+    return () => window.clearTimeout(timer);
+  }, [reduce, activeMapIndex]);
+
+  function showNextMap() {
+    setActiveMapIndex((current) => (current + 1) % heroMaps.length);
+  }
 
   return (
     <section id="top" aria-labelledby="launch-hero-title" className="relative isolate z-10 flow-root bg-[#060b1a] text-[#e8f0ff]">
@@ -73,15 +109,44 @@ export function LaunchHero() {
 
           <div className="grid gap-5 p-4 sm:p-6 lg:grid-cols-[1.45fr_1fr] lg:gap-6">
             <div className="relative flex items-center justify-center pb-10 pt-8 sm:pb-12 lg:pt-4">
-              <Image
-                src="/launch-assets/map-clf.webp"
-                alt="Mapa do tesouro com os 18 módulos da trilha do Cloud Practitioner, do início da jornada até a certificação."
-                width={1440}
-                height={810}
-                priority
-                sizes="(min-width: 1024px) 600px, 92vw"
-                className="h-auto w-[94%] -rotate-2 rounded-3xl border-[6px] border-white shadow-[0_36px_70px_-26px_rgba(0,0,0,0.75)]"
-              />
+              <button
+                type="button"
+                onClick={showNextMap}
+                aria-label="Ver o mapa da próxima certificação"
+                className={`relative block w-[94%] cursor-pointer appearance-none rounded-3xl border-0 bg-transparent p-0 text-left ${focusRing}`}
+              >
+                <Image
+                  src={heroMaps[0].src}
+                  alt=""
+                  width={1440}
+                  height={810}
+                  priority
+                  sizes="(min-width: 1024px) 600px, 92vw"
+                  className="invisible h-auto w-full -rotate-2 rounded-3xl border-[6px] border-white"
+                  aria-hidden="true"
+                />
+                {heroMaps.map((map, index) => (
+                  <Image
+                    key={map.src}
+                    src={map.src}
+                    alt={map.alt}
+                    width={1440}
+                    height={810}
+                    priority={index === 0}
+                    sizes="(min-width: 1024px) 600px, 92vw"
+                    className="absolute inset-0 h-full w-full -rotate-2 rounded-3xl border-[6px] border-white object-contain shadow-[0_36px_70px_-26px_rgba(0,0,0,0.75)] transition-opacity duration-700 ease-out"
+                    style={{ opacity: index === activeMapIndex ? 1 : 0 }}
+                  />
+                ))}
+                <div aria-hidden="true" className="absolute inset-x-0 bottom-2 flex items-center justify-center gap-1.5">
+                  {heroMaps.map((map, index) => (
+                    <span
+                      key={map.src}
+                      className={`h-1.5 rounded-full transition-all duration-500 ${index === activeMapIndex ? "w-5 bg-white" : "w-1.5 bg-white/40"}`}
+                    />
+                  ))}
+                </div>
+              </button>
               <div className="absolute right-1 top-0 flex items-center gap-2 rounded-2xl bg-white px-3 py-2 text-xs font-extrabold text-[#0b2a6f] shadow-[0_16px_34px_-14px_rgba(0,0,0,0.6)] sm:text-[0.8125rem]">
                 <span aria-hidden="true" className="h-2 w-2 rounded-full bg-[#1479ff]" />
                 Você está no módulo 3
