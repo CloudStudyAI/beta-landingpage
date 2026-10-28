@@ -35,9 +35,9 @@ const footerGroups = [
   },
   {
     links: [
-      { href: "https://www.linkedin.com/company/cloudstudy-ai/", label: "LinkedIn" },
+      { href: "https://www.linkedin.com/company/cloudstudy-ai/posts/?feedView=all", label: "LinkedIn" },
       { href: "https://www.instagram.com/cloudstudy.ai/", label: "Instagram" },
-      { href: "https://chat.whatsapp.com/Lsuexbkt1oELAGX8nCH2La", label: "Comunidade" },
+      { href: "https://chat.whatsapp.com/Lsuexbkt1oELAGX8nCH2La?mode=gi_t", label: "Comunidade no WhatsApp" },
     ],
     title: "Social",
   },
@@ -45,7 +45,7 @@ const footerGroups = [
 
 export function LaunchFooter() {
   return (
-    <footer className="bg-[#1877f2] px-5 pb-8 pt-10 text-white sm:px-8 sm:pb-10 sm:pt-14">
+    <footer className="bg-gradient-to-b from-[#1250b0] to-[#0b2a6f] px-5 pb-8 pt-10 text-white sm:px-8 sm:pb-10 sm:pt-14">
       <div className="mx-auto max-w-6xl">
         <div className="grid grid-cols-2 justify-items-center gap-x-6 gap-y-10 text-center md:grid-cols-5 md:justify-items-stretch md:gap-8 md:text-left">
           {footerGroups.map((group) => (
@@ -79,7 +79,10 @@ export function LaunchFooter() {
 
         <div className="mt-14 flex flex-col items-center gap-3 border-t border-white/15 pt-6 text-center md:flex-row md:items-end md:justify-between md:text-left">
           <div>
-            <p className="font-display text-xl font-bold tracking-[-0.03em]">CloudStudy</p>
+            <div className="flex items-center justify-center gap-2 md:justify-start">
+              <img src="/brand/cloudstudy-icon.webp" alt="" width={360} height={227} className="h-8 w-auto brightness-0 invert" />
+              <img src="/brand/cloudstudy-wordmark-white.svg" alt="CloudStudy" width={1495} height={265} className="h-[19px] w-auto" />
+            </div>
             <p className="mt-1 text-sm text-blue-50/75">Conhecimento que eleva</p>
           </div>
           <p className="text-xs text-blue-50/70">© 2026 CloudStudy. Todos os direitos reservados.</p>

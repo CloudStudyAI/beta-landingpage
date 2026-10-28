@@ -11,19 +11,22 @@ import {
   marketingConsentCookie,
   PIXEL_ID,
   readMarketingConsent,
+  resolveCta,
   UTM_STORAGE_KEY,
   type Attribution,
+  type CtaKind,
 } from "../lib/landing-tracking";
 
 type Choice = "accepted" | "rejected" | null;
 const pixelImages = new Set<HTMLImageElement>();
 
-function sendPixel(event: "PageView" | "LandingCTA", cta?: "criar_conta" | "experimentar"): Promise<void> {
+function sendPixel(event: "PageView" | "LandingCTA", cta?: CtaKind, position?: string): Promise<void> {
   const url = new URL("https://www.facebook.com/tr/");
   url.searchParams.set("id", PIXEL_ID);
   url.searchParams.set("ev", event);
   url.searchParams.set("dl", `${window.location.origin}/`);
   if (cta) url.searchParams.set("cd[cta]", cta);
+  if (position) url.searchParams.set("cd[cta_position]", position);
 
   return new Promise((resolve) => {
     const image = new Image(1, 1);
@@ -40,7 +43,7 @@ function sendPixel(event: "PageView" | "LandingCTA", cta?: "criar_conta" | "expe
 function isAuthLink(anchor: HTMLAnchorElement): boolean {
   try {
     const url = new URL(anchor.href);
-    return url.origin === APP_BASE_URL && url.pathname === "/auth";
+    return url.origin === APP_BASE_URL && (url.pathname === "/auth" || url.pathname === "/comecar");
   } catch {
     return false;
   }
@@ -119,14 +122,13 @@ export function LandingTracking() {
       const acceptedNow = readMarketingConsent(document.cookie) === "accepted";
       anchor.href = authHref(anchor.href, attribution);
       if (!acceptedNow || pathname !== "/") return;
-      const label = anchor.textContent?.trim().toLowerCase() || "";
-      const cta = label.includes("experimentar")
-        ? "experimentar"
-        : label.includes("criar conta")
-          ? "criar_conta"
-          : null;
-      if (!cta) return;
-      const delivery = sendPixel("LandingCTA", cta);
+      const resolved = resolveCta(
+        anchor.textContent ?? "",
+        anchor.getAttribute("data-cta"),
+        anchor.getAttribute("data-cta-position"),
+      );
+      if (!resolved) return;
+      const delivery = sendPixel("LandingCTA", resolved.cta, resolved.position ?? undefined);
       if (event.button === 0 && !event.metaKey && !event.ctrlKey &&
           !event.shiftKey && !event.altKey && !anchor.target) {
         event.preventDefault();
@@ -161,8 +163,8 @@ export function LandingTracking() {
       <div>
         <strong>Privacidade e cookies</strong>
         <p>
-          Com sua autorização, usamos tecnologias da Meta para medir visitas e cliques nesta página.
-          Isso é opcional e não afeta seu acesso. <a href="/privacidade/marketing">Saiba mais</a>
+          Usamos cookies para medir nossos anúncios. Opcional e não afeta seu acesso.{" "}
+          <a href="/privacidade/marketing">Saiba mais</a>
         </p>
       </div>
       <div className="marketing-consent-actions">

@@ -21,10 +21,11 @@ export function StudyCycleSection() {
   const prefersReducedMotion = useReducedMotion();
 
   return (
-    <section id="como-funciona" aria-labelledby="study-cycle-title" className="relative isolate scroll-mt-8 overflow-hidden px-5 py-20 sm:px-8 sm:py-24 lg:py-32">
+    <section id="como-funciona" aria-labelledby="study-cycle-title" className="relative isolate scroll-mt-24 overflow-hidden px-5 py-20 sm:px-8 sm:py-24 lg:py-32">
       <div className="mx-auto max-w-6xl">
         <div className="mx-auto max-w-3xl text-center md:mx-0 md:text-left">
-          <h2 id="study-cycle-title" className="text-balance font-display text-3xl font-bold leading-[1.08] tracking-[-0.05em] text-[#0b2a6f] sm:text-5xl">
+          <p className="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#1479ff]">Como funciona</p>
+          <h2 id="study-cycle-title" className="text-balance font-display text-3xl font-extrabold leading-[1.08] tracking-[-0.05em] text-[#0b2a6f] sm:text-5xl mt-3">
             Um ciclo simples para estudar com consistência.
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8 md:mx-0">

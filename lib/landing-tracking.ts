@@ -44,6 +44,26 @@ function cleanUtms(input: URLSearchParams | Record<string, unknown>): Attributio
   return utms;
 }
 
+export type CtaKind = "criar_conta" | "experimentar";
+
+const CTA_POSITION = /^[a-z0-9][a-z0-9_-]{0,39}$/;
+
+// Classifica o clique de um botão que leva ao cadastro. Atributos explícitos
+// (data-cta / data-cta-position) têm prioridade; o texto do botão fica só como
+// reserva para links antigos. A posição é validada para nunca carregar texto livre.
+export function resolveCta(
+  label: string,
+  kind?: string | null,
+  position?: string | null,
+): { cta: CtaKind; position: string | null } | null {
+  const safePosition = position && CTA_POSITION.test(position) ? position : null;
+  if (kind === "experimentar" || kind === "criar_conta") return { cta: kind, position: safePosition };
+  const text = label.trim().toLowerCase();
+  if (text.includes("experimentar")) return { cta: "experimentar", position: safePosition };
+  if (text.includes("criar conta")) return { cta: "criar_conta", position: safePosition };
+  return null;
+}
+
 export function readAttribution(storage: StorageLike, nowSeconds: number): Attribution | null {
   try {
     const raw = storage.getItem(UTM_STORAGE_KEY);
@@ -88,8 +108,9 @@ export function authHref(
   nowSeconds = Math.floor(Date.now() / 1000),
 ): string {
   const source = new URL(href);
-  const destination = new URL("/auth", APP_BASE_URL);
-  if (source.searchParams.get("mode") === "login") destination.searchParams.set("mode", "login");
+  const isStart = source.pathname === "/comecar";
+  const destination = new URL(isStart ? "/comecar" : "/auth", APP_BASE_URL);
+  if (!isStart && source.searchParams.get("mode") === "login") destination.searchParams.set("mode", "login");
   if (attribution && attribution.capturedAt <= nowSeconds &&
       nowSeconds - attribution.capturedAt <= UTM_MAX_AGE_SECONDS) {
     for (const key of UTM_KEYS) {

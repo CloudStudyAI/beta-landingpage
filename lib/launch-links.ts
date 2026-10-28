@@ -19,4 +19,6 @@ export const APP_BASE_URL: string = normalizeAppUrl(
   process.env.NEXT_PUBLIC_CLOUDSTUDY_APP_URL,
 );
 export const SIGNUP_URL: string = `${APP_BASE_URL}/auth`;
+// Free start: the visitor picks a certification and sees the plan before creating the account.
+export const START_URL: string = `${APP_BASE_URL}/comecar`;
 export const LOGIN_URL: string = `${SIGNUP_URL}?mode=login`;

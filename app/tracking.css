@@ -29,3 +29,7 @@
   .marketing-consent { align-items: stretch; flex-direction: column; gap: 14px; }
   .marketing-consent-actions button { flex: 1; }
 }
+@media (min-width: 701px) {
+  .marketing-consent { right: auto; left: 16px; width: 380px; margin: 0; align-items: stretch; flex-direction: column; gap: 12px; padding: 14px 16px; }
+  .marketing-consent-actions button { flex: 1; min-height: 38px; }
+}
