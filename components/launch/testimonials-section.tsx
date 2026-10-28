@@ -96,7 +96,7 @@ export function TestimonialsSection() {
       </div>
 
       <p className="relative z-10 mx-auto mt-10 max-w-2xl px-5 text-center text-xs leading-5 text-slate-500 sm:px-8 sm:text-sm">
-        Relatos individuais.
+        Alguns relatos individuais.
       </p>
     </section>
   );
