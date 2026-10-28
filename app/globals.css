@@ -44,6 +44,31 @@
   transform-origin: center bottom;
 }
 
+@keyframes testimonialsMarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    /* The track renders the testimonial list twice back-to-back, so shifting
+       exactly half its width loops seamlessly into the duplicate copy. */
+    transform: translateX(-50%);
+  }
+}
+
+.testimonials-track {
+  animation: testimonialsMarquee 48s linear infinite;
+}
+
+.testimonials-track:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .testimonials-track {
+    animation: none;
+  }
+}
+
 .mentor-robot-badge {
   animation: mentorBadgePulse 2.8s ease-in-out infinite;
 }
