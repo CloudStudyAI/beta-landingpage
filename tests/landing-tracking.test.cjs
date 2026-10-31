@@ -181,3 +181,58 @@ test("every launch CTA carries a safe position label and no placeholder data shi
   for (const label of ["menu", "hero", "produto", "final"]) assert.ok(positions.includes(label), `falta posição ${label}`);
   for (const position of positions) assert.match(position, /^[a-z0-9][a-z0-9_-]{0,39}$/);
 });
+
+test("Meta click ids are kept only in Meta's formats and travel to the app with the UTMs", () => {
+  const now = 1_790_000_000;
+  const nowMs = now * 1000;
+  const fromUrl = tracking.readMetaClickIds("", "?fbclid=IwAR0abcDEF_123-xyz", nowMs);
+  assert.equal(fromUrl.fbc, `fb.1.${nowMs}.IwAR0abcDEF_123-xyz`);
+  assert.equal(fromUrl.fbp, undefined);
+
+  const fromCookies = tracking.readMetaClickIds(
+    "_fbc=fb.1.1789999999000.IwARcookie123; _fbp=fb.1.1789999999000.123456789",
+    "?fbclid=IwAR0ignoredWhenCookieExists",
+    nowMs,
+  );
+  assert.deepEqual({ ...fromCookies }, { fbc: "fb.1.1789999999000.IwARcookie123", fbp: "fb.1.1789999999000.123456789" });
+  assert.equal(tracking.readMetaClickIds("_fbp=<script>; _fbc=evil", "?fbclid=a b", nowMs), undefined);
+
+  const store = storage();
+  const attribution = tracking.captureAttribution(store, "?utm_source=meta&utm_campaign=lancamento", now, fromCookies);
+  const href = new URL(tracking.authHref("https://app.cloudstudy.com.br/comecar", attribution, now));
+  assert.equal(href.searchParams.get("fbc"), "fb.1.1789999999000.IwARcookie123");
+  assert.equal(href.searchParams.get("fbp"), "fb.1.1789999999000.123456789");
+  assert.equal(href.searchParams.get("utm_source"), "meta");
+  assert.equal(href.searchParams.get("fbclid"), null);
+
+  // A later visit without UTMs refreshes the click ids but keeps the campaign and its clock.
+  const later = tracking.captureAttribution(store, "", now + 60, { fbp: "fb.1.1790000000000.987654321" });
+  assert.equal(later.capturedAt, now);
+  assert.equal(later.utms.utm_campaign, "lancamento");
+  assert.equal(later.meta.fbp, "fb.1.1790000000000.987654321");
+  assert.equal(later.meta.fbc, "fb.1.1789999999000.IwARcookie123");
+});
+
+test("the Pixel uses Meta's base code after consent, with one PageView and no image beacons", () => {
+  const source = fs.readFileSync(path.join(__dirname, "../components/landing-tracking.tsx"), "utf8");
+  assert.ok(source.includes("https://connect.facebook.net/en_US/fbevents.js"));
+  assert.ok(source.includes('fbq("init", PIXEL_ID)'));
+  assert.ok(source.includes('loadPixel()("track", "PageView")'));
+  assert.ok(source.includes('loadPixel()("trackCustom", "LandingCTA"'));
+  assert.ok(source.includes("cta_position: position"));
+  assert.ok(source.includes("if (pageViewSent) return;"));
+  assert.ok(source.includes('window.fbq?.("consent", "revoke")'));
+  assert.equal(source.includes("facebook.com/tr"), false);
+  assert.equal(source.includes("new Image("), false);
+  // The script is only created inside loadPixel, which runs from consent-gated paths.
+  assert.ok(source.indexOf('choice === "accepted" && pathname === "/"') > 0);
+});
+
+test("the same ad click keeps its first fbc timestamp across page loads", () => {
+  const store = storage();
+  const first = tracking.captureAttribution(store, "?utm_source=meta", 1_790_000_000, { fbc: "fb.1.1790000000000.IwARsame12345" });
+  const again = tracking.captureAttribution(store, "?utm_source=meta", 1_790_000_100, { fbc: "fb.1.1790000100000.IwARsame12345" });
+  assert.equal(again.meta.fbc, first.meta.fbc);
+  const otherClick = tracking.captureAttribution(store, "", 1_790_000_200, { fbc: "fb.1.1790000200000.IwARother1234" });
+  assert.equal(otherClick.meta.fbc, "fb.1.1790000200000.IwARother1234");
+});

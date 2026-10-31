@@ -11,6 +11,7 @@ import {
   marketingConsentCookie,
   PIXEL_ID,
   readMarketingConsent,
+  readMetaClickIds,
   resolveCta,
   UTM_STORAGE_KEY,
   type Attribution,
@@ -18,26 +19,55 @@ import {
 } from "../lib/landing-tracking";
 
 type Choice = "accepted" | "rejected" | null;
-const pixelImages = new Set<HTMLImageElement>();
 
-function sendPixel(event: "PageView" | "LandingCTA", cta?: CtaKind, position?: string): Promise<void> {
-  const url = new URL("https://www.facebook.com/tr/");
-  url.searchParams.set("id", PIXEL_ID);
-  url.searchParams.set("ev", event);
-  url.searchParams.set("dl", `${window.location.origin}/`);
-  if (cta) url.searchParams.set("cd[cta]", cta);
-  if (position) url.searchParams.set("cd[cta_position]", position);
+type Fbq = ((...args: unknown[]) => void) & {
+  callMethod?: (...args: unknown[]) => void;
+  queue: unknown[][];
+  push: Fbq;
+  loaded: boolean;
+  version: string;
+};
 
-  return new Promise((resolve) => {
-    const image = new Image(1, 1);
-    image.referrerPolicy = "no-referrer";
-    pixelImages.add(image);
-    image.onload = image.onerror = () => {
-      pixelImages.delete(image);
-      resolve();
-    };
-    image.src = url.toString();
-  });
+declare global {
+  interface Window {
+    fbq?: Fbq;
+    _fbq?: Fbq;
+  }
+}
+
+// One PageView per page load, even if consent is toggled or the effect re-runs.
+let pageViewSent = false;
+
+// Meta's standard base code, written out so it only runs after marketing consent.
+function loadPixel(): Fbq {
+  if (window.fbq) return window.fbq;
+  const fbq = function (...args: unknown[]) {
+    if (fbq.callMethod) fbq.callMethod(...args);
+    else fbq.queue.push(args);
+  } as Fbq;
+  fbq.push = fbq;
+  fbq.loaded = true;
+  fbq.version = "2.0";
+  fbq.queue = [];
+  window.fbq = fbq;
+  window._fbq = fbq;
+  const script = document.createElement("script");
+  script.async = true;
+  script.src = "https://connect.facebook.net/en_US/fbevents.js";
+  document.head.appendChild(script);
+  fbq("consent", "grant");
+  fbq("init", PIXEL_ID);
+  return fbq;
+}
+
+function trackPageView() {
+  if (pageViewSent) return;
+  pageViewSent = true;
+  loadPixel()("track", "PageView");
+}
+
+function trackLandingCta(cta: CtaKind, position: string | null) {
+  loadPixel()("trackCustom", "LandingCTA", position ? { cta, cta_position: position } : { cta });
 }
 
 function isAuthLink(anchor: HTMLAnchorElement): boolean {
@@ -67,7 +97,8 @@ export function LandingTracking() {
     const now = Math.floor(Date.now() / 1000);
     try {
       if (choice === "accepted") {
-        setAttribution(captureAttribution(window.localStorage, window.location.search, now));
+        const meta = readMetaClickIds(document.cookie, window.location.search, Date.now());
+        setAttribution(captureAttribution(window.localStorage, window.location.search, now, meta));
       } else {
         window.localStorage.removeItem(UTM_STORAGE_KEY);
         setAttribution(attributionFromSearch(window.location.search, now));
@@ -110,7 +141,7 @@ export function LandingTracking() {
   useEffect(() => {
     if (!ready) return;
     if (choice === "accepted" && pathname === "/" && lastPageView.current !== pathname) {
-      sendPixel("PageView");
+      trackPageView();
       lastPageView.current = pathname;
     }
 
@@ -120,7 +151,17 @@ export function LandingTracking() {
       const anchor = target.closest("a[href]");
       if (!(anchor instanceof HTMLAnchorElement) || !isAuthLink(anchor)) return;
       const acceptedNow = readMarketingConsent(document.cookie) === "accepted";
-      anchor.href = authHref(anchor.href, attribution);
+      // The Pixel writes _fbp/_fbc asynchronously, so the click reads them fresh.
+      let current = attribution;
+      if (acceptedNow) {
+        try {
+          const meta = readMetaClickIds(document.cookie, window.location.search, Date.now());
+          current = captureAttribution(window.localStorage, window.location.search, Math.floor(Date.now() / 1000), meta);
+        } catch {
+          // Storage blocked: the link keeps the attribution already on the page.
+        }
+      }
+      anchor.href = authHref(anchor.href, current);
       if (!acceptedNow || pathname !== "/") return;
       const resolved = resolveCta(
         anchor.textContent ?? "",
@@ -128,14 +169,12 @@ export function LandingTracking() {
         anchor.getAttribute("data-cta-position"),
       );
       if (!resolved) return;
-      const delivery = sendPixel("LandingCTA", resolved.cta, resolved.position ?? undefined);
+      trackLandingCta(resolved.cta, resolved.position);
+      // fbevents sends asynchronously; a short pause lets the request leave before navigation.
       if (event.button === 0 && !event.metaKey && !event.ctrlKey &&
           !event.shiftKey && !event.altKey && !anchor.target) {
         event.preventDefault();
-        void Promise.race([
-          delivery,
-          new Promise<void>((resolve) => window.setTimeout(resolve, 300)),
-        ]).then(() => window.location.assign(anchor.href));
+        window.setTimeout(() => window.location.assign(anchor.href), 300);
       }
     };
     document.addEventListener("click", onClick, true);
@@ -149,10 +188,9 @@ export function LandingTracking() {
       window.location.protocol === "https:",
     );
     setPreferencesOpen(false);
-    if (choice === "accepted" && next === "rejected") {
-      setChoice(next);
-      return;
-    }
+    // Revoking stops the Pixel already loaded on this page from sending anything else.
+    if (choice === "accepted" && next === "rejected") window.fbq?.("consent", "revoke");
+    if (next === "accepted") window.fbq?.("consent", "grant");
     setChoice(next);
   }
 

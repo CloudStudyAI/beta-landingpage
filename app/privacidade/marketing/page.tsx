@@ -21,15 +21,15 @@ export default function MarketingPrivacyNotice() {
         </section>
         <section>
           <h2 className="text-xl font-semibold text-slate-950">Pixel na landing</h2>
-          <p className="mt-2">Após o aceite, o Pixel da Meta mede visitas à página e cliques em Criar conta ou Experimentar. Não enviamos conteúdo de formulários ou a URL completa; a conexão com a Meta pode expor dados técnicos, como o endereço IP.</p>
+          <p className="mt-2">Após o aceite, o Pixel da Meta mede visitas à página e cliques em Criar conta ou Experimentar e grava os cookies próprios da Meta _fbp (identificador do navegador) e, se você chegou por um anúncio, _fbc (identificador do clique). Não enviamos conteúdo de formulários; a conexão com a Meta pode expor dados técnicos, como o endereço IP.</p>
         </section>
         <section>
           <h2 className="text-xl font-semibold text-slate-950">Origem da visita</h2>
-          <p className="mt-2">Após o aceite, conservamos no navegador por até 30 dias apenas utm_source, utm_medium, utm_campaign, utm_content e utm_id válidos, com a data de captura. Sem aceite, os parâmetros válidos da página atual podem acompanhar o link de cadastro sem armazenamento persistente. Valores que pareçam e-mail, telefone ou URL são descartados.</p>
+          <p className="mt-2">Após o aceite, conservamos no navegador por até 30 dias apenas utm_source, utm_medium, utm_campaign, utm_content e utm_id válidos, com a data de captura, e os identificadores _fbc e _fbp no formato da Meta, que acompanham o link de cadastro no aplicativo. Sem aceite, os parâmetros válidos da página atual podem acompanhar o link de cadastro sem armazenamento persistente. Valores que pareçam e-mail, telefone ou URL são descartados.</p>
         </section>
         <section>
           <h2 className="text-xl font-semibold text-slate-950">Conversões do aplicativo</h2>
-          <p className="mt-2">Se você aceitou neste aviso antes de se cadastrar, a API pode enviar à Meta eventos de cadastro confirmado, início efetivo da experiência gratuita, checkout criado e primeira compra aprovada. Compras pendentes, renovações e liberações administrativas não são contabilizadas como primeira compra. Identificadores de correspondência são protegidos por hash; o evento de compra inclui valor e moeda pagos. O token da API de Conversões fica somente no servidor. Se você recusou, ou se cadastrou sem ter feito essa escolha no mesmo navegador, nenhum evento da conta é enviado.</p>
+          <p className="mt-2">Se você aceitou neste aviso antes de se cadastrar, a API pode enviar à Meta eventos de cadastro confirmado, início efetivo da experiência gratuita, checkout criado e primeira compra aprovada. Compras pendentes, renovações e liberações administrativas não são contabilizadas como primeira compra. E-mail e identificador da conta são enviados protegidos por hash; os identificadores _fbc e _fbp vão no formato da Meta, sem hash, para ligar o evento ao anúncio. O evento de compra inclui valor e moeda pagos. O token da API de Conversões fica somente no servidor. Se você recusou, ou se cadastrou sem ter feito essa escolha no mesmo navegador, nenhum evento da conta é enviado.</p>
         </section>
         <section>
           <h2 className="text-xl font-semibold text-slate-950">Revogação e contato</h2>
