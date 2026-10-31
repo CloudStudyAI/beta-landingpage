@@ -32,6 +32,11 @@ const heroMaps = [
     code: "AIF-C01",
     src: "/launch-assets/map-aif.webp",
   },
+  {
+    alt: "Mapa do tesouro com a trilha de módulos do Solutions Architect Professional, do início da jornada até a certificação.",
+    code: "SAP-C02",
+    src: "/launch-assets/map-sap.webp",
+  },
 ] as const;
 
 const areas = [
@@ -70,7 +75,7 @@ export function LaunchHero() {
       <div className="mx-auto flex max-w-6xl flex-col items-center px-5 pt-28 text-center sm:px-8 sm:pt-36 lg:pt-44">
         <p className="inline-flex items-center gap-2 rounded-full border border-[#7fb6ff]/35 px-3.5 py-2 font-mono text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-[#7fb6ff] sm:text-xs sm:tracking-[0.14em]">
           <span aria-hidden="true" className="h-2 w-2 rounded-full bg-[#1479ff]" />
-          CLF-C02 · SAA-C03 · AIF-C01
+          CLF-C02 · SAA-C03 · AIF-C01 · SAP-C02
         </p>
 
         <h1 id="launch-hero-title" className="mt-6 max-w-4xl text-balance font-display text-[2.4rem] font-extrabold leading-[1.04] tracking-[-0.055em] text-white sm:text-6xl lg:text-[4.25rem]">
