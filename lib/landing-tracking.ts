@@ -8,10 +8,47 @@ export const UTM_MAX_AGE_SECONDS = 30 * 24 * 60 * 60;
 const UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_id"] as const;
 type UtmKey = (typeof UTM_KEYS)[number];
 
+export type MetaClickIds = { fbc?: string; fbp?: string };
+
 export type Attribution = {
   capturedAt: number;
   utms: Partial<Record<UtmKey, string>>;
+  meta?: MetaClickIds;
 };
+
+// Formats Meta documents for the _fbc and _fbp cookies. Anything else is dropped, so a
+// tampered value never travels to the app or to the Conversions API.
+const FBC_PATTERN = /^fb\.[0-2]\.\d{10,13}\.[A-Za-z0-9_-]{8,500}$/;
+const FBP_PATTERN = /^fb\.[0-2]\.\d{10,13}\.\d{5,20}$/;
+const FBCLID_PATTERN = /^[A-Za-z0-9_-]{8,500}$/;
+
+function cleanMetaClickIds(input: Record<string, unknown> | undefined): MetaClickIds | undefined {
+  if (!input) return undefined;
+  const ids: MetaClickIds = {};
+  if (typeof input.fbc === "string" && FBC_PATTERN.test(input.fbc)) ids.fbc = input.fbc;
+  if (typeof input.fbp === "string" && FBP_PATTERN.test(input.fbp)) ids.fbp = input.fbp;
+  return ids.fbc || ids.fbp ? ids : undefined;
+}
+
+function readCookie(cookie: string, name: string): string | null {
+  return cookie.split(";").map((part) => part.trim())
+    .find((part) => part.startsWith(`${name}=`))
+    ?.slice(name.length + 1) ?? null;
+}
+
+/**
+ * Meta click identifiers for a visitor who accepted marketing. The Pixel writes `_fbc`
+ * (from the ad's `fbclid`) and `_fbp` as first-party cookies; when `_fbc` is not there yet,
+ * the `fbclid` in the current URL becomes an `fbc` in Meta's documented format.
+ */
+export function readMetaClickIds(cookie: string, search: string, nowMs: number): MetaClickIds | undefined {
+  const fbclid = new URLSearchParams(search).get("fbclid");
+  const fromUrl = fbclid && FBCLID_PATTERN.test(fbclid) ? `fb.1.${nowMs}.${fbclid}` : undefined;
+  return cleanMetaClickIds({
+    fbc: readCookie(cookie, "_fbc") ?? fromUrl,
+    fbp: readCookie(cookie, "_fbp") ?? undefined,
+  });
+}
 
 type StorageLike = Pick<Storage, "getItem" | "setItem"> & Partial<Pick<Storage, "removeItem">>;
 
@@ -70,7 +107,7 @@ export function readAttribution(storage: StorageLike, nowSeconds: number): Attri
     if (!raw) return null;
     const parsed: unknown = JSON.parse(raw);
     if (!parsed || typeof parsed !== "object") return null;
-    const candidate = parsed as { capturedAt?: unknown; utms?: unknown };
+    const candidate = parsed as { capturedAt?: unknown; utms?: unknown; meta?: unknown };
     if (!Number.isInteger(candidate.capturedAt) ||
         (candidate.capturedAt as number) > nowSeconds ||
         nowSeconds - (candidate.capturedAt as number) > UTM_MAX_AGE_SECONDS ||
@@ -79,16 +116,32 @@ export function readAttribution(storage: StorageLike, nowSeconds: number): Attri
       return null;
     }
     const utms = cleanUtms(candidate.utms as Record<string, unknown>);
-    return Object.keys(utms).length ? { capturedAt: candidate.capturedAt as number, utms } : null;
+    const meta = cleanMetaClickIds(candidate.meta && typeof candidate.meta === "object" ? candidate.meta as Record<string, unknown> : undefined);
+    return Object.keys(utms).length || meta ? { capturedAt: candidate.capturedAt as number, utms, ...(meta ? { meta } : {}) } : null;
   } catch {
     return null;
   }
 }
 
-export function captureAttribution(storage: StorageLike, search: string, nowSeconds: number): Attribution | null {
+export function captureAttribution(
+  storage: StorageLike,
+  search: string,
+  nowSeconds: number,
+  meta?: MetaClickIds,
+): Attribution | null {
   const utms = cleanUtms(new URLSearchParams(search));
-  if (!Object.keys(utms).length) return readAttribution(storage, nowSeconds);
-  const attribution = { capturedAt: nowSeconds, utms };
+  const stored = readAttribution(storage, nowSeconds);
+  const cleanMeta = cleanMetaClickIds(meta);
+  // The same ad click keeps the fbc first stored, so its creation time stays the first visit.
+  const clickId = (fbc?: string) => fbc?.split(".").slice(3).join(".");
+  if (cleanMeta?.fbc && stored?.meta?.fbc && clickId(cleanMeta.fbc) === clickId(stored.meta.fbc)) {
+    cleanMeta.fbc = stored.meta.fbc;
+  }
+  if (!Object.keys(utms).length && !cleanMeta) return stored;
+  // A new campaign replaces the stored one; click ids refresh without resetting the UTM clock.
+  const attribution: Attribution = Object.keys(utms).length
+    ? { capturedAt: nowSeconds, utms, ...(cleanMeta ? { meta: cleanMeta } : {}) }
+    : { capturedAt: stored?.capturedAt ?? nowSeconds, utms: stored?.utms ?? {}, meta: { ...stored?.meta, ...cleanMeta } };
   try {
     storage.setItem(UTM_STORAGE_KEY, JSON.stringify(attribution));
   } catch {
@@ -117,6 +170,9 @@ export function authHref(
       const value = attribution.utms[key];
       if (value) destination.searchParams.set(key, value);
     }
+    // Click ids exist only after marketing consent; the app re-validates them before storing.
+    if (attribution.meta?.fbc) destination.searchParams.set("fbc", attribution.meta.fbc);
+    if (attribution.meta?.fbp) destination.searchParams.set("fbp", attribution.meta.fbp);
     destination.searchParams.set("utm_captured_at", String(attribution.capturedAt));
   }
   return destination.toString();

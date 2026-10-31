@@ -1,12 +1,12 @@
-// Totais gerais (as 3 certificações somadas), conferidos no código do app (System_Dashboard):
-// 10 simulados completos de 65 questões por certificação = 30 (meta do owner; 9 provas extras + 1 base
-// por certificação em api/app/content/simulations e no seed) e ~2.060 questões (1.755 das provas extras
-// + 305 dos bancos base: 105 CLF, 120 SAA, 80 AIF). O código NÃO prova o que está publicado em produção:
+// Totais gerais (as 4 certificações somadas), contados em 31/10/2026 no banco de dev migrado até
+// 20261030_0049 (simulation_sets full_exam publicados e questions publicadas): CLF 10/720,
+// SAA 10/705, AIF 10/665, SAP 2/270 = 32 provas completas e 2.360 questões. A SAP usa provas de
+// 75 questões, por isso o rótulo não cita 65. O código NÃO prova o que está publicado em produção:
 // confirmar o catálogo retornado pela API do app antes de subir os anúncios e ajustar aqui.
 const numbers = [
-  { label: "certificações AWS", value: "3" },
-  { label: "simulados completos de 65 questões", value: "30" },
-  { label: "questões com explicação", value: "+2.000" },
+  { label: "certificações AWS", value: "4" },
+  { label: "simulados completos no formato da prova", value: "32" },
+  { label: "questões com explicação", value: "+2.300" },
   { label: "para começar, sem cartão", value: "R$ 0" },
 ] as const;
 

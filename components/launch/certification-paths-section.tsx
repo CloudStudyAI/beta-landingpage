@@ -37,6 +37,13 @@ const certificationPaths: readonly CertificationPath[] = [
     map: "/launch-assets/map-aif.webp",
     title: "AWS Certified AI Practitioner",
   },
+  {
+    badge: "/launch-assets/badge-sap.webp",
+    code: "SAP-C02",
+    description: "Avance para o nível Professional: organizações multi-conta, redes em escala, migração e otimização contínua.",
+    map: "/launch-assets/map-sap.webp",
+    title: "AWS Certified Solutions Architect – Professional",
+  },
 ] as const;
 
 function CertificationPathBlock({ certification, reversed }: { certification: CertificationPath; reversed: boolean }) {
