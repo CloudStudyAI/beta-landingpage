@@ -2,10 +2,10 @@
 // 20261103_0052 em 02/11/2026 (simulation_sets full_exam e questions publicadas): CLF 10/720,
 // SAA 10/705, AIF 10/665, SAP 10/750 = 40 provas completas e 2.840 questões. A SAP usa provas
 // de 75 questões, por isso o rótulo não cita 65. A DVA-C03 fica de fora até ser publicada
-// (01/12/2026). O código NÃO prova o que está publicado em produção: os números da SAP só
+// (01/12/2026); o card de certificações conta 5 com a DVA marcada como em breve. O código NÃO prova o que está publicado em produção: os números da SAP só
 // valem depois do deploy da 0052 na master do app; confirmar o catálogo da API antes de anúncios.
 const numbers = [
-  { label: "certificações AWS", value: "4" },
+  { label: "certificações AWS, 1 em breve", value: "5" },
   { label: "simulados completos no formato da prova", value: "40" },
   { label: "questões com explicação", value: "+2.800" },
   { label: "para começar, sem cartão", value: "R$ 0" },

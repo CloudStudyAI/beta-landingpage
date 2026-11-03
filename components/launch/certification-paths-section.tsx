@@ -9,6 +9,8 @@ import { START_URL } from "../../lib/launch-links";
 
 type CertificationPath = {
   badge: string;
+  /** Trilha anunciada antes da publicação no app: sem CTA de experiência nem preço. */
+  availableFrom?: string;
   code: string;
   description: string;
   map: string;
@@ -43,6 +45,16 @@ const certificationPaths: readonly CertificationPath[] = [
     description: "Avance para o nível Professional: organizações multi-conta, redes em escala, migração e otimização contínua.",
     map: "/launch-assets/map-sap.webp",
     title: "AWS Certified Solutions Architect – Professional",
+  },
+  {
+    // A DVA-C03 só existe para o candidato a partir de 01/12/2026 e só é publicada no app
+    // nessa data; até lá a landing anuncia sem levar o visitante a um fluxo que não a oferece.
+    availableFrom: "dezembro de 2026",
+    badge: "/launch-assets/badge-dva.webp",
+    code: "DVA-C03",
+    description: "Desenvolva, proteja, teste e otimize aplicações na AWS: Lambda, API Gateway, DynamoDB, CI/CD, observabilidade e IA no ciclo de desenvolvimento.",
+    map: "/launch-assets/map-dva.webp",
+    title: "AWS Certified Developer – Associate",
   },
 ] as const;
 
@@ -85,9 +97,15 @@ function CertificationPathBlock({ certification, reversed }: { certification: Ce
         </div>
       </figure>
 
+      {certification.availableFrom ? (
+        <p className={`${textPosition} inline-flex min-h-12 w-full items-center justify-center gap-2 self-start rounded-2xl border-2 border-dashed border-[#9cc3f5] bg-[#f3f8ff] px-5 py-3 text-sm font-bold text-[#0b56bd] sm:w-auto lg:row-start-2`}>
+          Em breve · {certification.availableFrom}
+        </p>
+      ) : (
       <a href={START_URL} data-cta="experimentar" data-cta-position={`cert-${certification.code.toLowerCase()}`} aria-label={`Iniciar experiência grátis em ${certification.title}`} className={`${textPosition} inline-flex min-h-12 w-full items-center justify-center gap-2 self-start rounded-2xl border-b-4 border-[#0b56bd] bg-[#1479ff] px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-[#0967e5] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600 sm:w-auto lg:row-start-2`}>
         Iniciar experiência grátis <ArrowRight aria-hidden="true" className="h-4 w-4" />
       </a>
+      )}
     </li>
   );
 }
