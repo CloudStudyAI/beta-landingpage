@@ -7,12 +7,12 @@ const freeFeatures = [
   "Aulas selecionadas da certificação",
   "12 flashcards para fixar o conteúdo",
   "Diagnóstico de 10 questões",
-  "Escolha CLF-C02, SAA-C03, AIF-C01 ou SAP-C02",
+  "Escolha CLF-C02, SAA-C03, AIF-C01, SAP-C02 ou DVA-C03",
 ] as const;
 
 const allAccessFeatures = [
   "Trilhas, aulas, simulados, flashcards e desempenho",
-  "As quatro certificações e as próximas adições ao catálogo",
+  "As cinco certificações e as próximas adições ao catálogo",
   "Cartão com renovação mensal ou Pix de 30 dias, sem renovação automática",
   "Cancele quando quiser",
 ] as const;
@@ -22,6 +22,7 @@ const lifetimeOffers = [
   { code: "AIF-C01", name: "AI Practitioner", cents: LIFETIME_PRICES_CENTS["AIF-C01"] },
   { code: "SAA-C03", name: "Solutions Architect", cents: LIFETIME_PRICES_CENTS["SAA-C03"] },
   { code: "SAP-C02", name: "Solutions Architect Professional", cents: LIFETIME_PRICES_CENTS["SAP-C02"] },
+  { code: "DVA-C03", name: "Developer Associate", cents: LIFETIME_PRICES_CENTS["DVA-C03"] },
 ] as const;
 
 const cardBase = "relative flex flex-col rounded-3xl border-2 bg-white p-6 sm:p-7";
