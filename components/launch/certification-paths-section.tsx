@@ -47,9 +47,6 @@ const certificationPaths: readonly CertificationPath[] = [
     title: "AWS Certified Solutions Architect – Professional",
   },
   {
-    // A DVA-C03 só existe para o candidato a partir de 01/12/2026 e só é publicada no app
-    // nessa data; até lá a landing anuncia sem levar o visitante a um fluxo que não a oferece.
-    availableFrom: "dezembro de 2026",
     badge: "/launch-assets/badge-dva.webp",
     code: "DVA-C03",
     description: "Desenvolva, proteja, teste e otimize aplicações na AWS: Lambda, API Gateway, DynamoDB, CI/CD, observabilidade e IA no ciclo de desenvolvimento.",
