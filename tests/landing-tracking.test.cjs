@@ -152,6 +152,7 @@ test("public prices on the landing match the commercial catalog", () => {
   assert.equal(pricing.LIFETIME_PRICES_CENTS["SAA-C03"], 15990);
   assert.equal(pricing.LIFETIME_PRICES_CENTS["SAP-C02"], 15990);
   assert.equal(pricing.LIFETIME_PRICES_CENTS["DVA-C03"], 15990);
+  assert.equal(pricing.LIFETIME_PRICES_CENTS["DEA-C01"], 15990);
   assert.match(pricing.formatBrl(4990).replace(/\s/g, " "), /^R\$ 49,90$/);
   assert.match(pricing.formatBrl(15990).replace(/\s/g, " "), /^R\$ 159,90$/);
 });
@@ -247,4 +248,12 @@ test("o aviso conta exibido, aceito e recusado sem identificar o visitante", () 
   assert.doesNotMatch(route, /headers\.get|cookies\(|\bip\b.*request/);
   assert.match(component, /if \(stored === null\) sendConsentMetric\("shown"\)/);
   assert.match(component, /if \(choice === null\) sendConsentMetric\(next\)/);
+});
+
+test("support page shows a real contact without the intro in the way", () => {
+  // App Review opens this URL directly, so it must reach the contact, not the animated intro.
+  const read = (file) => fs.readFileSync(path.join(__dirname, "../", file), "utf8");
+  assert.match(read("app/suporte/page.tsx"), /LEGAL_OPERATOR\.supportEmail/);
+  assert.match(read("components/IntroGate.tsx"), /"\/suporte"/);
+  assert.match(read("components/launch/launch-footer.tsx"), /href: "\/suporte"/);
 });

@@ -38,9 +38,14 @@ const heroMaps = [
     src: "/launch-assets/map-sap.webp",
   },
   {
-    alt: "Mapa do tesouro com a trilha de módulos do Developer Associate, do início da jornada até a certificação.",
+    alt: "Mapa em forma de placa de circuito com os 16 módulos da trilha do Developer Associate, até a certificação.",
     code: "DVA-C03",
     src: "/launch-assets/map-dva.webp",
+  },
+  {
+    alt: "Mapa em forma de rio de dados com os 18 módulos da trilha do Data Engineer Associate, até a certificação.",
+    code: "DEA-C01",
+    src: "/launch-assets/map-dea.webp",
   },
 ] as const;
 
@@ -80,7 +85,12 @@ export function LaunchHero() {
       <div className="mx-auto flex max-w-6xl flex-col items-center px-5 pt-28 text-center sm:px-8 sm:pt-36 lg:pt-44">
         <p className="inline-flex items-center gap-2 rounded-full border border-[#7fb6ff]/35 px-3.5 py-2 font-mono text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-[#7fb6ff] sm:text-xs sm:tracking-[0.14em]">
           <span aria-hidden="true" className="h-2 w-2 rounded-full bg-[#1479ff]" />
-          CLF-C02 · SAA-C03 · AIF-C01 · SAP-C02 · DVA-C03
+          {/* Seis códigos não cabem numa linha no celular; quebrar entre os grupos evita um "·" solto. */}
+          <span>
+            <span className="whitespace-nowrap">CLF-C02 · SAA-C03 · AIF-C01</span>{" "}
+            <span className="hidden sm:inline">· </span>
+            <span className="whitespace-nowrap">SAP-C02 · DVA-C03 · DEA-C01</span>
+          </span>
         </p>
 
         <h1 id="launch-hero-title" className="mt-6 max-w-4xl text-balance font-display text-[2.4rem] font-extrabold leading-[1.04] tracking-[-0.055em] text-white sm:text-6xl lg:text-[4.25rem]">

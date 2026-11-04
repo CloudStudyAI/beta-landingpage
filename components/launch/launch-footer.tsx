@@ -21,6 +21,7 @@ const footerGroups = [
   {
     links: [
       { href: "#faq", label: "Dúvidas" },
+      { href: "/suporte", label: "Central de ajuda" },
       { href: "mailto:contato@cloudstudy.com.br", label: "Contato" },
     ],
     title: "Suporte",
