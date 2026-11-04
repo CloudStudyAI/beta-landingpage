@@ -14,6 +14,8 @@ type CertificationPath = {
   code: string;
   description: string;
   map: string;
+  /** Aviso que o candidato precisa saber antes de escolher a trilha. */
+  note?: string;
   title: string;
 };
 
@@ -53,6 +55,15 @@ const certificationPaths: readonly CertificationPath[] = [
     map: "/launch-assets/map-dva.webp",
     title: "AWS Certified Developer – Associate",
   },
+  {
+    badge: "/launch-assets/badge-dea.webp",
+    code: "DEA-C01",
+    description: "Construa pipelines na AWS, da ingestão à governança: Kinesis, Glue, Redshift, Lake Formation e operação de dados.",
+    map: "/launch-assets/map-dea.webp",
+    // O guia oficial da DEA-C01 não tem versão em português (conferido em 04/11/2026).
+    note: "Conteúdo em português, com os termos da prova em inglês. A prova não tem versão em português.",
+    title: "AWS Certified Data Engineer – Associate",
+  },
 ] as const;
 
 function CertificationPathBlock({ certification, reversed }: { certification: CertificationPath; reversed: boolean }) {
@@ -75,6 +86,9 @@ function CertificationPathBlock({ certification, reversed }: { certification: Ce
           </div>
         </div>
         <p className="mx-auto mt-5 max-w-md text-center text-sm leading-7 text-slate-600 sm:mx-0 sm:text-left sm:text-base">{certification.description}</p>
+        {certification.note ? (
+          <p className="mx-auto mt-3 max-w-md text-center text-sm font-semibold leading-6 text-[#0b2a6f] sm:mx-0 sm:text-left">{certification.note}</p>
+        ) : null}
       </div>
 
       <figure
