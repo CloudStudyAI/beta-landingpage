@@ -248,3 +248,11 @@ test("o aviso conta exibido, aceito e recusado sem identificar o visitante", () 
   assert.match(component, /if \(stored === null\) sendConsentMetric\("shown"\)/);
   assert.match(component, /if \(choice === null\) sendConsentMetric\(next\)/);
 });
+
+test("support page shows a real contact without the intro in the way", () => {
+  // App Review opens this URL directly, so it must reach the contact, not the animated intro.
+  const read = (file) => fs.readFileSync(path.join(__dirname, "../", file), "utf8");
+  assert.match(read("app/suporte/page.tsx"), /LEGAL_OPERATOR\.supportEmail/);
+  assert.match(read("components/IntroGate.tsx"), /"\/suporte"/);
+  assert.match(read("components/launch/launch-footer.tsx"), /href: "\/suporte"/);
+});

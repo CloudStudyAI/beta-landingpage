@@ -10,7 +10,7 @@ type IntroPhase = "playing" | "complete";
 export function IntroGate({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [phase, setPhase] = useState<IntroPhase>("playing");
-  const isLegalDocument = ["/termos", "/privacidade", "/cancelamento-e-reembolso"].includes(pathname);
+  const isLegalDocument = ["/termos", "/privacidade", "/cancelamento-e-reembolso", "/suporte"].includes(pathname);
   const isContentVisible = isLegalDocument || phase === "complete";
   const shouldShowIntro = !isLegalDocument && phase !== "complete";
 
