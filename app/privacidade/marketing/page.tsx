@@ -13,7 +13,7 @@ export default function MarketingPrivacyNotice() {
     <main className="mx-auto min-h-screen max-w-3xl px-5 py-12 text-slate-800 sm:py-20">
       <Link href="/privacidade" className="text-sm font-semibold text-blue-700 underline">Política de Privacidade</Link>
       <h1 className="mt-8 text-3xl font-bold text-slate-950 sm:text-4xl">Medição de marketing</h1>
-      <p className="mt-3 text-sm text-slate-600">Aviso complementar atualizado em 27 de outubro de 2026.</p>
+      <p className="mt-3 text-sm text-slate-600">Aviso complementar atualizado em 3 de novembro de 2026.</p>
       <div className="mt-9 space-y-7 text-base leading-7">
         <section>
           <h2 className="text-xl font-semibold text-slate-950">Escolha opcional</h2>
@@ -29,7 +29,11 @@ export default function MarketingPrivacyNotice() {
         </section>
         <section>
           <h2 className="text-xl font-semibold text-slate-950">Conversões do aplicativo</h2>
-          <p className="mt-2">Se você aceitou neste aviso antes de se cadastrar, a API pode enviar à Meta eventos de cadastro confirmado, início efetivo da experiência gratuita, checkout criado e primeira compra aprovada. Compras pendentes, renovações e liberações administrativas não são contabilizadas como primeira compra. E-mail e identificador da conta são enviados protegidos por hash; os identificadores _fbc e _fbp vão no formato da Meta, sem hash, para ligar o evento ao anúncio. O evento de compra inclui valor e moeda pagos. O token da API de Conversões fica somente no servidor. Se você recusou, ou se cadastrou sem ter feito essa escolha no mesmo navegador, nenhum evento da conta é enviado.</p>
+          <p className="mt-2">Se você aceitou neste aviso antes de se cadastrar, a API pode enviar à Meta eventos de cadastro confirmado, início efetivo da experiência gratuita, checkout criado e primeira compra aprovada. Compras pendentes, renovações e liberações administrativas não são contabilizadas como primeira compra. E-mail e identificador da conta são enviados protegidos por hash; o navegador informado no aceite dos Termos (user agent) vai sem hash porque a Meta o exige em eventos de site; os identificadores _fbc e _fbp vão no formato da Meta, sem hash, para ligar o evento ao anúncio. O evento de compra inclui valor e moeda pagos. O token da API de Conversões fica somente no servidor. Se você recusou, ou se cadastrou sem ter feito essa escolha no mesmo navegador, nenhum evento da conta é enviado.</p>
+        </section>
+        <section>
+          <h2 className="text-xl font-semibold text-slate-950">Origem da venda e contagem do aviso</h2>
+          <p className="mt-2">Quando quem aceitou compra, guardamos junto da venda apenas a campanha e o anúncio de origem (parâmetros utm), sem _fbc nem _fbp, para saber quais anúncios funcionam. Esse registro é apagado se você revogar o aceite ou excluir a conta. Também contamos, de forma anônima, quantas vezes este aviso é exibido, aceito ou recusado, sem cookie e sem identificar o visitante.</p>
         </section>
         <section>
           <h2 className="text-xl font-semibold text-slate-950">Revogação e contato</h2>

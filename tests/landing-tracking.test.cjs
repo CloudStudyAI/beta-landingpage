@@ -238,3 +238,13 @@ test("the same ad click keeps its first fbc timestamp across page loads", () => 
   const otherClick = tracking.captureAttribution(store, "", 1_790_000_200, { fbc: "fb.1.1790000200000.IwARother1234" });
   assert.equal(otherClick.meta.fbc, "fb.1.1790000200000.IwARother1234");
 });
+
+test("o aviso conta exibido, aceito e recusado sem identificar o visitante", () => {
+  const route = fs.readFileSync(path.join(__dirname, "..", "app", "api", "consent-metric", "route.ts"), "utf8");
+  const component = fs.readFileSync(path.join(__dirname, "..", "components", "landing-tracking.tsx"), "utf8");
+
+  assert.match(route, /CONSENT_METRICS\.includes/);
+  assert.doesNotMatch(route, /headers\.get|cookies\(|\bip\b.*request/);
+  assert.match(component, /if \(stored === null\) sendConsentMetric\("shown"\)/);
+  assert.match(component, /if \(choice === null\) sendConsentMetric\(next\)/);
+});

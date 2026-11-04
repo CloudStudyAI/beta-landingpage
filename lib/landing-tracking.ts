@@ -3,6 +3,8 @@ import { APP_BASE_URL } from "./launch-links";
 export const PIXEL_ID = "2212407896359341";
 export const UTM_STORAGE_KEY = "cloudstudy_landing_utm_v1";
 export const CONSENT_COOKIE_NAME = "cloudstudy_landing_marketing_consent";
+export const CONSENT_METRICS = ["shown", "accepted", "rejected"] as const;
+export type ConsentMetric = (typeof CONSENT_METRICS)[number];
 export const UTM_MAX_AGE_SECONDS = 30 * 24 * 60 * 60;
 
 const UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_id"] as const;

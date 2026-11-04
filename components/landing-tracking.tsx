@@ -15,6 +15,7 @@ import {
   resolveCta,
   UTM_STORAGE_KEY,
   type Attribution,
+  type ConsentMetric,
   type CtaKind,
 } from "../lib/landing-tracking";
 
@@ -60,6 +61,14 @@ function loadPixel(): Fbq {
   return fbq;
 }
 
+function sendConsentMetric(metric: ConsentMetric) {
+  try {
+    navigator.sendBeacon("/api/consent-metric", metric);
+  } catch {
+    // A lost count never gets in the way of the visitor's choice.
+  }
+}
+
 function trackPageView() {
   if (pageViewSent) return;
   pageViewSent = true;
@@ -88,8 +97,10 @@ export function LandingTracking() {
   const lastPageView = useRef<string | null>(null);
 
   useEffect(() => {
-    setChoice(readMarketingConsent(document.cookie));
+    const stored = readMarketingConsent(document.cookie);
+    setChoice(stored);
     setReady(true);
+    if (stored === null) sendConsentMetric("shown");
   }, []);
 
   useEffect(() => {
@@ -188,6 +199,7 @@ export function LandingTracking() {
       window.location.protocol === "https:",
     );
     setPreferencesOpen(false);
+    if (choice === null) sendConsentMetric(next);
     // Revoking stops the Pixel already loaded on this page from sending anything else.
     if (choice === "accepted" && next === "rejected") window.fbq?.("consent", "revoke");
     if (next === "accepted") window.fbq?.("consent", "grant");
