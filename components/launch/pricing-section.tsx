@@ -7,7 +7,7 @@ const freeFeatures = [
   "Aulas selecionadas da certificação",
   "12 flashcards para fixar o conteúdo",
   "Diagnóstico de 10 questões",
-  "Escolha CLF-C02, SAA-C03, AIF-C01, SAP-C02, DVA-C03 ou DEA-C01",
+  "Escolha CLF-C02, SAA-C03, AIF-C01, SAP-C03, DVA-C03 ou DEA-C01",
 ] as const;
 
 const allAccessFeatures = [
@@ -21,7 +21,7 @@ const lifetimeOffers = [
   { code: "CLF-C02", name: "Cloud Practitioner", cents: LIFETIME_PRICES_CENTS["CLF-C02"] },
   { code: "AIF-C01", name: "AI Practitioner", cents: LIFETIME_PRICES_CENTS["AIF-C01"] },
   { code: "SAA-C03", name: "Solutions Architect", cents: LIFETIME_PRICES_CENTS["SAA-C03"] },
-  { code: "SAP-C02", name: "Solutions Architect Professional", cents: LIFETIME_PRICES_CENTS["SAP-C02"] },
+  { code: "SAP-C03", name: "Solutions Architect Professional", cents: LIFETIME_PRICES_CENTS["SAP-C03"] },
   { code: "DVA-C03", name: "Developer Associate", cents: LIFETIME_PRICES_CENTS["DVA-C03"] },
   { code: "DEA-C01", name: "Data Engineer Associate", cents: LIFETIME_PRICES_CENTS["DEA-C01"] },
 ] as const;

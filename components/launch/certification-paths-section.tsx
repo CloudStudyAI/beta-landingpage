@@ -43,7 +43,7 @@ const certificationPaths: readonly CertificationPath[] = [
   },
   {
     badge: "/launch-assets/badge-sap.webp",
-    code: "SAP-C02",
+    code: "SAP-C03",
     description: "Avance para o nível Professional: organizações multi-conta, redes em escala, migração e otimização contínua.",
     map: "/launch-assets/map-sap.webp",
     title: "AWS Certified Solutions Architect – Professional",

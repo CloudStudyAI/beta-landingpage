@@ -34,7 +34,7 @@ const heroMaps = [
   },
   {
     alt: "Mapa do tesouro com a trilha de módulos do Solutions Architect Professional, do início da jornada até a certificação.",
-    code: "SAP-C02",
+    code: "SAP-C03",
     src: "/launch-assets/map-sap.webp",
   },
   {
@@ -89,7 +89,7 @@ export function LaunchHero() {
           <span>
             <span className="whitespace-nowrap">CLF-C02 · SAA-C03 · AIF-C01</span>{" "}
             <span className="hidden sm:inline">· </span>
-            <span className="whitespace-nowrap">SAP-C02 · DVA-C03 · DEA-C01</span>
+            <span className="whitespace-nowrap">SAP-C03 · DVA-C03 · DEA-C01</span>
           </span>
         </p>
 

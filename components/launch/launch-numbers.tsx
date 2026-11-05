@@ -1,13 +1,13 @@
 // Totais gerais (as 6 certificações publicadas somadas). Base: banco local novo, migrado até
-// 20261104_0060 e com seed, em 04/11/2026 (simulation_sets full_exam e questions publicadas):
-// CLF 10/720, SAA 10/705, AIF 10/665, SAP 10/750, DVA 10/651, DEA 10/650 = 60 provas completas e
-// 4.141 questões. A SAP usa provas de 75 questões, por isso o rótulo não cita 65. O código NÃO
-// prova o que está publicado em produção: a DEA só vale depois do deploy da 0060 na master do
+// 20261105_0061 e com seed, em 05/11/2026 (simulation_sets full_exam e questions publicadas):
+// CLF 10/720, SAA 10/705, AIF 10/665, SAP 10/930, DVA 10/651, DEA 10/650 = 60 provas completas e
+// 4.321 questões. A SAP usa provas de 75 questões, por isso o rótulo não cita 65. O código NÃO
+// prova o que está publicado em produção: a SAP-C03 só vale depois do deploy da 0061 na master do
 // app; confirmar o catálogo da API antes de anúncios.
 const numbers = [
   { label: "certificações AWS", value: "6" },
   { label: "simulados completos no formato da prova", value: "60" },
-  { label: "questões com explicação", value: "+4.100" },
+  { label: "questões com explicação", value: "+4.300" },
   { label: "para começar, sem cartão", value: "R$ 0" },
 ] as const;
 
