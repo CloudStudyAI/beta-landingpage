@@ -1,11 +1,21 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
-import { useInView } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
 import { START_URL } from "../../lib/launch-links";
+
+type LevelId = "fundamentos" | "associate" | "professional";
+
+// Os três níveis oficiais da AWS. Com muitas trilhas, a seção mostra um nível por vez e um mapa só,
+// em vez de um mapa grande para cada certificação.
+const levels: readonly { id: LevelId; label: string; hint: string }[] = [
+  { id: "fundamentos", label: "Fundamentos", hint: "Para começar do zero na AWS." },
+  { id: "associate", label: "Associate", hint: "Para quem já usa AWS no dia a dia." },
+  { id: "professional", label: "Professional", hint: "Para quem projeta e opera em escala." },
+];
 
 type CertificationPath = {
   badge: string;
@@ -13,6 +23,7 @@ type CertificationPath = {
   availableFrom?: string;
   code: string;
   description: string;
+  level: LevelId;
   map: string;
   /** Aviso que o candidato precisa saber antes de escolher a trilha. */
   note?: string;
@@ -23,6 +34,7 @@ const certificationPaths: readonly CertificationPath[] = [
   {
     badge: "/launch-assets/badge-clf.webp",
     code: "CLF-C02",
+    level: "fundamentos",
     description: "Construa sua base em cloud, segurança, custos e serviços essenciais da AWS.",
     map: "/launch-assets/map-clf.webp",
     title: "AWS Certified Cloud Practitioner",
@@ -30,6 +42,7 @@ const certificationPaths: readonly CertificationPath[] = [
   {
     badge: "/launch-assets/badge-saa.webp",
     code: "SAA-C03",
+    level: "associate",
     description: "Estude arquitetura de soluções escaláveis e resilientes para a certificação Associate.",
     map: "/launch-assets/map-saa.webp",
     title: "AWS Certified Solutions Architect – Associate",
@@ -37,6 +50,7 @@ const certificationPaths: readonly CertificationPath[] = [
   {
     badge: "/launch-assets/badge-aif.webp",
     code: "AIF-C01",
+    level: "fundamentos",
     description: "Entenda fundamentos de IA, IA generativa e serviços relacionados na AWS.",
     map: "/launch-assets/map-aif.webp",
     title: "AWS Certified AI Practitioner",
@@ -44,6 +58,7 @@ const certificationPaths: readonly CertificationPath[] = [
   {
     badge: "/launch-assets/badge-sap.webp",
     code: "SAP-C03",
+    level: "professional",
     description: "Avance para o nível Professional: organizações multi-conta, redes em escala, migração e otimização contínua.",
     map: "/launch-assets/map-sap.webp",
     title: "AWS Certified Solutions Architect – Professional",
@@ -51,6 +66,7 @@ const certificationPaths: readonly CertificationPath[] = [
   {
     badge: "/launch-assets/badge-dva.webp",
     code: "DVA-C03",
+    level: "associate",
     description: "Desenvolva, proteja, teste e otimize aplicações na AWS: Lambda, API Gateway, DynamoDB, CI/CD, observabilidade e IA no ciclo de desenvolvimento.",
     map: "/launch-assets/map-dva.webp",
     title: "AWS Certified Developer – Associate",
@@ -58,6 +74,7 @@ const certificationPaths: readonly CertificationPath[] = [
   {
     badge: "/launch-assets/badge-dea.webp",
     code: "DEA-C01",
+    level: "associate",
     description: "Construa pipelines na AWS, da ingestão à governança: Kinesis, Glue, Redshift, Lake Formation e operação de dados.",
     map: "/launch-assets/map-dea.webp",
     // O guia oficial da DEA-C01 não tem versão em português (conferido em 04/11/2026).
@@ -67,68 +84,88 @@ const certificationPaths: readonly CertificationPath[] = [
   {
     badge: "/launch-assets/badge-soa.webp",
     code: "SOA-C03",
+    level: "associate",
     description: "Opere ambientes na AWS no dia a dia: monitoramento com CloudWatch, automação, recuperação, segurança, redes e otimização de custo.",
     map: "/launch-assets/map-soa.webp",
     title: "AWS Certified CloudOps Engineer – Associate",
   },
 ] as const;
 
-function CertificationPathBlock({ certification, reversed }: { certification: CertificationPath; reversed: boolean }) {
-  const mapRef = useRef<HTMLElement>(null);
-  const isMapInView = useInView(mapRef, { once: true, amount: 0.35 });
-  const gridColumns = reversed ? "lg:grid-cols-[1.22fr_0.78fr]" : "lg:grid-cols-[0.78fr_1.22fr]";
-  const textPosition = reversed ? "lg:col-start-2" : "lg:col-start-1";
-  const mapPosition = reversed ? "lg:col-start-1" : "lg:col-start-2";
-  const hiddenMapPosition = reversed ? "translate-y-6 opacity-0 lg:-translate-x-[72px] lg:translate-y-0" : "translate-y-6 opacity-0 lg:translate-x-[72px] lg:translate-y-0";
-  const mapReveal = isMapInView ? "translate-x-0 translate-y-0 opacity-100" : hiddenMapPosition;
-
+function CertificationCard({
+  certification,
+  selected,
+  onSelect,
+}: {
+  certification: CertificationPath;
+  selected: boolean;
+  onSelect: () => void;
+}) {
   return (
-    <li className={`grid gap-x-16 gap-y-8 py-12 first:pt-0 last:pb-0 sm:gap-y-6 lg:py-20 ${gridColumns}`}>
-      <div className={`${textPosition} self-end lg:row-start-1`}>
-        <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-start sm:text-left">
-          <Image src={certification.badge} alt="" width={72} height={72} className="h-14 w-14 shrink-0 object-contain sm:h-[72px] sm:w-[72px]" />
-          <div className="min-w-0">
-            <p className="text-xs font-bold text-[#1479ff]">{certification.code}</p>
-            <h3 className="mt-2 font-display text-2xl font-bold leading-tight tracking-[-0.04em] text-[#0b2a6f] sm:text-3xl">{certification.title}</h3>
-          </div>
-        </div>
-        <p className="mx-auto mt-5 max-w-md text-center text-sm leading-7 text-slate-600 sm:mx-0 sm:text-left sm:text-base">{certification.description}</p>
-        {certification.note ? (
-          <p className="mx-auto mt-3 max-w-md text-center text-sm font-semibold leading-6 text-[#0b2a6f] sm:mx-0 sm:text-left">{certification.note}</p>
-        ) : null}
-      </div>
-
-      <figure
-        ref={mapRef}
-        className={`${mapPosition} ${mapReveal} relative w-full self-center rounded-3xl border border-[#cfe1f8] bg-[#f6f9fe] p-1 shadow-[0_3px_0_#0b56bd,0_12px_30px_-22px_rgba(11,42,111,0.38)] transition-[opacity,transform] duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:!translate-x-0 motion-reduce:!translate-y-0 motion-reduce:!opacity-100 motion-reduce:transition-none sm:p-1.5 sm:shadow-[0_4px_0_#0b56bd,0_12px_30px_-22px_rgba(11,42,111,0.38)] lg:row-span-2 lg:row-start-1`}
+    <li>
+      <div
+        className={`flex h-full flex-col rounded-2xl border bg-white p-4 transition-colors sm:p-5 ${
+          selected ? "border-[#1479ff] shadow-[0_3px_0_#0b56bd]" : "border-[#e1ecfb] hover:border-[#9cc3f5]"
+        }`}
       >
-        <span aria-hidden="true" className="absolute left-6 top-[-1px] z-10 h-px w-10 bg-[#1479ff] sm:left-8 sm:w-12" />
-        <div className="aspect-video overflow-hidden rounded-[1.25rem] bg-white">
-          <Image
-            src={certification.map}
-            alt={`Mapa da trilha ${certification.title} na CloudStudy.`}
-            width={1440}
-            height={810}
-            sizes="(min-width: 1024px) 650px, (min-width: 640px) 704px, calc(100vw - 48px)"
-            className="h-full w-full object-contain"
-          />
+        <button
+          type="button"
+          onClick={onSelect}
+          aria-pressed={selected}
+          aria-label={`Ver o mapa da trilha ${certification.title}`}
+          className="flex items-start gap-3 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1479ff]"
+        >
+          <Image src={certification.badge} alt="" width={56} height={56} className="h-12 w-12 shrink-0 object-contain sm:h-14 sm:w-14" />
+          <span className="min-w-0">
+            <span className="block text-xs font-bold text-[#1479ff]">{certification.code}</span>
+            <span className="mt-1 block font-display text-base font-bold leading-snug tracking-[-0.02em] text-[#0b2a6f] sm:text-lg">{certification.title}</span>
+          </span>
+        </button>
+        <p className="mt-3 text-sm leading-6 text-slate-600">{certification.description}</p>
+        {certification.note ? <p className="mt-2 text-xs font-semibold leading-5 text-[#0b2a6f]">{certification.note}</p> : null}
+        <div className="mt-auto pt-4">
+          {certification.availableFrom ? (
+            <p className="inline-flex min-h-11 w-full items-center justify-center rounded-xl border-2 border-dashed border-[#9cc3f5] bg-[#f4f9ff] px-4 text-sm font-bold text-[#0b2a6f]">
+              Em breve · {certification.availableFrom}
+            </p>
+          ) : (
+            <a
+              href={START_URL}
+              data-cta="experimentar"
+              data-cta-position={`cert-${certification.code.toLowerCase()}`}
+              aria-label={`Iniciar experiência grátis em ${certification.title}`}
+              className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#1479ff] px-4 text-sm font-bold text-white shadow-[0_3px_0_#0b56bd] transition hover:bg-[#0f6ae6]"
+            >
+              Experimentar grátis <ArrowRight aria-hidden="true" className="h-4 w-4" />
+            </a>
+          )}
         </div>
-      </figure>
-
-      {certification.availableFrom ? (
-        <p className={`${textPosition} inline-flex min-h-12 w-full items-center justify-center gap-2 self-start rounded-2xl border-2 border-dashed border-[#9cc3f5] bg-[#f3f8ff] px-5 py-3 text-sm font-bold text-[#0b56bd] sm:w-auto lg:row-start-2`}>
-          Em breve · {certification.availableFrom}
-        </p>
-      ) : (
-      <a href={START_URL} data-cta="experimentar" data-cta-position={`cert-${certification.code.toLowerCase()}`} aria-label={`Iniciar experiência grátis em ${certification.title}`} className={`${textPosition} inline-flex min-h-12 w-full items-center justify-center gap-2 self-start rounded-2xl border-b-4 border-[#0b56bd] bg-[#1479ff] px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-[#0967e5] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600 sm:w-auto lg:row-start-2`}>
-        Iniciar experiência grátis <ArrowRight aria-hidden="true" className="h-4 w-4" />
-      </a>
-      )}
+      </div>
     </li>
   );
 }
 
 export function CertificationPathsSection() {
+  const reduceMotion = useReducedMotion();
+  const [levelId, setLevelId] = useState<LevelId>("fundamentos");
+  const inLevel = certificationPaths.filter((certification) => certification.level === levelId);
+  const [selectedCode, setSelectedCode] = useState<string | undefined>(inLevel[0]?.code);
+  const selected = inLevel.find((certification) => certification.code === selectedCode) ?? inLevel[0];
+  const activeLevel = levels.find((level) => level.id === levelId) ?? levels[0];
+  const mapRef = useRef<HTMLElement>(null);
+
+  // No celular o mapa fica acima dos cards; ao escolher outra trilha, rola até ele para a troca ser vista.
+  function chooseCertification(code: string) {
+    setSelectedCode(code);
+    const map = mapRef.current;
+    if (!map || window.matchMedia("(min-width: 1024px)").matches) return;
+    if (map.getBoundingClientRect().top < 0) map.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+  }
+
+  function chooseLevel(next: LevelId) {
+    setLevelId(next);
+    setSelectedCode(certificationPaths.find((certification) => certification.level === next)?.code);
+  }
+
   return (
     <section id="certificacoes" aria-labelledby="certification-paths-title" className="scroll-mt-24 px-5 py-16 sm:px-8 sm:py-20 lg:py-28">
       <div className="mx-auto max-w-6xl">
@@ -141,11 +178,68 @@ export function CertificationPathsSection() {
           </p>
         </div>
 
-        <ol className="mt-12 sm:mt-16 lg:mt-20">
-          {certificationPaths.map((certification, index) => (
-            <CertificationPathBlock key={certification.code} certification={certification} reversed={index % 2 === 1} />
-          ))}
-        </ol>
+        <div role="tablist" aria-label="Nível da certificação" className="mt-10 grid grid-cols-3 gap-1 rounded-2xl bg-[#e8f1fd] p-1 sm:mt-12 sm:inline-grid">
+          {levels.map((level) => {
+            const count = certificationPaths.filter((certification) => certification.level === level.id).length;
+            const active = level.id === levelId;
+            return (
+              <button
+                key={level.id}
+                type="button"
+                role="tab"
+                aria-selected={active}
+                aria-controls="certification-level-panel"
+                onClick={() => chooseLevel(level.id)}
+                className={`min-h-11 whitespace-nowrap rounded-xl px-1 text-[13px] font-bold transition sm:px-5 sm:text-sm ${
+                  active ? "bg-white text-[#0b2a6f] shadow-sm" : "text-slate-600 hover:text-[#0b2a6f]"
+                }`}
+              >
+                {level.label}<span className="hidden font-semibold text-slate-400 sm:inline"> {count}</span>
+              </button>
+            );
+          })}
+        </div>
+        <p className="mt-3 text-center text-sm text-slate-600 sm:text-left">{activeLevel.hint}</p>
+
+        <div id="certification-level-panel" role="tabpanel" className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:items-start">
+          <ul className="grid gap-4 sm:grid-cols-2 lg:order-1">
+            {inLevel.map((certification) => (
+              <CertificationCard
+                key={certification.code}
+                certification={certification}
+                selected={certification.code === selected?.code}
+                onSelect={() => chooseCertification(certification.code)}
+              />
+            ))}
+          </ul>
+
+          {selected ? (
+            <figure ref={mapRef} className="order-first scroll-mt-28 rounded-3xl border border-[#cfe1f8] bg-[#f6f9fe] p-1 shadow-[0_3px_0_#0b56bd,0_12px_30px_-22px_rgba(11,42,111,0.45)] lg:order-2 lg:sticky lg:top-28">
+              <div className="relative aspect-video overflow-hidden rounded-[1.25rem] bg-white">
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.div
+                    key={selected.code}
+                    initial={reduceMotion ? false : { opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={reduceMotion ? undefined : { opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute inset-0"
+                  >
+                    <Image
+                      src={selected.map}
+                      alt={`Mapa da trilha ${selected.title} na CloudStudy.`}
+                      width={1440}
+                      height={810}
+                      sizes="(min-width: 1024px) 600px, (min-width: 640px) 704px, calc(100vw - 48px)"
+                      className="h-full w-full object-contain"
+                    />
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+              <figcaption className="px-4 py-3 text-sm font-semibold text-[#0b2a6f]">Mapa da trilha {selected.code}</figcaption>
+            </figure>
+          ) : null}
+        </div>
       </div>
     </section>
   );
