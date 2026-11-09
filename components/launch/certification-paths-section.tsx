@@ -64,6 +64,13 @@ const certificationPaths: readonly CertificationPath[] = [
     note: "Conteúdo em português, com os termos da prova em inglês. A prova não tem versão em português.",
     title: "AWS Certified Data Engineer – Associate",
   },
+  {
+    badge: "/launch-assets/badge-soa.webp",
+    code: "SOA-C03",
+    description: "Opere ambientes na AWS no dia a dia: monitoramento com CloudWatch, automação, recuperação, segurança, redes e otimização de custo.",
+    map: "/launch-assets/map-soa.webp",
+    title: "AWS Certified CloudOps Engineer – Associate",
+  },
 ] as const;
 
 function CertificationPathBlock({ certification, reversed }: { certification: CertificationPath; reversed: boolean }) {
