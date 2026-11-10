@@ -154,6 +154,10 @@ test("public prices on the landing match the commercial catalog", () => {
   assert.equal(pricing.LIFETIME_PRICES_CENTS["DVA-C03"], 15990);
   assert.equal(pricing.LIFETIME_PRICES_CENTS["DEA-C01"], 15990);
   assert.equal(pricing.LIFETIME_PRICES_CENTS["SOA-C03"], 15990);
+  assert.equal(pricing.LIFETIME_PRICES_CENTS["DOP-C02"], 15990);
+  assert.equal(pricing.LIFETIME_PRICES_CENTS["SCS-C03"], 15990);
+  assert.equal(pricing.LIFETIME_PRICES_CENTS["AIP-C01"], 15990);
+  assert.equal(pricing.LIFETIME_PRICES_CENTS["MLA-C02"], 15990);
   assert.match(pricing.formatBrl(4990).replace(/\s/g, " "), /^R\$ 49,90$/);
   assert.match(pricing.formatBrl(15990).replace(/\s/g, " "), /^R\$ 159,90$/);
 });
