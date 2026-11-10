@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useMotionValue, useMotionValueEvent, useReducedMotion, useTransform, type MotionValue } from "framer-motion";
+import { motion, useMotionValue, useReducedMotion, useTransform, type MotionValue } from "framer-motion";
 import { useEffect, useRef } from "react";
 
 // Sequencia de quadros do video do painel (dados de exemplo de uma conta de demonstracao).
@@ -50,14 +50,71 @@ export function DashboardScrollFilm() {
   const reduce = useReducedMotion();
   const sectionRef = useRef<HTMLElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const framesRef = useRef<(HTMLImageElement | null)[]>([]);
-  const currentRef = useRef(0);
-  const drawnRef = useRef(-1);
+  // Quadros prontos para desenhar (ja decodificados); null enquanto nao chegam.
+  const framesRef = useRef<(CanvasImageSource | null)[]>([]);
+  const targetRef = useRef(0);
+  const shownRef = useRef(0);
+  const drawnKeyRef = useRef("");
   const rafRef = useRef<number | null>(null);
+  const lastTickRef = useRef(0);
 
-  // Progresso medido direto pela posicao da secao: 0 quando o topo encosta no topo da tela,
-  // 1 quando o fim encosta no fim. Uma fonte so para o canvas e as legendas.
+  // scrollYProgress: posicao real da secao (0 quando o topo encosta no topo da tela, 1 quando o
+  // fim encosta no fim). shownProgress: a mesma posicao suavizada, que o canvas e as legendas
+  // seguem. Sem a suavizacao cada tique da roda pula 2 ou 3 quadros de uma vez.
   const scrollYProgress = useMotionValue(0);
+  const shownProgress = useMotionValue(0);
+
+  const nearestReady = (index: number) => {
+    const frames = framesRef.current;
+    for (let d = 0; d < FRAME_COUNT; d += 1) {
+      if (frames[index - d]) return index - d;
+      if (frames[index + d]) return index + d;
+    }
+    return -1;
+  };
+
+  // Desenha a posicao fracionaria: o quadro de baixo inteiro e o seguinte por cima, com
+  // opacidade igual a fracao. Da movimento continuo entre dois quadros sem baixar mais imagens.
+  const draw = (progress: number) => {
+    const canvas = canvasRef.current;
+    const context = canvas?.getContext("2d");
+    if (!canvas || !context) return;
+    const exact = progress * (FRAME_COUNT - 1);
+    const base = nearestReady(Math.floor(exact));
+    if (base < 0) return;
+    const next = Math.min(base + 1, FRAME_COUNT - 1);
+    const fraction = framesRef.current[next] && next !== base ? Math.min(Math.max(exact - base, 0), 1) : 0;
+    const key = `${base}:${Math.round(fraction * 24)}`;
+    if (key === drawnKeyRef.current) return;
+    drawnKeyRef.current = key;
+    // Quadros com fundo transparente: limpa antes, senao o desenho anterior fica por baixo.
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.globalAlpha = 1;
+    context.drawImage(framesRef.current[base]!, 0, 0, canvas.width, canvas.height);
+    if (fraction > 0.04) {
+      context.globalAlpha = fraction;
+      context.drawImage(framesRef.current[next]!, 0, 0, canvas.width, canvas.height);
+      context.globalAlpha = 1;
+    }
+  };
+
+  const tick = (now: number) => {
+    const dt = lastTickRef.current ? Math.min(now - lastTickRef.current, 64) : 16;
+    lastTickRef.current = now;
+    const gap = targetRef.current - shownRef.current;
+    shownRef.current = Math.abs(gap) < 0.0004 ? targetRef.current : shownRef.current + gap * (1 - Math.exp(-dt / 90));
+    shownProgress.set(shownRef.current);
+    draw(shownRef.current);
+    if (shownRef.current !== targetRef.current) rafRef.current = requestAnimationFrame(tick);
+    else {
+      rafRef.current = null;
+      lastTickRef.current = 0;
+    }
+  };
+  const wake = () => {
+    if (rafRef.current === null) rafRef.current = requestAnimationFrame(tick);
+  };
+
   useEffect(() => {
     if (reduce) return undefined;
     const update = () => {
@@ -65,7 +122,9 @@ export function DashboardScrollFilm() {
       if (!section) return;
       const rect = section.getBoundingClientRect();
       const span = rect.height - window.innerHeight;
-      scrollYProgress.set(span > 0 ? Math.min(Math.max(-rect.top / span, 0), 1) : 0);
+      targetRef.current = span > 0 ? Math.min(Math.max(-rect.top / span, 0), 1) : 0;
+      scrollYProgress.set(targetRef.current);
+      wake();
     };
     update();
     window.addEventListener("scroll", update, { passive: true });
@@ -74,36 +133,8 @@ export function DashboardScrollFilm() {
       window.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reduce, scrollYProgress]);
-
-  // Desenha o quadro carregado mais proximo do pedido; nunca deixa o canvas vazio.
-  const draw = () => {
-    rafRef.current = null;
-    const canvas = canvasRef.current;
-    const frames = framesRef.current;
-    if (!canvas || !frames.length) return;
-    const want = currentRef.current;
-    let pick = -1;
-    for (let d = 0; d < FRAME_COUNT && pick < 0; d += 1) {
-      if (frames[want - d]?.complete && frames[want - d]?.naturalWidth) pick = want - d;
-      else if (frames[want + d]?.complete && frames[want + d]?.naturalWidth) pick = want + d;
-    }
-    if (pick < 0 || pick === drawnRef.current) return;
-    const context = canvas.getContext("2d");
-    if (!context) return;
-    // Quadros com fundo transparente: limpa antes, senao o quadro anterior fica por baixo.
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    context.drawImage(frames[pick]!, 0, 0, canvas.width, canvas.height);
-    drawnRef.current = pick;
-  };
-  const requestDraw = () => {
-    if (rafRef.current === null) rafRef.current = requestAnimationFrame(draw);
-  };
-
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    currentRef.current = Math.round(Math.min(Math.max(latest, 0), 1) * (FRAME_COUNT - 1));
-    requestDraw();
-  });
 
   useEffect(() => {
     if (reduce) return undefined;
@@ -122,14 +153,18 @@ export function DashboardScrollFilm() {
         const image = new Image();
         image.decoding = "async";
         image.onload = () => {
-          if (cancelled) return;
-          if (Math.abs(index - currentRef.current) <= 8 || drawnRef.current < 0) {
-            drawnRef.current = -1;
-            requestDraw();
-          }
+          // Decodifica fora da rolagem: desenhar uma imagem ainda comprimida trava o quadro.
+          const ready = typeof createImageBitmap === "function" ? createImageBitmap(image).catch(() => image) : image.decode().then(() => image, () => image);
+          void ready.then((frame) => {
+            if (cancelled) return;
+            framesRef.current[index] = frame;
+            if (Math.abs(index - shownRef.current * (FRAME_COUNT - 1)) <= 8 || !drawnKeyRef.current) {
+              drawnKeyRef.current = "";
+              draw(shownRef.current);
+            }
+          });
         };
         image.src = frameSrc(size, index);
-        framesRef.current[index] = image;
       }
     };
     // Os quadros so baixam depois que a pagina carregou e quando a secao chega perto da tela,
@@ -150,7 +185,11 @@ export function DashboardScrollFilm() {
       window.removeEventListener("load", observe);
       cancelled = true;
       observer.disconnect();
+      // Zera a marca do loop: se ficar com o id cancelado, wake() acha que ja esta rodando
+      // e a animacao nunca mais religa (acontece quando o React remonta o componente).
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+      lastTickRef.current = 0;
     };
   }, [reduce]);
 
@@ -173,7 +212,7 @@ export function DashboardScrollFilm() {
       <div className="sticky top-0 flex h-[100svh] flex-col items-center justify-center overflow-hidden px-4 pb-6 pt-24 sm:pt-28">
         <div className="relative h-[8.5rem] w-full sm:h-[11.75rem]" aria-hidden="true">
           {captions.map((caption) => (
-            <Caption key={caption.title} progress={scrollYProgress} {...caption} />
+            <Caption key={caption.title} progress={shownProgress} {...caption} />
           ))}
         </div>
         <canvas
