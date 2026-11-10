@@ -1,7 +1,7 @@
 import { Check } from "lucide-react";
 
 const productFacts = [
-  "Trilhas para oito certificações AWS",
+  "Trilhas para onze certificações AWS",
   "Conteúdo dividido em módulos e aulas",
   "Progresso da trilha visível na plataforma",
   "Revisão e prática reunidas no plano de estudo",

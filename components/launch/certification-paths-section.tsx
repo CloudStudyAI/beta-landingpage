@@ -7,14 +7,15 @@ import { ArrowRight } from "lucide-react";
 
 import { START_URL } from "../../lib/launch-links";
 
-type LevelId = "fundamentos" | "associate" | "professional";
+type LevelId = "fundamentos" | "associate" | "professional" | "specialty";
 
-// Os três níveis oficiais da AWS. Com muitas trilhas, a seção mostra um nível por vez e um mapa só,
+// Os quatro níveis oficiais da AWS. Com muitas trilhas, a seção mostra um nível por vez e um mapa só,
 // em vez de um mapa grande para cada certificação.
 const levels: readonly { id: LevelId; label: string; hint: string }[] = [
   { id: "fundamentos", label: "Fundamentos", hint: "Para começar do zero na AWS." },
   { id: "associate", label: "Associate", hint: "Para quem já usa AWS no dia a dia." },
   { id: "professional", label: "Professional", hint: "Para quem projeta e opera em escala." },
+  { id: "specialty", label: "Specialty", hint: "Para aprofundar uma área, como segurança." },
 ];
 
 type CertificationPath = {
@@ -98,6 +99,36 @@ const certificationPaths: readonly CertificationPath[] = [
     // O guia oficial da DOP-C02 não tem versão em português (conferido em 09/11/2026).
     note: "Conteúdo em português, com os termos da prova em inglês. A prova não tem versão em português.",
     title: "AWS Certified DevOps Engineer – Professional",
+  },
+  {
+    badge: "/launch-assets/badge-scs.webp",
+    code: "SCS-C03",
+    level: "specialty",
+    description: "Proteja cargas na AWS: detecção, resposta a incidentes, segurança de infraestrutura, identidade e acesso, proteção de dados e governança.",
+    map: "/launch-assets/map-scs.webp",
+    // Pagina da certificacao em 09/11/2026: prova em portugues so ate 31/12/2026.
+    note: "Conteúdo em português. A prova em português só fica disponível até 31/12/2026.",
+    title: "AWS Certified Security – Specialty",
+  },
+  {
+    badge: "/launch-assets/badge-aip.webp",
+    code: "AIP-C01",
+    level: "professional",
+    description: "Coloque IA generativa em produção na AWS: foundation models, RAG, agentes, guardrails, custo, monitoramento e avaliação.",
+    map: "/launch-assets/map-aip.webp",
+    // O guia oficial da AIP-C01 não tem versão em português (conferido em 10/11/2026).
+    note: "Conteúdo em português, com os termos da prova em inglês. A prova não tem versão em português.",
+    title: "AWS Certified Generative AI Developer – Professional",
+  },
+  {
+    badge: "/launch-assets/badge-mla.webp",
+    code: "MLA-C02",
+    level: "associate",
+    description: "Prepare dados, treine e implante modelos de ML e IA generativa na AWS, com MLOps, monitoramento, custo e segurança.",
+    map: "/launch-assets/map-mla.webp",
+    // Pagina da certificacao em 10/11/2026: MLA-C02 em beta, so em ingles.
+    note: "Conteúdo em português, com os termos da prova em inglês. A prova não tem versão em português.",
+    title: "AWS Certified Machine Learning Engineer – Associate",
   },
 ] as const;
 
@@ -188,7 +219,7 @@ export function CertificationPathsSection() {
           </p>
         </div>
 
-        <div role="tablist" aria-label="Nível da certificação" className="mt-10 grid grid-cols-3 gap-1 rounded-2xl bg-[#e8f1fd] p-1 sm:mt-12 sm:inline-grid">
+        <div role="tablist" aria-label="Nível da certificação" className="mt-10 grid grid-cols-2 gap-1 rounded-2xl bg-[#e8f1fd] p-1 sm:mt-12 sm:inline-grid sm:grid-cols-4">
           {levels.map((level) => {
             const count = certificationPaths.filter((certification) => certification.level === level.id).length;
             const active = level.id === levelId;

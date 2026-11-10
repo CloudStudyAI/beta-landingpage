@@ -1,13 +1,13 @@
-// Totais gerais (as 8 certificações publicadas somadas). Base: banco local novo, migrado até
-// 20261109_0069 e com seed, em 09/11/2026 (simulation_sets full_exam e questions publicadas):
-// CLF 10/720, SAA 10/705, AIF 10/665, SAP 10/930, DVA 10/651, DEA 10/650, SOA 10/650, DOP 10/750 = 80
-// provas completas e 5.721 questões. SAP e DOP usam provas de 75 questões, por isso o rótulo não cita 65.
-// Publicar só depois que a API de produção listar a DOP-C02 (8 certificações); confirmar de novo
-// antes de anúncios.
+// Totais gerais (as 11 certificações publicadas somadas). Base: specs e bancos publicados no
+// System_Dashboard (feature/publish-scs-aip-mla, cadeia ate 20261110_0082), em 10/11/2026:
+// CLF 10/720, SAA 10/705, AIF 10/665, SAP 10/930, DVA 10/651, DEA 10/650, SOA 10/650, DOP 10/750,
+// SCS 10/650, AIP 10/750, MLA 10/650 = 110 provas completas e 7.771 questões. SAP, DOP e AIP usam
+// provas de 75 questões, por isso o rótulo não cita 65. Publicar só depois que a API de produção
+// listar as 11 certificações; confirmar de novo antes de anúncios.
 const numbers = [
-  { label: "certificações AWS", value: "8" },
-  { label: "simulados completos no formato da prova", value: "80" },
-  { label: "questões com explicação", value: "+5.700" },
+  { label: "certificações AWS", value: "11" },
+  { label: "simulados completos no formato da prova", value: "110" },
+  { label: "questões com explicação", value: "+7.700" },
   { label: "para começar, sem cartão", value: "R$ 0" },
 ] as const;
 
