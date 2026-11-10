@@ -4,7 +4,8 @@ import Image from "next/image";
 // Tratamento aplicado às imagens em public/testimonials (ver docs do plano de conversão):
 //  - recorte só da mensagem, sem foto de perfil nem o restante do grupo;
 //  - telefone coberto, restando apenas o DDD; menções a terceiros cobertas;
-//  - palavrão censurado (c*****, s***); nenhum outro trecho foi alterado.
+//  - palavrão censurado (c*****, s***); nenhum outro trecho foi alterado;
+//  - prints do computador podem ter a quebra de linha refeita com recortes do próprio print.
 // Nunca adicionar aqui um print sem tratamento nem escrever telefone completo em texto.
 type Testimonial = {
   alt: string;
@@ -14,6 +15,21 @@ type Testimonial = {
 };
 
 const testimonials: readonly Testimonial[] = [
+  {
+    // Print do WhatsApp do computador: a quebra de linha foi refeita com os proprios recortes
+    // do print (nenhuma palavra mudou) para caber no card; a citacao repetida na resposta da
+    // Sara saiu, porque a pergunta do Elvis ja aparece acima.
+    alt: "Conversa na comunidade. Elvis pergunta: Só com o conteúdo da CloudStudy é possível passar nos exames, ou precisa comprar algum outro curso por fora pra complementar? Sara responde: Há vários relatos que sim. Hennan Gadelha: Pela minha exp, acho bem possível. Quando tenho alguma dúvida pontual recorro à doc. Mas no geral vem sendo suficiente.",
+    height: 865,
+    src: "/testimonials/comunidade-suficiente.webp",
+    width: 604,
+  },
+  {
+    alt: "Resposta de Francisco Menezes na comunidade à pergunta de Elvis, se só com o conteúdo da CloudStudy é possível passar nos exames: Está quase um dump da prova... kkk",
+    height: 440,
+    src: "/testimonials/comunidade-francisco.webp",
+    width: 604,
+  },
   {
     alt: "Mensagem de Leonardo: Confesso que fiquei receoso em assinar a CloudStudy, porque estava bem distante da TI e tinha perdido o ritmo dos estudos. Mas a plataforma é tão intuitiva que está me ajudando a voltar à área. E, por coincidência, já consegui até uma entrevista para estágio!",
     height: 779,
