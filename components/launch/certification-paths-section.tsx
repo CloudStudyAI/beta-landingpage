@@ -89,6 +89,16 @@ const certificationPaths: readonly CertificationPath[] = [
     map: "/launch-assets/map-soa.webp",
     title: "AWS Certified CloudOps Engineer – Associate",
   },
+  {
+    badge: "/launch-assets/badge-dop.webp",
+    code: "DOP-C02",
+    level: "professional",
+    description: "Automatize entrega e operação em escala: pipelines CI/CD, infraestrutura como código, resiliência, observabilidade, resposta a incidentes e segurança.",
+    map: "/launch-assets/map-dop.webp",
+    // O guia oficial da DOP-C02 não tem versão em português (conferido em 09/11/2026).
+    note: "Conteúdo em português, com os termos da prova em inglês. A prova não tem versão em português.",
+    title: "AWS Certified DevOps Engineer – Professional",
+  },
 ] as const;
 
 function CertificationCard({
@@ -121,7 +131,7 @@ function CertificationCard({
           </span>
         </button>
         <p className="mt-3 text-sm leading-6 text-slate-600">{certification.description}</p>
-        {certification.note ? <p className="mt-2 text-xs font-semibold leading-5 text-[#0b2a6f]">{certification.note}</p> : null}
+        {certification.note ? <p className="mt-3 rounded-xl bg-[#f4f9ff] px-3 py-2 text-xs leading-5 text-[#0b2a6f] ring-1 ring-inset ring-[#e1ecfb]">{certification.note}</p> : null}
         <div className="mt-auto pt-4">
           {certification.availableFrom ? (
             <p className="inline-flex min-h-11 w-full items-center justify-center rounded-xl border-2 border-dashed border-[#9cc3f5] bg-[#f4f9ff] px-4 text-sm font-bold text-[#0b2a6f]">

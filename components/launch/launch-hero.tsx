@@ -52,6 +52,11 @@ const heroMaps = [
     code: "SOA-C03",
     src: "/launch-assets/map-soa.webp",
   },
+  {
+    alt: "Mapa de metrô em forma de infinito com os 21 módulos da trilha do DevOps Engineer Professional, até a certificação.",
+    code: "DOP-C02",
+    src: "/launch-assets/map-dop.webp",
+  },
 ] as const;
 
 const areas = [
@@ -90,11 +95,11 @@ export function LaunchHero() {
       <div className="mx-auto flex max-w-6xl flex-col items-center px-5 pt-28 text-center sm:px-8 sm:pt-36 lg:pt-44">
         <p className="inline-flex items-center gap-2 rounded-full border border-[#7fb6ff]/35 px-3.5 py-2 font-mono text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-[#7fb6ff] sm:text-xs sm:tracking-[0.14em]">
           <span aria-hidden="true" className="h-2 w-2 rounded-full bg-[#1479ff]" />
-          {/* Sete códigos não cabem numa linha no celular; quebrar entre os grupos evita um "·" solto. */}
+          {/* Oito códigos não cabem numa linha no celular; quebrar entre os grupos evita um "·" solto. */}
           <span>
-            <span className="whitespace-nowrap">CLF-C02 · SAA-C03 · AIF-C01</span>{" "}
+            <span className="whitespace-nowrap">CLF-C02 · SAA-C03 · AIF-C01 · SAP-C03</span>{" "}
             <span className="hidden sm:inline">· </span>
-            <span className="whitespace-nowrap">SAP-C03 · DVA-C03 · DEA-C01 · SOA-C03</span>
+            <span className="whitespace-nowrap">DVA-C03 · DEA-C01 · SOA-C03 · DOP-C02</span>
           </span>
         </p>
 
