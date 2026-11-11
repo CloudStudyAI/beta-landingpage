@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ArrowRight, Check } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
+import { certificationAccents } from "../../lib/certification-accents";
 import { START_URL } from "../../lib/launch-links";
 
 const trailSteps = [
@@ -97,6 +98,10 @@ export function LaunchHero() {
     return () => window.clearTimeout(timer);
   }, [reduce, activeMapIndex]);
 
+  const activeMap = heroMaps[activeMapIndex];
+  const accent = certificationAccents[activeMap.code] ?? "#1479ff";
+  const badgeOf = (code: string) => `/launch-assets/badge-${code.slice(0, 3).toLowerCase()}.webp`;
+
   function showNextMap() {
     setActiveMapIndex((current) => (current + 1) % heroMaps.length);
   }
@@ -105,20 +110,42 @@ export function LaunchHero() {
     <section id="top" aria-labelledby="launch-hero-title" className="relative isolate z-10 flow-root bg-[#060b1a] text-[#e8f0ff]">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute left-1/2 top-[-14rem] h-[38rem] w-[56rem] -translate-x-1/2 bg-[radial-gradient(closest-side,rgba(20,121,255,0.4),transparent)] sm:h-[42rem] sm:w-[64rem]" />
+        {/* Brilho na cor da certificação em destaque; troca junto com o mapa. */}
+        <div className="absolute left-1/2 top-[18rem] h-[34rem] w-[48rem] -translate-x-1/2 rounded-full opacity-25 blur-3xl transition-colors duration-700 sm:top-[22rem] sm:w-[70rem]" style={{ backgroundColor: accent }} />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(ellipse_at_50%_20%,black,transparent_70%)]" />
       </div>
 
       <div className="mx-auto flex max-w-6xl flex-col items-center px-5 pt-28 text-center sm:px-8 sm:pt-36 lg:pt-44">
-        <p className="inline-flex items-center gap-2 rounded-full border border-[#7fb6ff]/35 px-3.5 py-2 font-mono text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-[#7fb6ff] sm:text-xs sm:tracking-[0.14em]">
-          <span aria-hidden="true" className="h-2 w-2 rounded-full bg-[#1479ff]" />
-          {/* Onze códigos não cabem numa linha no celular; quebrar entre os grupos evita um "·" solto. */}
-          <span>
-            <span className="whitespace-nowrap">CLF-C02 · SAA-C03 · AIF-C01 · SAP-C03</span>{" "}
-            <span className="hidden sm:inline">· </span>
-            <span className="whitespace-nowrap">DVA-C03 · DEA-C01 · SOA-C03 · DOP-C02</span>{" "}
-            <span className="hidden sm:inline">· </span>
-            <span className="whitespace-nowrap">SCS-C03 · AIP-C01 · MLA-C02</span>
-          </span>
-        </p>
+        <div className="flex flex-col items-center gap-3">
+          <ul aria-label="As 11 certificações AWS da CloudStudy" className="flex items-center justify-center pl-2 sm:pl-3">
+            {heroMaps.map((map, index) => {
+              const active = index === activeMapIndex;
+              return (
+                <li key={map.code} className="-ml-2 sm:-ml-3">
+                  <button
+                    type="button"
+                    onClick={() => setActiveMapIndex(index)}
+                    aria-pressed={active}
+                    aria-label={`Ver o mapa da trilha ${map.code}`}
+                    className={`relative block rounded-full transition duration-300 ${focusRing} ${active ? "z-10 scale-125" : "opacity-80 hover:z-10 hover:scale-110 hover:opacity-100"}`}
+                  >
+                    <Image
+                      src={badgeOf(map.code)}
+                      alt=""
+                      width={56}
+                      height={56}
+                      className="h-9 w-9 object-contain sm:h-14 sm:w-14"
+                      style={active ? { filter: `drop-shadow(0 0 14px ${accent})` } : undefined}
+                    />
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+          <p className="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#7fb6ff] sm:text-xs">
+            11 certificações AWS · <span className="text-white">{activeMap.code}</span>
+          </p>
+        </div>
 
         <h1 id="launch-hero-title" className="mt-6 max-w-4xl text-balance font-display text-[2.4rem] font-extrabold leading-[1.04] tracking-[-0.055em] text-white sm:text-6xl lg:text-[4.25rem]">
           Estude AWS sabendo exatamente o{" "}
@@ -141,7 +168,8 @@ export function LaunchHero() {
 
       <div className="relative z-10 mx-auto -mb-20 mt-10 max-w-6xl px-3 sm:-mb-28 sm:mt-14 sm:px-8 lg:-mb-32">
         <motion.div
-          className="rounded-[1.5rem] border border-white/15 bg-gradient-to-b from-[#0e1a38] to-[#0a1226] shadow-[0_40px_120px_-30px_rgba(20,121,255,0.5)] sm:rounded-[1.75rem]"
+          className="rounded-[1.5rem] border border-white/15 bg-gradient-to-b from-[#0e1a38] to-[#0a1226] sm:rounded-[1.75rem]"
+          style={{ boxShadow: `0 40px 120px -30px ${accent}80`, transition: "box-shadow .7s ease" }}
           initial={reduce ? false : { opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: premiumEase, delay: 0.15 }}
