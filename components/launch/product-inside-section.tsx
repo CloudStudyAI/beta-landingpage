@@ -121,7 +121,7 @@ export function ProductInsideSection() {
             <h3 className="mt-4 font-display text-2xl font-bold tracking-[-0.03em] text-[#0b2a6f]">Ela se ajusta ao seu ritmo e ao que você erra</h3>
 
             <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
-              <div role="group" aria-label="Dias de estudo na semana" className="flex gap-1.5">
+              <div role="group" aria-label="Dias de estudo na semana" className="grid w-full max-w-[19.5rem] grid-cols-7 gap-1.5">
                 {weekDays.map((day, index) => (
                   <button
                     key={day.name}
@@ -129,7 +129,7 @@ export function ProductInsideSection() {
                     onClick={() => toggleDay(index)}
                     aria-pressed={days[index]}
                     aria-label={day.name}
-                    className={`flex h-10 w-10 items-center justify-center rounded-xl text-sm font-bold transition ${focusRing} ${days[index] ? "border-b-[3px] border-[#0b56bd] bg-[#1479ff] text-white" : "bg-[#eef4fc] text-slate-400 hover:bg-[#dfeafa]"}`}
+                    className={`flex aspect-square w-full items-center justify-center rounded-xl text-sm font-bold transition ${focusRing} ${days[index] ? "border-b-[3px] border-[#0b56bd] bg-[#1479ff] text-white" : "bg-[#eef4fc] text-slate-400 hover:bg-[#dfeafa]"}`}
                   >
                     {day.label}
                   </button>

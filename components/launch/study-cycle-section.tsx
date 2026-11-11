@@ -1,127 +1,154 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 import { useReducedMotionSafe } from "../../lib/use-reduced-motion-safe";
 
-
+// Cada passo do ciclo mostra um recorte de tela real do produto (conta de demonstração).
 const studySteps = [
-  { description: "Entenda os conceitos essenciais sem conteúdo solto.", title: "Aprenda" },
-  { description: "Aplique o que estudou e transforme teoria em entendimento.", title: "Pratique" },
-  { description: "Volte ao que precisa de atenção no momento certo.", title: "Revise" },
-  { description: "Acompanhe o que já avançou e mantenha o ritmo de estudo.", title: "Evolua" },
+  {
+    alt: "Tela de aula da CloudStudy comparando GuardDuty, Runtime Monitoring, Macie e filtro de métrica.",
+    description: "Entenda os conceitos essenciais sem conteúdo solto.",
+    image: "/study-cycle/aprenda.webp",
+    title: "Aprenda",
+  },
+  {
+    alt: "Tela de simulado da CloudStudy com uma questão de múltipla escolha.",
+    description: "Aplique o que estudou e transforme teoria em entendimento.",
+    image: "/study-cycle/pratique.webp",
+    title: "Pratique",
+  },
+  {
+    alt: "Tela de exercício corrigido, com acertos em verde, um erro em vermelho e o Nimbo explicando.",
+    description: "Volte ao que precisa de atenção no momento certo.",
+    image: "/study-cycle/revise.webp",
+    title: "Revise",
+  },
+  {
+    alt: "Painel da CloudStudy com prontidão, aulas, simulados, flashcards e progresso da trilha.",
+    description: "Acompanhe o que já avançou e mantenha o ritmo de estudo.",
+    image: "/study-cycle/evolua.webp",
+    title: "Evolua",
+  },
 ] as const;
 
-const desktopMarkerOffsets = ["lg:top-[5rem]", "lg:top-6", "lg:top-[6.5rem]", "lg:top-11"] as const;
-const premiumEase = [0.22, 1, 0.36, 1] as const;
-const stepRevealDelay = 0.675;
-const stepRevealStagger = 0.225;
-const nimboRevealDelay = 1.1;
+const STEP_MS = 5200;
+const focusRing = "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1479ff] focus-visible:ring-offset-2";
 
 export function StudyCycleSection() {
-  const prefersReducedMotion = useReducedMotionSafe().reduce;
+  const { reduce } = useReducedMotionSafe();
+  const [active, setActive] = useState(0);
+  // O ciclo avança sozinho só enquanto está na tela e até a pessoa escolher um passo.
+  const [auto, setAuto] = useState(true);
+  const [inView, setInView] = useState(false);
+  const panelRef = useRef<HTMLDivElement | null>(null);
+  const running = auto && inView && !reduce;
+
+  useEffect(() => {
+    const panel = panelRef.current;
+    if (!panel) return undefined;
+    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold: 0.35 });
+    observer.observe(panel);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!running) return undefined;
+    const timer = window.setTimeout(() => setActive((current) => (current + 1) % studySteps.length), STEP_MS);
+    return () => window.clearTimeout(timer);
+  }, [running, active]);
+
+  function choose(index: number) {
+    setAuto(false);
+    setActive(index);
+  }
+
+  const step = studySteps[active];
 
   return (
-    <section id="como-funciona" aria-labelledby="study-cycle-title" className="relative isolate scroll-mt-24 overflow-hidden px-5 py-20 sm:px-8 sm:py-24 lg:py-32">
+    <section id="como-funciona" aria-labelledby="study-cycle-title" className="relative isolate scroll-mt-24 overflow-hidden px-5 py-16 sm:px-8 sm:py-24 lg:py-28">
       <div className="mx-auto max-w-6xl">
         <div className="mx-auto max-w-3xl text-center md:mx-0 md:text-left">
           <h2 id="study-cycle-title" className="text-balance font-display text-3xl font-extrabold leading-[1.08] tracking-[-0.05em] text-[#0b2a6f] sm:text-5xl">
             Um ciclo simples para estudar com consistência.
           </h2>
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8 md:mx-0">
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-slate-600 sm:mt-5 sm:text-lg sm:leading-8 md:mx-0">
             Você aprende o conteúdo, pratica, revisa o que precisa de atenção e acompanha sua evolução.
           </p>
         </div>
 
-        <motion.div
-          className="relative mt-12 sm:mt-16 lg:mt-20"
-          // Sempre começa "hidden", igual ao servidor. Com movimento reduzido, mostra tudo assim
-          // que monta, ainda fora da tela, em vez de animar quando a pessoa chega.
-          initial="hidden"
-          animate={prefersReducedMotion ? "visible" : undefined}
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.15 }}
-        >
-          <svg aria-hidden="true" viewBox="0 0 1000 160" preserveAspectRatio="none" className="absolute left-0 right-56 top-0 hidden h-40 w-[calc(100%-14rem)] lg:block">
-            <defs>
-              <mask id="study-cycle-path-reveal" maskUnits="userSpaceOnUse" x="0" y="0" width="1000" height="160">
-                <motion.path
-                  d="M125 104C225 104 270 48 375 48s145 80 250 80 145-60 250-60"
-                  fill="none"
-                  stroke="white"
-                  strokeWidth="12"
-                  strokeLinecap="round"
-                  variants={{
-                    hidden: { opacity: 0, pathLength: 0 },
-                    visible: { opacity: 1, pathLength: 1, transition: { duration: 2.1, ease: premiumEase } },
-                  }}
-                />
-              </mask>
-            </defs>
-            <path d="M125 104C225 104 270 48 375 48s145 80 250 80 145-60 250-60" fill="none" stroke="#78adf0" strokeWidth="4" strokeLinecap="round" strokeDasharray="3 13" mask="url(#study-cycle-path-reveal)" />
-          </svg>
-
-          <motion.ol className="relative mx-auto max-w-lg sm:mx-0 sm:max-w-none lg:mr-56 lg:grid lg:grid-cols-4 lg:gap-10">
-            {studySteps.map((step, index) => (
-              <motion.li
-                key={step.title}
-                className="relative grid grid-cols-[2.75rem_1fr] gap-5 pb-12 last:pb-0 sm:grid-cols-[3rem_1fr] sm:gap-7 sm:pb-14 lg:block lg:grid-cols-none lg:pb-0 lg:text-center"
-                variants={{
-                  hidden: { opacity: 0, y: 18 },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    transition: { delay: stepRevealDelay + index * stepRevealStagger, duration: 0.78, ease: premiumEase },
-                  },
-                }}
-              >
-                {index < studySteps.length - 1 ? (
-                  <motion.span
-                    aria-hidden="true"
-                    className="absolute bottom-0 left-[21px] top-11 origin-top border-l-2 border-dashed border-[#78adf0] sm:left-[23px] lg:hidden"
-                    variants={{
-                      hidden: { opacity: 0, scaleY: 0 },
-                      visible: {
-                        opacity: 1,
-                        scaleY: 1,
-                        transition: { delay: stepRevealDelay + index * stepRevealStagger, duration: 0.675, ease: premiumEase },
-                      },
-                    }}
-                  />
-                ) : null}
-
-                <div className="relative lg:h-40">
-                  <span className={`relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-[5px] border-white bg-[#1479ff] text-xs font-bold tracking-[0.06em] text-white shadow-[0_0_0_2px_#8abaf5] sm:h-12 sm:w-12 lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:text-sm ${desktopMarkerOffsets[index]}`}>
-                    {String(index + 1).padStart(2, "0")}
+        <div ref={panelRef} className="mt-8 grid gap-5 sm:mt-12 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:items-stretch lg:gap-8">
+          <div role="tablist" aria-label="Passos do ciclo de estudo" className="grid grid-cols-4 gap-1.5 lg:grid-cols-1 lg:gap-3">
+            {studySteps.map((item, index) => {
+              const selected = index === active;
+              return (
+                <button
+                  key={item.title}
+                  type="button"
+                  role="tab"
+                  id={`study-step-${index}`}
+                  aria-selected={selected}
+                  aria-controls="study-step-panel"
+                  onClick={() => choose(index)}
+                  className={`relative overflow-hidden rounded-2xl border-2 px-1 py-2.5 text-center transition lg:px-5 lg:py-4 lg:text-left ${focusRing} ${
+                    selected ? "border-[#1479ff] bg-white shadow-[0_3px_0_#0b56bd]" : "border-[#e1ecfb] bg-white hover:border-[#9cc3f5]"
+                  }`}
+                >
+                  <span className="flex flex-col items-center gap-1.5 lg:flex-row lg:gap-4">
+                    <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold tracking-[0.06em] transition-colors lg:h-11 lg:w-11 ${selected ? "bg-[#1479ff] text-white" : "bg-[#eef4fc] text-slate-500"}`}>
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="min-w-0">
+                      <span className={`block font-display text-[0.8125rem] font-bold tracking-[-0.02em] lg:text-xl ${selected ? "text-[#0b2a6f]" : "text-slate-600"}`}>{item.title}</span>
+                      <span className={`mt-1 hidden text-sm leading-6 text-slate-600 ${selected ? "lg:block" : ""}`}>{item.description}</span>
+                    </span>
                   </span>
-                </div>
+                  {selected && running ? (
+                    <motion.span
+                      key={`progress-${active}`}
+                      aria-hidden="true"
+                      className="absolute inset-x-0 bottom-0 h-1 origin-left bg-[#1479ff]"
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      transition={{ duration: STEP_MS / 1000, ease: "linear" }}
+                    />
+                  ) : null}
+                </button>
+              );
+            })}
+          </div>
 
-                <div className="pt-1 lg:mt-6 lg:pt-0">
-                  <h3 className="font-display text-2xl font-bold tracking-[-0.04em] text-[#0b2a6f] sm:text-[1.75rem]">{step.title}</h3>
-                  <p className="mt-3 max-w-sm text-[0.9375rem] leading-6 text-slate-600 sm:text-base sm:leading-7 lg:mx-auto">{step.description}</p>
-                </div>
-              </motion.li>
-            ))}
-          </motion.ol>
-
-          <motion.div
-            className="mt-10 flex justify-center sm:mt-12 sm:justify-end lg:absolute lg:right-0 lg:top-4 lg:mt-0 lg:w-56"
-            variants={{
-              hidden: { opacity: 0, scale: 0.94, y: 10 },
-              visible: { opacity: 1, scale: 1, y: 0, transition: { delay: nimboRevealDelay, duration: 0.75, ease: premiumEase } },
-            }}
-          >
+          <div id="study-step-panel" role="tabpanel" aria-labelledby={`study-step-${active}`} className="relative">
+            {/* No celular a descrição do passo fica aqui, acima da tela; no desktop ela está no botão. */}
+            <p className="mb-3 min-h-12 text-center text-[0.9375rem] font-semibold leading-6 text-[#0b2a6f] lg:hidden">{step.description}</p>
+            <div className="relative overflow-hidden rounded-[1.5rem] border border-[#1b2a52] bg-[#060b1a] p-1.5 shadow-[0_30px_70px_-36px_rgba(11,42,111,0.75)] sm:rounded-[2rem] sm:p-2.5">
+              <div className="relative aspect-[16/10] overflow-hidden rounded-[1.125rem] sm:rounded-[1.5rem]">
+                <AnimatePresence initial={false}>
+                  <motion.div
+                    key={step.image}
+                    className="absolute inset-0"
+                    initial={reduce ? false : { opacity: 0, scale: 1.03 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={reduce ? undefined : { opacity: 0 }}
+                    transition={{ duration: 0.45 }}
+                  >
+                    <Image src={step.image} alt={step.alt} width={1600} height={1000} sizes="(min-width: 1024px) 760px, calc(100vw - 52px)" className="h-full w-full object-cover" />
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            </div>
             <Image
               src="/launch-assets/robot-happy.webp"
-              alt="Nimbo feliz acompanhando o ciclo de estudo."
+              alt=""
               width={960}
               height={960}
-              sizes="(min-width: 1024px) 224px, (min-width: 640px) 192px, (min-width: 390px) 176px, 160px"
-              className="h-auto w-40 drop-shadow-[0_18px_16px_rgba(11,42,111,0.14)] min-[390px]:w-44 sm:w-48 lg:w-56"
+              sizes="(min-width: 1024px) 144px, 88px"
+              className="pointer-events-none absolute -bottom-6 -right-2 h-auto w-[5.5rem] drop-shadow-[0_14px_16px_rgba(11,42,111,0.25)] sm:-bottom-8 sm:-right-5 sm:w-28 lg:w-36"
             />
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );
