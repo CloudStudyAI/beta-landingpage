@@ -1,4 +1,5 @@
 import { CertificationPathsSection } from "../components/launch/certification-paths-section";
+import { DashboardScrollFilm } from "../components/launch/dashboard-scroll-film";
 import { FaqSection } from "../components/launch/faq-section";
 import { FinalCtaSection } from "../components/launch/final-cta-section";
 import { LaunchFooter } from "../components/launch/launch-footer";
@@ -16,6 +17,7 @@ export default function HomePage() {
       <LaunchHeader />
       <LaunchHero />
       <LaunchNumbers />
+      <DashboardScrollFilm />
       <ProductInsideSection />
       <div id="plataforma" className="scroll-mt-24 bg-white">
         <StudyCycleSection />
