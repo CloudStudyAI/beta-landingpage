@@ -1,8 +1,9 @@
 "use client";
 
-import { motion, useMotionValue, useReducedMotion, useTransform, type MotionValue } from "framer-motion";
+import { motion, useMotionValue, useTransform, type MotionValue } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
+import { useReducedMotionSafe } from "../../lib/use-reduced-motion-safe";
 import type { FilmScene } from "./dashboard-scroll-scene";
 
 // Notebook 3D com o painel da CloudStudy (telas reais de uma conta de demonstracao), desenhado
@@ -32,7 +33,7 @@ function Caption({ progress, range, title, body }: { progress: MotionValue<numbe
 }
 
 export function DashboardScrollFilm() {
-  const reduce = useReducedMotion();
+  const { reduce } = useReducedMotionSafe();
   const [failed, setFailed] = useState(false);
   const [ready, setReady] = useState(false);
   const sectionRef = useRef<HTMLElement | null>(null);

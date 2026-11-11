@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+
+import { useReducedMotionSafe } from "../../lib/use-reduced-motion-safe";
 
 
 const studySteps = [
@@ -18,7 +20,7 @@ const stepRevealStagger = 0.225;
 const nimboRevealDelay = 1.1;
 
 export function StudyCycleSection() {
-  const prefersReducedMotion = useReducedMotion();
+  const prefersReducedMotion = useReducedMotionSafe().reduce;
 
   return (
     <section id="como-funciona" aria-labelledby="study-cycle-title" className="relative isolate scroll-mt-24 overflow-hidden px-5 py-20 sm:px-8 sm:py-24 lg:py-32">
@@ -34,7 +36,10 @@ export function StudyCycleSection() {
 
         <motion.div
           className="relative mt-12 sm:mt-16 lg:mt-20"
-          initial={prefersReducedMotion ? "visible" : "hidden"}
+          // Sempre começa "hidden", igual ao servidor. Com movimento reduzido, mostra tudo assim
+          // que monta, ainda fora da tela, em vez de animar quando a pessoa chega.
+          initial="hidden"
+          animate={prefersReducedMotion ? "visible" : undefined}
           whileInView="visible"
           viewport={{ once: true, amount: 0.15 }}
         >

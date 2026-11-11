@@ -3,9 +3,10 @@
 import { useState } from "react";
 import Image from "next/image";
 import { ArrowRight, CalendarDays, Check, Layers3, Sparkles, Target, Timer, X } from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 
 import { START_URL } from "../../lib/launch-links";
+import { useReducedMotionSafe } from "../../lib/use-reduced-motion-safe";
 
 const premiumEase = [0.22, 1, 0.36, 1] as const;
 const cardBase = "rounded-[1.75rem] p-6 sm:p-8";
@@ -58,7 +59,7 @@ function Eyebrow({ icon: Icon, children, dark = false }: { icon: typeof Target; 
 }
 
 export function ProductInsideSection() {
-  const reduce = useReducedMotion();
+  const { reduce } = useReducedMotionSafe();
   const [days, setDays] = useState<boolean[]>([true, true, true, true, true, false, false]);
   const [minutes, setMinutes] = useState<number>(30);
   const [cardIndex, setCardIndex] = useState(0);
@@ -69,8 +70,9 @@ export function ProductInsideSection() {
   const [lastResult, setLastResult] = useState<{ topic: string; right: boolean } | null>(null);
 
   const reveal = (delay: number) => ({
-    initial: reduce ? false : { opacity: 0, y: 22 },
-    transition: { delay, duration: 0.7, ease: premiumEase },
+    // Mesmo estado inicial do servidor; com movimento reduzido o card so aparece, sem animar.
+    initial: { opacity: 0, y: 22 },
+    transition: reduce ? { duration: 0 } : { delay, duration: 0.7, ease: premiumEase },
     viewport: { amount: 0.2, once: true },
     whileInView: { opacity: 1, y: 0 },
   });

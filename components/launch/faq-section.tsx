@@ -2,7 +2,9 @@
 
 import { useId, useState } from "react";
 import Image from "next/image";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+
+import { useReducedMotionSafe } from "../../lib/use-reduced-motion-safe";
 import { Plus } from "lucide-react";
 
 
@@ -49,7 +51,7 @@ const premiumEase = [0.22, 1, 0.36, 1] as const;
 
 function FaqItem({ answer, initiallyOpen, question }: { answer: string; initiallyOpen: boolean; question: string }) {
   const [isOpen, setIsOpen] = useState(initiallyOpen);
-  const prefersReducedMotion = useReducedMotion();
+  const prefersReducedMotion = useReducedMotionSafe().reduce;
   const uniqueId = useId();
   const buttonId = `faq-button-${uniqueId}`;
   const responseId = `faq-response-${uniqueId}`;

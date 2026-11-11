@@ -3,10 +3,11 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { ArrowRight, Check } from "lucide-react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 
 import { certificationAccents } from "../../lib/certification-accents";
 import { START_URL } from "../../lib/launch-links";
+import { useReducedMotionSafe } from "../../lib/use-reduced-motion-safe";
 
 const trailSteps = [
   { done: true, label: "Introdução à computação em nuvem" },
@@ -85,7 +86,7 @@ const premiumEase = [0.22, 1, 0.36, 1] as const;
 const focusRing = "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-300";
 
 export function LaunchHero() {
-  const reduce = useReducedMotion();
+  const { reduce, mounted } = useReducedMotionSafe();
   const [activeMapIndex, setActiveMapIndex] = useState(0);
 
   // setTimeout (not setInterval) re-arms on every activeMapIndex change, so a
@@ -170,9 +171,11 @@ export function LaunchHero() {
         <motion.div
           className="rounded-[1.5rem] border border-white/15 bg-gradient-to-b from-[#0e1a38] to-[#0a1226] sm:rounded-[1.75rem]"
           style={{ boxShadow: `0 40px 120px -30px ${accent}80`, transition: "box-shadow .7s ease" }}
-          initial={reduce ? false : { opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: premiumEase, delay: 0.15 }}
+          // Entrada so depois de montar: assim o primeiro desenho bate com o do servidor e quem
+          // pediu menos movimento ve o painel aparecer sem animacao.
+          initial={{ opacity: 0, y: 28 }}
+          animate={mounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
+          transition={reduce ? { duration: 0 } : { duration: 0.8, ease: premiumEase, delay: 0.15 }}
         >
           <div className="flex items-center gap-2 border-b border-white/10 px-4 py-3 sm:px-5">
             <span aria-hidden="true" className="h-2.5 w-2.5 rounded-full bg-[#2a3556]" />
@@ -263,9 +266,9 @@ export function LaunchHero() {
                     <div className="mt-1.5 h-2 rounded-full bg-[#16213f]">
                       <motion.div
                         className={`h-2 rounded-full ${area.tone}`}
-                        initial={reduce ? false : { width: 0 }}
-                        animate={{ width: area.width }}
-                        transition={{ duration: 0.9, ease: premiumEase, delay: 0.6 + index * 0.12 }}
+                        initial={{ width: 0 }}
+                        animate={{ width: mounted ? area.width : 0 }}
+                        transition={reduce ? { duration: 0 } : { duration: 0.9, ease: premiumEase, delay: 0.6 + index * 0.12 }}
                       />
                     </div>
                   </div>
