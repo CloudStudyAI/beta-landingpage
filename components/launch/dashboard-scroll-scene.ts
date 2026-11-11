@@ -147,41 +147,48 @@ function cursorTexture() {
 }
 
 const SCREEN_FRAGMENT = `
-uniform sampler2D tA; uniform sampler2D tB; uniform sampler2D tC;
-uniform float uOpen; uniform float uR; uniform float uBright; uniform vec2 uCenter;
+uniform sampler2D tA; uniform sampler2D tB; uniform float uMix; uniform float uBright;
 varying vec2 vUv;
 void main() {
   vec2 q = (vUv - .5) * vec2(1.6, 1.);
   vec2 dd = abs(q) - (vec2(.8, .5) - .014);
   if (length(max(dd, 0.)) - .014 > 0.) discard; // cantos arredondados da tela
-  vec4 col = mix(texture2D(tA, vUv), texture2D(tB, vUv), uOpen);
-  vec2 rel = (vUv - uCenter) * vec2(1.6, 1.);
-  float wobble = 1. + .05 * sin(atan(rel.y, rel.x) * 5. + uR * 4.);
-  float inside = 1. - smoothstep(uR * wobble - .05, uR * wobble, length(rel));
-  col = mix(col, texture2D(tC, vUv), inside * step(.0005, uR));
+  vec4 col = mix(texture2D(tA, vUv), texture2D(tB, vUv), uMix);
   gl_FragColor = vec4(col.rgb * uBright, 1.);
   #include <colorspace_fragment>
 }`;
 const SCREEN_VERTEX = "varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.); }";
 
-// Roteiro da camera: "wide" e uma posicao solta no estudio; "uv" olha de frente para um ponto
-// da tela (u, v de 0 a 1) a uma distancia d.
+// Roteiro. Tudo e funcao do progresso p (0 a 1), entao rolar para tras desfaz cada passo.
+// Camera: "wide" e uma posicao solta no estudio; "uv" olha de frente para um ponto da tela
+// (u, v de 0 a 1) a uma distancia d.
 type Key = { p: number; wide?: [number[], number[]]; uv?: [number, number, number] };
 const KEYS: Key[] = [
   { p: 0, wide: [[0, 3.7, 6.2], [0, 0.3, 0.15]] },
-  { p: 0.2, wide: [[0, 1.95, 6.9], [0, 0.95, -0.3]] },
-  { p: 0.34, uv: [0.5, 0.5, 4.6] },
-  { p: 0.42, uv: [0.46, 0.7, 2.75] },
-  { p: 0.5, uv: [0.46, 0.68, 2.65] },
-  { p: 0.56, uv: [0.855, 0.56, 2.5] },
-  { p: 0.62, uv: [0.855, 0.54, 2.42] },
-  { p: 0.68, uv: [0.85, 0.7, 2.3] },
-  { p: 0.84, uv: [0.85, 0.68, 2.24] },
-  { p: 0.92, uv: [0.5, 0.5, 4.6] },
+  { p: 0.15, wide: [[0, 1.95, 6.9], [0, 0.95, -0.3]] },
+  { p: 0.25, uv: [0.5, 0.5, 4.6] },
+  { p: 0.3, uv: [0.44, 0.66, 2.9] }, // painel: numeros e proxima aula
+  { p: 0.37, uv: [0.42, 0.6, 2.8] },
+  { p: 0.41, uv: [0.5, 0.52, 3.5] }, // aula: a pergunta
+  { p: 0.55, uv: [0.5, 0.46, 3.4] },
+  { p: 0.6, uv: [0.5, 0.31, 3.35] }, // aula: o Nimbo explica o erro
+  { p: 0.67, uv: [0.5, 0.31, 3.25] },
+  { p: 0.71, uv: [0.55, 0.57, 4.15] }, // simulado
+  { p: 0.86, uv: [0.56, 0.57, 4.0] },
+  { p: 0.93, uv: [0.5, 0.5, 4.6] },
   { p: 1, wide: [[0, 1.95, 6.9], [0, 0.95, -0.3]] },
 ];
-const SWITCHER: [number, number] = [0.87, 0.918];
-const OPTION: [number, number] = [0.8, 0.434];
+// Telas (s0..s8 em public/dashboard-scroll) e o instante em que cada uma entra.
+// 0 painel, 1-4 aula (0 a 3 respostas marcadas), 5 aula corrigida, 6-8 simulado.
+const SCREENS: [number, number][] = [[0, 0], [0.374, 1], [0.434, 2], [0.474, 3], [0.514, 4], [0.564, 5], [0.685, 6], [0.754, 7], [0.804, 8]];
+const FADE = 0.012;
+// Caminho do cursor: [p, u, v]. Cada parada coincide com um clique.
+const CURSOR: [number, number, number][] = [
+  [0.31, 0.7, 0.2], [0.365, 0.296, 0.334], [0.4, 0.5, 0.4], [0.43, 0.651, 0.515], [0.47, 0.349, 0.374], [0.51, 0.349, 0.23],
+  [0.56, 0.81, 0.049], [0.69, 0.86, 0.12], [0.75, 0.692, 0.337], [0.8, 0.518, 0.263], [0.86, 0.6, 0.18],
+];
+const CLICKS = [0.37, 0.43, 0.47, 0.51, 0.56, 0.75, 0.8];
+const SCREEN_COUNT = 9;
 
 export async function createFilmScene(canvas: HTMLCanvasElement, size: "lg" | "sm"): Promise<FilmScene> {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "high-performance" });
@@ -206,7 +213,9 @@ export async function createFilmScene(canvas: HTMLCanvasElement, size: "lg" | "s
       t.generateMipmaps = true;
       return t;
     });
-  const [tA, tB, tC] = await Promise.all([loadScreen("saa"), loadScreen("switch_open"), loadScreen("clf")]);
+  const textures = await Promise.all(Array.from({ length: SCREEN_COUNT }, (_, i) => loadScreen(`s${i}`)));
+  // Envia todas as telas para a placa de video ja: sem isso, a primeira troca de tela engasga.
+  textures.forEach((t) => renderer.initTexture(t));
 
   const aluminium = new THREE.MeshStandardMaterial({ color: "#a7abb2", roughness: 0.34, metalness: 1 });
   const rig = new THREE.Group();
@@ -243,7 +252,7 @@ export async function createFilmScene(canvas: HTMLCanvasElement, size: "lg" | "s
   const bezel = new THREE.Mesh(new THREE.ShapeGeometry(roundedRect(W - 0.03, LH - 0.03, 0.105, -(W - 0.03) / 2, 0.015), 10), new THREE.MeshStandardMaterial({ color: "#050506", roughness: 0.16, metalness: 0.3 }));
   bezel.position.z = 0.0012;
   lid.add(bezel);
-  const uniforms = { tA: { value: tA }, tB: { value: tB }, tC: { value: tC }, uOpen: { value: 0 }, uR: { value: 0 }, uBright: { value: 1 }, uCenter: { value: new THREE.Vector2(OPTION[0], OPTION[1]) } };
+  const uniforms = { tA: { value: textures[0] }, tB: { value: textures[0] }, uMix: { value: 0 }, uBright: { value: 1 } };
   const screen = new THREE.Mesh(new THREE.PlaneGeometry(SW, SH), new THREE.ShaderMaterial({ uniforms, vertexShader: SCREEN_VERTEX, fragmentShader: SCREEN_FRAGMENT, toneMapped: false }));
   screen.position.set(0, LH - 0.075 - SH / 2, 0.003);
   lid.add(screen);
@@ -279,22 +288,28 @@ export async function createFilmScene(canvas: HTMLCanvasElement, size: "lg" | "s
 
   const render = (progress: number) => {
     const p = clamp(progress);
-    const opened = ss(0.02, 0.2, p);
+    const opened = ss(0.01, 0.15, p);
     lid.rotation.x = lerp(CLOSED, OPEN, opened);
-    rig.rotation.y = lerp(-0.55, -0.2, ss(0, 0.2, p)) * (1 - ss(0.2, 0.33, p)) + 0.3 * ss(0.92, 1, p);
+    rig.rotation.y = lerp(-0.55, -0.2, ss(0, 0.15, p)) * (1 - ss(0.15, 0.24, p)) + 0.3 * ss(0.93, 1, p);
     uniforms.uBright.value = lerp(0.04, 1, ss(0.35, 0.85, opened));
-    uniforms.uOpen.value = ss(0.7, 0.712, p) * (1 - ss(0.775, 0.79, p));
-    const reveal = clamp((p - 0.765) / 0.075);
-    uniforms.uR.value = 2.4 * reveal * reveal;
-    // cursor: entra pela direita, clica no seletor, desce ate a opcao e clica
-    const toSwitcher = ss(0.63, 0.695, p);
-    const toOption = ss(0.715, 0.755, p);
-    const cu = lerp(lerp(0.99, SWITCHER[0], toSwitcher), OPTION[0], toOption);
-    const cv = lerp(lerp(0.6, SWITCHER[1], toSwitcher), OPTION[1], toOption);
+    // tela atual e a proxima, com um fade curto na troca
+    let si = 0;
+    while (si < SCREENS.length - 1 && p >= SCREENS[si + 1][0]) si += 1;
+    const entering = si > 0 ? clamp((p - SCREENS[si][0]) / FADE) : 1;
+    uniforms.tA.value = textures[SCREENS[Math.max(si - 1, 0)][1]];
+    uniforms.tB.value = textures[SCREENS[si][1]];
+    uniforms.uMix.value = entering;
+    // cursor
+    let ci = 0;
+    while (ci < CURSOR.length - 2 && p > CURSOR[ci + 1][0]) ci += 1;
+    const ct = ss(CURSOR[ci][0], CURSOR[ci + 1][0], p);
+    const cu = lerp(CURSOR[ci][1], CURSOR[ci + 1][1], ct);
+    const cv = lerp(CURSOR[ci][2], CURSOR[ci + 1][2], ct);
     cursor.position.set((cu - 0.5) * SW, (cv - 0.5) * SH, 0.002);
-    const press = Math.max(1 - Math.abs(p - 0.7) / 0.008, 1 - Math.abs(p - 0.762) / 0.008, 0);
-    cursor.scale.setScalar(1 - 0.16 * clamp(press));
-    cursorMaterial.opacity = ss(0.63, 0.65, p) * (1 - ss(0.83, 0.85, p));
+    let press = 0;
+    for (const c of CLICKS) press = Math.max(press, 1 - Math.abs(p - c) / 0.007);
+    cursor.scale.setScalar(1 - 0.18 * clamp(press));
+    cursorMaterial.opacity = ss(0.31, 0.33, p) * (1 - ss(0.84, 0.86, p)) * (1 - ss(0.585, 0.6, p) * (1 - ss(0.69, 0.705, p)));
     rig.updateMatrixWorld(true);
 
     let i = 0;
@@ -331,7 +346,7 @@ export async function createFilmScene(canvas: HTMLCanvasElement, size: "lg" | "s
         x.dispose();
       });
     });
-    [tA, tB, tC].forEach((t) => t.dispose());
+    textures.forEach((t) => t.dispose());
     envTarget.dispose();
     pmrem.dispose();
     renderer.dispose();

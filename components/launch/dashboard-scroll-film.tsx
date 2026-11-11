@@ -13,10 +13,11 @@ const EDGE_FADE = "linear-gradient(to right, transparent, black 2.5%, black 97.5
 
 // Cada legenda acompanha uma parada da camera (ver KEYS em dashboard-scroll-scene.ts).
 const captions = [
-  { range: [-1, -0.5, 0.24, 0.3], title: "Veja por dentro.", body: "O painel real da CloudStudy, do jeito que o aluno usa." },
-  { range: [0.36, 0.41, 0.49, 0.53], title: "Tudo o que importa numa tela só.", body: "Prontidão, aulas, simulados e flashcards, sempre atualizados." },
-  { range: [0.54, 0.57, 0.62, 0.65], title: "O Nimbo aponta o próximo passo.", body: "Ele olha onde você erra e recomenda o que estudar agora." },
-  { range: [0.67, 0.7, 0.85, 0.9], title: "Troque de prova em um clique.", body: "As 11 certificações ficam no mesmo painel, cada uma com seu progresso." },
+  { range: [-1, -0.5, 0.19, 0.24], title: "Veja por dentro.", body: "O painel real da CloudStudy, do jeito que o aluno usa." },
+  { range: [0.26, 0.29, 0.355, 0.385], title: "Tudo o que importa numa tela só.", body: "Prontidão, aulas, simulados e flashcards, sempre atualizados." },
+  { range: [0.395, 0.42, 0.535, 0.56], title: "Aula que faz você praticar.", body: "Nada de só assistir: você responde a cada passo." },
+  { range: [0.575, 0.6, 0.655, 0.68], title: "Errou? O Nimbo explica.", body: "Na hora, com o porquê de cada resposta." },
+  { range: [0.695, 0.72, 0.85, 0.89], title: "Simulado com o relógio correndo.", body: "Treine no ritmo da prova e analise seus erros no final." },
 ] as const;
 
 function Caption({ progress, range, title, body }: { progress: MotionValue<number>; range: readonly number[]; title: string; body: string }) {
@@ -141,7 +142,7 @@ export function DashboardScrollFilm() {
   }
 
   return (
-    <section ref={sectionRef} aria-labelledby="dashboard-film-title" className="relative h-[460vh] bg-white sm:h-[520vh]">
+    <section ref={sectionRef} aria-labelledby="dashboard-film-title" className="relative h-[560vh] bg-white sm:h-[640vh]">
       <h2 id="dashboard-film-title" className="sr-only">Veja por dentro o painel da CloudStudy</h2>
       <div className="sticky top-0 flex h-[100svh] flex-col items-center justify-center overflow-hidden px-4 pb-6 pt-24 sm:pt-28">
         <div className="relative h-[8.5rem] w-full sm:h-[11.75rem]" aria-hidden="true">
@@ -152,7 +153,7 @@ export function DashboardScrollFilm() {
         <canvas
           ref={canvasRef}
           role="img"
-          aria-label="Animação de um notebook abrindo com o painel da CloudStudy: prontidão, aulas, simulados, flashcards, recomendação do Nimbo e troca entre certificações, com dados de exemplo"
+          aria-label="Animação de um notebook abrindo com o painel da CloudStudy: prontidão, uma aula com exercício corrigido pelo Nimbo e um simulado cronometrado, com dados de exemplo"
           // Bordas esfumacadas: quando a camera entra na tela, o painel encosta no limite do canvas.
           style={{ maskImage: EDGE_FADE, WebkitMaskImage: EDGE_FADE, maskComposite: "intersect", WebkitMaskComposite: "source-in", opacity: ready ? 1 : 0, transition: "opacity .5s ease" }}
           className="mt-2 aspect-[4/3] rounded-[1.75rem] w-[min(100%,calc((100svh-15rem)*4/3))] sm:w-[min(100%,72rem,calc((100svh-18.75rem)*4/3))]"
