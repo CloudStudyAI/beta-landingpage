@@ -8,15 +8,16 @@ import { ArrowRight } from "lucide-react";
 import { certificationAccents } from "../../lib/certification-accents";
 import { START_URL } from "../../lib/launch-links";
 
-type LevelId = "fundamentos" | "associate" | "professional" | "specialty";
+type LevelId = "fundamentos" | "associate" | "professional" | "specialty" | "business";
 
-// Os quatro níveis oficiais da AWS. Com muitas trilhas, a seção mostra um nível por vez e um mapa só,
+// As categorias oficiais da AWS (Business entrou com a AIB-C01). Com muitas trilhas, a seção mostra um nível por vez e um mapa só,
 // em vez de um mapa grande para cada certificação.
 const levels: readonly { id: LevelId; label: string; hint: string }[] = [
   { id: "fundamentos", label: "Fundamentos", hint: "Para começar do zero na AWS." },
   { id: "associate", label: "Associate", hint: "Para quem já usa AWS no dia a dia." },
   { id: "professional", label: "Professional", hint: "Para quem projeta e opera em escala." },
   { id: "specialty", label: "Specialty", hint: "Para aprofundar uma área, como segurança." },
+  { id: "business", label: "Business", hint: "Para quem lidera IA no negócio, sem programar." },
 ];
 
 type CertificationPath = {
@@ -131,6 +132,16 @@ const certificationPaths: readonly CertificationPath[] = [
     note: "Conteúdo em português, com os termos da prova em inglês. A prova não tem versão em português.",
     title: "AWS Certified Machine Learning Engineer – Associate",
   },
+  {
+    badge: "/launch-assets/badge-aib.webp",
+    code: "AIB-C01",
+    level: "business",
+    description: "Lidere IA no negócio sem programar: casos de uso, valor e ROI, governança, IA responsável e a transformação da empresa.",
+    map: "/launch-assets/map-aib.webp",
+    // Pagina da certificacao em 13/11/2026: AIB-C01 em beta, so em ingles e japones.
+    note: "Conteúdo em português, com os termos da prova em inglês. A prova não tem versão em português.",
+    title: "AWS Certified AI Business Strategist",
+  },
 ] as const;
 
 const accents = certificationAccents;
@@ -164,8 +175,8 @@ export function CertificationPathsSection() {
             </p>
           </div>
           <div className="shrink-0">
-            <div role="tablist" aria-label="Nível da certificação" className="grid grid-cols-2 gap-1 rounded-2xl bg-[#e8f1fd] p-1 sm:inline-grid sm:grid-cols-4">
-              {levels.map((level) => {
+            <div role="tablist" aria-label="Nível da certificação" className="grid grid-cols-6 gap-1 rounded-2xl bg-[#e8f1fd] p-1 sm:inline-grid sm:grid-cols-5">
+              {levels.map((level, index) => {
                 const count = certificationPaths.filter((certification) => certification.level === level.id).length;
                 const active = level.id === levelId;
                 return (
@@ -176,7 +187,7 @@ export function CertificationPathsSection() {
                     aria-selected={active}
                     aria-controls="certification-level-panel"
                     onClick={() => chooseLevel(level.id)}
-                    className={`min-h-11 whitespace-nowrap rounded-xl px-1 text-[13px] font-bold transition sm:px-5 sm:text-sm ${
+                    className={`min-h-11 whitespace-nowrap rounded-xl px-1 text-[13px] font-bold transition sm:col-span-1 sm:px-5 sm:text-sm ${index < 3 ? "col-span-2" : "col-span-3"} ${
                       active ? "bg-[#0b2a6f] text-white shadow-sm" : "text-slate-600 hover:text-[#0b2a6f]"
                     }`}
                   >

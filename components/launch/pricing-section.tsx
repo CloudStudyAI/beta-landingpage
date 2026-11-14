@@ -7,12 +7,12 @@ const freeFeatures = [
   "Aulas selecionadas da certificação",
   "12 flashcards para fixar o conteúdo",
   "Diagnóstico de 10 questões",
-  "Escolha qualquer uma das onze certificações",
+  "Escolha qualquer uma das doze certificações",
 ] as const;
 
 const allAccessFeatures = [
   "Trilhas, aulas, simulados, flashcards e desempenho",
-  "As onze certificações e as próximas adições ao catálogo",
+  "As doze certificações e as próximas adições ao catálogo",
   "Cartão com renovação mensal ou Pix de 30 dias, sem renovação automática",
   "Cancele quando quiser",
 ] as const;
@@ -29,6 +29,7 @@ const lifetimeOffers = [
   { code: "SCS-C03", name: "Security Specialty", cents: LIFETIME_PRICES_CENTS["SCS-C03"] },
   { code: "AIP-C01", name: "Generative AI Developer Professional", cents: LIFETIME_PRICES_CENTS["AIP-C01"] },
   { code: "MLA-C02", name: "Machine Learning Engineer Associate", cents: LIFETIME_PRICES_CENTS["MLA-C02"] },
+  { code: "AIB-C01", name: "AI Business Strategist", cents: LIFETIME_PRICES_CENTS["AIB-C01"] },
 ] as const;
 
 const cardBase = "relative flex flex-col rounded-3xl border-2 bg-white p-6 sm:p-7";

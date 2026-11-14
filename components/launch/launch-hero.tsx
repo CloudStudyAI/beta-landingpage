@@ -74,6 +74,11 @@ const heroMaps = [
     code: "MLA-C02",
     src: "/launch-assets/map-mla.webp",
   },
+  {
+    alt: "Cidade flutuante com os 16 módulos da trilha do AI Business Strategist, do primeiro nível até a torre da IA em escala.",
+    code: "AIB-C01",
+    src: "/launch-assets/map-aib.webp",
+  },
 ] as const;
 
 const areas = [
@@ -118,7 +123,7 @@ export function LaunchHero() {
 
       <div className="mx-auto flex max-w-6xl flex-col items-center px-5 pt-28 text-center sm:px-8 sm:pt-36 lg:pt-44">
         <div className="flex flex-col items-center gap-3">
-          <ul aria-label="As 11 certificações AWS da CloudStudy" className="flex items-center justify-center pl-2 sm:pl-3">
+          <ul aria-label="As 12 certificações AWS da CloudStudy" className="flex items-center justify-center pl-2 sm:pl-3">
             {heroMaps.map((map, index) => {
               const active = index === activeMapIndex;
               return (
@@ -144,7 +149,7 @@ export function LaunchHero() {
             })}
           </ul>
           <p className="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#7fb6ff] sm:text-xs">
-            11 certificações AWS · <span className="text-white">{activeMap.code}</span>
+            12 certificações AWS · <span className="text-white">{activeMap.code}</span>
           </p>
         </div>
 
