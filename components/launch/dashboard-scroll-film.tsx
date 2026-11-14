@@ -134,7 +134,7 @@ export function DashboardScrollFilm() {
       <section aria-labelledby="dashboard-film-title" className="bg-white px-5 py-16 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-5xl text-center">
           <h2 id="dashboard-film-title" className="text-balance font-display text-3xl font-extrabold leading-[1.06] tracking-[-0.05em] text-[#0b2a6f] sm:text-5xl">Veja por dentro.</h2>
-          <p className="mx-auto mt-3 max-w-md text-base leading-7 text-slate-600">Prontidão, aulas, simulados e flashcards das 11 certificações num painel só.</p>
+          <p className="mx-auto mt-3 max-w-md text-base leading-7 text-slate-600">Prontidão, aulas, simulados e flashcards das 12 certificações num painel só.</p>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={POSTER} alt="Notebook com o painel da CloudStudy: prontidão, aulas, simulados e flashcards de uma conta de exemplo" width={1280} height={960} loading="lazy" className="mx-auto mt-6 h-auto w-full max-w-3xl" />
         </div>

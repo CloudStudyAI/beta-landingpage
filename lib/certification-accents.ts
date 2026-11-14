@@ -12,4 +12,5 @@ export const certificationAccents: Record<string, string> = {
   "DOP-C02": "#d05ad8",
   "AIP-C01": "#e0a050",
   "SCS-C03": "#ef5b7f",
+  "AIB-C01": "#e4006f",
 };

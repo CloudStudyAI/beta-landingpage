@@ -1,13 +1,14 @@
-// Totais gerais (as 11 certificações publicadas somadas). Base: specs e bancos publicados no
+// Totais gerais (as 12 certificações somadas). Base: specs e bancos publicados no
 // System_Dashboard (feature/publish-scs-aip-mla, cadeia ate 20261110_0082), em 10/11/2026:
 // CLF 10/720, SAA 10/705, AIF 10/665, SAP 10/930, DVA 10/651, DEA 10/650, SOA 10/650, DOP 10/750,
-// SCS 10/650, AIP 10/750, MLA 10/650 = 110 provas completas e 7.771 questões. SAP, DOP e AIP usam
+// SCS 10/650, AIP 10/750, MLA 10/650 = 110 provas completas e 7.771 questões; mais a AIB-C01
+// (feature/aib-c01, 14/11/2026) com 8/520 = 118 provas e 8.291 questões. SAP, DOP e AIP usam
 // provas de 75 questões, por isso o rótulo não cita 65. Publicar só depois que a API de produção
-// listar as 11 certificações; confirmar de novo antes de anúncios.
+// listar as 12 certificações; confirmar de novo antes de anúncios.
 const numbers = [
-  { label: "certificações AWS", value: "11" },
-  { label: "simulados completos no formato da prova", value: "110" },
-  { label: "questões com explicação", value: "+7.700" },
+  { label: "certificações AWS", value: "12" },
+  { label: "simulados completos no formato da prova", value: "118" },
+  { label: "questões com explicação", value: "+8.200" },
   { label: "para começar, sem cartão", value: "R$ 0" },
 ] as const;
 
