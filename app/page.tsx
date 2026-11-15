@@ -2,6 +2,7 @@ import { CertificationPathsSection } from "../components/launch/certification-pa
 import { DashboardScrollFilm } from "../components/launch/dashboard-scroll-film";
 import { FaqSection } from "../components/launch/faq-section";
 import { FinalCtaSection } from "../components/launch/final-cta-section";
+import { LabsSection } from "../components/launch/labs-section";
 import { LaunchFooter } from "../components/launch/launch-footer";
 import { LaunchHeader } from "../components/launch/launch-header";
 import { LaunchHero } from "../components/launch/launch-hero";
@@ -19,6 +20,7 @@ export default function HomePage() {
       <LaunchNumbers />
       <DashboardScrollFilm />
       <ProductInsideSection />
+      <LabsSection />
       <div id="plataforma" className="scroll-mt-24 bg-white">
         <StudyCycleSection />
         <CertificationPathsSection />
