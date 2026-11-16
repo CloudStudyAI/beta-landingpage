@@ -263,3 +263,50 @@ test("support page shows a real contact without the intro in the way", () => {
   assert.match(read("components/IntroGate.tsx"), /"\/suporte"/);
   assert.match(read("components/launch/launch-footer.tsx"), /href: "\/suporte"/);
 });
+
+test("a demonstração de laboratórios reproduz os resultados dos labs reais", () => {
+  const demo = loadModule("lib/labs-demo.ts");
+  // Mesmos números do lab "Segure a Black Friday da Pipoca Store" (SAA-C03) no System_Dashboard,
+  // conferidos no motor do backend em 15/11/2026 para as 8 combinações.
+  // [servidor, réplica, cache] -> custo, metas [pico, queda de zona, orçamento] e erro por momento.
+  const expected = [
+    [[0, 0, 0], 485, [0, 0, 1], [0, 31, 100, 0]],
+    [[0, 0, 1], 555, [0, 0, 1], [0, 31, 100, 0]],
+    [[0, 1, 0], 695, [0, 0, 1], [0, 31, 100, 0]],
+    [[0, 1, 1], 765, [0, 0, 1], [0, 31, 100, 0]],
+    [[1, 0, 0], 625, [1, 0, 1], [0, 0, 100, 0]],
+    [[1, 0, 1], 695, [1, 0, 1], [0, 0, 100, 0]],
+    [[1, 1, 0], 835, [1, 1, 1], [0, 0, 0, 0]],
+    [[1, 1, 1], 905, [1, 1, 0], [0, 0, 0, 0]],
+  ];
+  for (const [[server, replica, cache], cost, goals, errors] of expected) {
+    const state = { server: Boolean(server), replica: Boolean(replica), cache: Boolean(cache) };
+    assert.equal(demo.boardDemoCost(state), cost);
+    assert.deepEqual([...demo.boardDemoGoals(state)].map((goal) => Number(goal.passed)), goals);
+    assert.deepEqual([...demo.nightErrors(state)], errors);
+  }
+  assert.deepEqual([...demo.NIGHT].map((moment) => moment.demand), [2000, 12400, 8000, 3000]);
+  // O Nimbo não adianta resultado antes de rodar a noite.
+  const solved = { server: true, replica: true, cache: false };
+  assert.equal(demo.boardView(solved, null).mood, "idle");
+  assert.equal(demo.boardView(solved, "done").mood, "happy");
+  assert.equal(demo.boardView(demo.BOARD_DEMO_INITIAL, 2).mood, "alarm");
+  // O filme termina na noite resolvida, por R$ 835.
+  const last = demo.filmView(demo.FILM_SCENES - 1);
+  assert.equal(last.cost, 835);
+  assert.equal(last.mood, "happy");
+  assert.equal(demo.filmScene(0), 0);
+  assert.equal(demo.filmScene(1), demo.FILM_SCENES - 1);
+});
+
+test("a seção de laboratórios diz que é simulação e só cita as certificações que têm lab", () => {
+  const section = fs.readFileSync(path.join(__dirname, "../components/launch/labs-section.tsx"), "utf8");
+  assert.match(section, /Ambiente simulado próprio da CloudStudy: não é o console da AWS/);
+  assert.match(section, /Cloud Practitioner \(CLF-C02\)/);
+  assert.match(section, /Solutions Architect \(SAA-C03\)/);
+  assert.match(section, /data-cta-position="laboratorios"/);
+  // nada de prometer aprovação nem laboratório em todas as certificações
+  assert.equal(/todas as certificações|aprovação garantida|garantia de aprovação/i.test(section), false);
+  const page = fs.readFileSync(path.join(__dirname, "../app/page.tsx"), "utf8");
+  assert.match(page, /<LabsSection \/>/);
+});

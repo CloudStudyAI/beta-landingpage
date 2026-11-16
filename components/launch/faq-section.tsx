@@ -30,6 +30,10 @@ const faqItems = [
     question: "O que a experiência grátis inclui?",
   },
   {
+    answer: "Sim. São laboratórios simulados dentro da própria CloudStudy: você não precisa de conta na AWS e nada é cobrado. Hoje eles estão no Cloud Practitioner (CLF-C02) e no Solutions Architect (SAA-C03); as outras certificações recebem os seus aos poucos.",
+    question: "A CloudStudy tem laboratório prático?",
+  },
+  {
     answer: "Sim. A assinatura mensal no cartão pode ser cancelada a qualquer momento e o acesso segue até o fim do período já pago. O Pix libera 30 dias de All Access e não renova automaticamente. As condições completas estão na Política de Cancelamento e Reembolso.",
     question: "Posso cancelar quando quiser?",
   },

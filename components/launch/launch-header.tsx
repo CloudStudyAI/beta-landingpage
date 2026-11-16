@@ -2,6 +2,7 @@ import { LOGIN_URL, START_URL } from "../../lib/launch-links";
 
 const navItems = [
   { href: "#produto", label: "Produto" },
+  { href: "#laboratorios", label: "Laboratórios" },
   { href: "#como-funciona", label: "Como funciona" },
   { href: "#certificacoes", label: "Certificações" },
   { href: "#planos", label: "Planos" },
@@ -19,9 +20,9 @@ export function LaunchHeader() {
           <img src="/brand/cloudstudy-wordmark-dark.svg" alt="CloudStudy" width={1495} height={265} className="h-[14px] w-auto sm:h-[19px]" />
         </a>
 
-        <nav aria-label="Navegação principal" className="hidden items-center gap-7 lg:flex">
+        <nav aria-label="Navegação principal" className="hidden items-center gap-3 lg:flex xl:gap-7">
           {navItems.map((item) => (
-            <a key={item.href} href={item.href} className={`rounded-lg text-sm font-bold text-slate-300 transition-colors hover:text-white ${focusRing}`}>
+            <a key={item.href} href={item.href} className={`whitespace-nowrap rounded-lg text-sm font-bold text-slate-300 transition-colors hover:text-white ${focusRing}`}>
               {item.label}
             </a>
           ))}

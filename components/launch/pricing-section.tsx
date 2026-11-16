@@ -7,11 +7,13 @@ const freeFeatures = [
   "Aulas selecionadas da certificação",
   "12 flashcards para fixar o conteúdo",
   "Diagnóstico de 10 questões",
+  "1 laboratório no Cloud Practitioner e no Solutions Architect",
   "Escolha qualquer uma das doze certificações",
 ] as const;
 
 const allAccessFeatures = [
   "Trilhas, aulas, simulados, flashcards e desempenho",
+  "Laboratórios práticos no Cloud Practitioner e no Solutions Architect",
   "As doze certificações e as próximas adições ao catálogo",
   "Cartão com renovação mensal ou Pix de 30 dias, sem renovação automática",
   "Cancele quando quiser",
