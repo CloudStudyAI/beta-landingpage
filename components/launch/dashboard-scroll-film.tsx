@@ -10,7 +10,6 @@ import type { FilmScene } from "./dashboard-scroll-scene";
 // ao vivo conforme o scroll. Ao vivo, e nao em sequencia de imagens: imagem pronta anda em
 // passos e pesava 8 MB; a cena calcula cada instante e baixa menos de 1 MB.
 const POSTER = "/dashboard-scroll/poster.webp";
-const EDGE_FADE = "linear-gradient(to right, transparent, black 2.5%, black 97.5%, transparent), linear-gradient(to bottom, transparent, black 2.5%, black 97.5%, transparent)";
 
 // Cada legenda acompanha uma parada da camera (ver KEYS em dashboard-scroll-scene.ts).
 const captions = [
@@ -155,8 +154,8 @@ export function DashboardScrollFilm() {
           ref={canvasRef}
           role="img"
           aria-label="Animação de um notebook abrindo com o painel da CloudStudy: prontidão, uma aula com exercício corrigido pelo Nimbo e um simulado cronometrado, com dados de exemplo"
-          // Bordas esfumacadas: quando a camera entra na tela, o painel encosta no limite do canvas.
-          style={{ maskImage: EDGE_FADE, WebkitMaskImage: EDGE_FADE, maskComposite: "intersect", WebkitMaskComposite: "source-in", opacity: ready ? 1 : 0, transition: "opacity .5s ease" }}
+          // Sem esfumar as bordas: o corte arredondado do canvas fica limpo, sem halo branco em volta.
+          style={{ opacity: ready ? 1 : 0, transition: "opacity .5s ease" }}
           className="mt-2 aspect-[4/3] rounded-[1.75rem] w-[min(100%,calc((100svh-15rem)*4/3))] sm:w-[min(100%,72rem,calc((100svh-18.75rem)*4/3))]"
         />
       </div>

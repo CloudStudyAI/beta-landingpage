@@ -217,7 +217,7 @@ export async function createFilmScene(canvas: HTMLCanvasElement, size: "lg" | "s
   // Envia todas as telas para a placa de video ja: sem isso, a primeira troca de tela engasga.
   textures.forEach((t) => renderer.initTexture(t));
 
-  const aluminium = new THREE.MeshStandardMaterial({ color: "#a7abb2", roughness: 0.34, metalness: 1 });
+  const aluminium = new THREE.MeshStandardMaterial({ color: "#a7abb2", roughness: 0.34, metalness: 1, envMapIntensity: 0.45 });
   const rig = new THREE.Group();
   scene.add(rig);
 
@@ -249,7 +249,7 @@ export async function createFilmScene(canvas: HTMLCanvasElement, size: "lg" | "s
   const shell = new THREE.Mesh(new THREE.ExtrudeGeometry(roundedRect(W, LH, 0.12, -W / 2, 0), { depth: LT - 0.024, ...bevel }), aluminium);
   shell.position.z = -LT;
   lid.add(shell);
-  const bezel = new THREE.Mesh(new THREE.ShapeGeometry(roundedRect(W - 0.03, LH - 0.03, 0.105, -(W - 0.03) / 2, 0.015), 10), new THREE.MeshStandardMaterial({ color: "#050506", roughness: 0.16, metalness: 0.3 }));
+  const bezel = new THREE.Mesh(new THREE.ShapeGeometry(roundedRect(W - 0.012, LH - 0.012, 0.114, -(W - 0.012) / 2, 0.006), 10), new THREE.MeshStandardMaterial({ color: "#050506", roughness: 0.16, metalness: 0.3, envMapIntensity: 0.25 }));
   bezel.position.z = 0.0012;
   lid.add(bezel);
   const uniforms = { tA: { value: textures[0] }, tB: { value: textures[0] }, uMix: { value: 0 }, uBright: { value: 1 } };
