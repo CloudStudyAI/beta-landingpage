@@ -131,7 +131,7 @@ export function DashboardScrollFilm() {
 
   if (reduce || failed) {
     return (
-      <section aria-labelledby="dashboard-film-title" className="bg-white px-5 py-16 sm:px-8 sm:py-24">
+      <section id="produto" aria-labelledby="dashboard-film-title" className="scroll-mt-24 bg-white px-5 py-16 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-5xl text-center">
           <h2 id="dashboard-film-title" className="text-balance font-display text-3xl font-extrabold leading-[1.06] tracking-[-0.05em] text-[#0b2a6f] sm:text-5xl">Veja por dentro.</h2>
           <p className="mx-auto mt-3 max-w-md text-base leading-7 text-slate-600">Prontidão, aulas, simulados e flashcards das 12 certificações num painel só.</p>
@@ -143,7 +143,7 @@ export function DashboardScrollFilm() {
   }
 
   return (
-    <section ref={sectionRef} aria-labelledby="dashboard-film-title" className="relative h-[560vh] bg-white sm:h-[640vh]">
+    <section id="produto" ref={sectionRef} aria-labelledby="dashboard-film-title" className="relative h-[560vh] bg-white sm:h-[640vh]">
       <h2 id="dashboard-film-title" className="sr-only">Veja por dentro o painel da CloudStudy</h2>
       <div className="sticky top-0 flex h-[100svh] flex-col items-center justify-center overflow-hidden px-4 pb-6 pt-24 sm:pt-28">
         <div className="relative h-[8.5rem] w-full sm:h-[11.75rem]" aria-hidden="true">

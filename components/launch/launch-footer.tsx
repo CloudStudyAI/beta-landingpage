@@ -6,7 +6,7 @@ const footerGroups = [
   {
     links: [
       { href: "#plataforma", label: "Sobre" },
-      { href: "#como-funciona", label: "Como funciona" },
+      { href: "#produto", label: "Como funciona" },
       { href: "#certificacoes", label: "Certificações" },
     ],
     title: "CloudStudy",

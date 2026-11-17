@@ -165,7 +165,7 @@ export function LaunchHero() {
           <a href={START_URL} data-cta="experimentar" data-cta-position="hero" className={`inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl border-b-4 border-[#0b56bd] bg-[#1479ff] px-8 py-3 text-base font-bold text-white shadow-[0_14px_40px_-14px_rgba(20,121,255,0.9)] transition-colors hover:bg-[#0967e5] ${focusRing}`}>
             Experimentar grátis <ArrowRight aria-hidden="true" className="h-5 w-5" />
           </a>
-          <a href="#como-funciona" className={`inline-flex min-h-14 items-center justify-center rounded-2xl border-2 border-white/25 px-7 py-3 text-base font-bold text-white transition-colors hover:bg-white/10 ${focusRing}`}>
+          <a href="#produto" className={`inline-flex min-h-14 items-center justify-center rounded-2xl border-2 border-white/25 px-7 py-3 text-base font-bold text-white transition-colors hover:bg-white/10 ${focusRing}`}>
             Ver como funciona
           </a>
         </div>

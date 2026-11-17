@@ -40,7 +40,7 @@ function Eyes({ mood }: { mood: LabView["mood"] }) {
           : `labs-eye ${base} h-5 w-4 rounded-full bg-[#7ef0ff] shadow-[0_0_24px_#7ef0ff] sm:h-7 sm:w-6`;
   const tilt = mood === "worried" || mood === "alarm";
   return (
-    <span aria-hidden="true" className="flex items-center gap-10 sm:gap-14">
+    <span aria-hidden="true" className="flex h-5 items-center gap-10 sm:h-7 sm:gap-14">
       <span className={`${eye} ${tilt ? "rotate-[16deg]" : ""}`} />
       <span className={`${eye} ${tilt ? "-rotate-[16deg]" : ""}`} />
     </span>
@@ -56,11 +56,11 @@ function Node({ name, detail, icon: Icon, tone }: { name: string; detail: string
   }[tone];
   const icon = tone === "pearl" ? "bg-[#599ad5]/20 text-[#3c73ab]" : tone === "dead" ? "bg-[#ff6f8f]/15 text-[#ff9db3]" : tone === "hot" ? "bg-[#ffd58a]/20 text-[#ffd58a]" : "bg-[#87c6fa]/15 text-[#87c6fa]";
   return (
-    <div className={`flex min-h-[4.5rem] flex-col justify-end rounded-2xl p-2.5 transition-all duration-500 sm:min-h-[7rem] sm:p-3.5 ${styles}`}>
-      <span className={`mb-auto flex h-7 w-7 items-center justify-center rounded-lg sm:h-9 sm:w-9 ${icon}`}>
+    <div className={`flex min-h-[3.625rem] flex-col justify-center rounded-2xl p-2.5 transition-all duration-500 sm:min-h-[7rem] sm:justify-end sm:p-3.5 ${styles}`}>
+      <span className={`mb-auto hidden h-9 w-9 items-center justify-center rounded-lg sm:flex ${icon}`}>
         <Icon aria-hidden="true" className="h-4 w-4 sm:h-5 sm:w-5" />
       </span>
-      <span className="mt-2 block font-display text-[0.8125rem] font-extrabold leading-tight sm:text-base">{name}</span>
+      <span className="block font-display text-[0.8125rem] font-extrabold leading-tight sm:mt-2 sm:text-base">{name}</span>
       <span className={`block text-[0.6875rem] font-semibold sm:text-xs ${tone === "pearl" ? "text-[#4b5d73]" : "opacity-70"}`}>{detail}</span>
     </div>
   );
@@ -68,7 +68,7 @@ function Node({ name, detail, icon: Icon, tone }: { name: string; detail: string
 
 function Slot({ hint }: { hint: string }) {
   return (
-    <div className="flex min-h-[4.5rem] flex-col items-center justify-center rounded-2xl border-2 border-dashed border-[#7ef0ff]/70 bg-[#7ef0ff]/[0.06] p-2 text-center sm:min-h-[7rem]">
+    <div className="flex min-h-[3.625rem] flex-col items-center justify-center rounded-2xl border-2 border-dashed border-[#7ef0ff]/70 bg-[#7ef0ff]/[0.06] p-2 text-center sm:min-h-[7rem]">
       <span className="font-display text-[0.8125rem] font-extrabold text-[#7ef0ff] sm:text-base">Encaixe livre</span>
       <span className="text-[0.6875rem] text-[#9fdfe8] sm:text-xs">{hint}</span>
     </div>
@@ -98,7 +98,7 @@ function Visor({ view, children }: { view: LabView; children?: React.ReactNode }
 
       <div className="relative rounded-[2.25rem] bg-gradient-to-b from-white via-[#fafcfd] to-[#cdd7e3] p-2.5 shadow-[0_50px_110px_rgba(0,0,0,.6),inset_0_-14px_26px_rgba(60,115,171,.28)] sm:mx-4 sm:rounded-[5.5rem] sm:p-5">
         <div
-          className={`relative overflow-hidden rounded-[1.75rem] bg-[radial-gradient(700px_340px_at_50%_0%,rgba(89,154,213,.26),transparent_70%),linear-gradient(180deg,#101c30_0%,#070d19_55%,#04080f_100%)] px-3 pb-3 pt-4 shadow-[inset_0_0_70px_rgba(0,0,0,.85)] transition-shadow duration-500 sm:rounded-[4.25rem] sm:px-12 sm:pb-8 sm:pt-8 ${
+          className={`relative overflow-hidden rounded-[1.75rem] bg-[radial-gradient(700px_340px_at_50%_0%,rgba(89,154,213,.26),transparent_70%),linear-gradient(180deg,#101c30_0%,#070d19_55%,#04080f_100%)] px-3 pb-2.5 pt-3 shadow-[inset_0_0_70px_rgba(0,0,0,.85)] transition-shadow duration-500 sm:rounded-[4.25rem] sm:px-12 sm:pb-8 sm:pt-8 ${
             view.live === "alarm" ? "labs-alarm" : ""
           }`}
         >
@@ -122,10 +122,11 @@ function Visor({ view, children }: { view: LabView; children?: React.ReactNode }
 
           <div className="relative -mt-2 flex flex-col items-center gap-3 sm:-mt-6">
             <Eyes mood={view.mood} />
+            {/* No celular o balão reserva duas linhas: a fala muda a cada cena e não pode empurrar as zonas (tremida). */}
             <p
               role="status"
               aria-live="polite"
-              className={`max-w-xl rounded-2xl border px-3.5 py-2 text-center text-[0.8125rem] font-bold leading-snug sm:text-[0.9375rem] ${
+              className={`flex min-h-[3.375rem] max-w-xl items-center justify-center rounded-2xl border px-3.5 py-2 text-center text-[0.8125rem] font-bold leading-snug sm:block sm:min-h-0 sm:text-[0.9375rem] ${
                 view.mood === "alarm"
                   ? "border-[#ff6f8f]/50 bg-[#ff6f8f]/10 text-[#ffd3dc]"
                   : view.mood === "worried"
@@ -140,7 +141,7 @@ function Visor({ view, children }: { view: LabView; children?: React.ReactNode }
             </p>
           </div>
 
-          <div className="relative mt-4 flex flex-wrap justify-center gap-2 sm:mt-5">
+          <div className="relative mt-3 flex flex-wrap justify-center gap-2 sm:mt-5">
             <span className={`rounded-xl border px-3 py-1.5 font-display text-xs font-extrabold sm:text-sm ${view.intensity === "peak" ? "border-[#ffd58a] bg-[#ffd58a]/10 text-[#ffe9bf]" : "border-[#87c6fa]/50 bg-[#101b2e] text-[#f4f8fc]"}`}>
               Clientes <span className="font-semibold tabular-nums text-[#8496ab]">{view.demand.toLocaleString("pt-BR")}/min</span>
             </span>
@@ -159,7 +160,7 @@ function Visor({ view, children }: { view: LabView; children?: React.ReactNode }
 
           <div className="relative mt-3 grid grid-cols-2 gap-2.5 sm:mt-4 sm:gap-6">
             <div className={`rounded-2xl p-2 transition-all duration-500 sm:rounded-[1.75rem] sm:p-4 ${view.zoneADown ? "labs-zone-down border-2 border-[#ff6f8f]/60" : "border-2 border-[#87c6fa]/25"}`}>
-              <p className="flex items-center justify-between text-[0.625rem] font-extrabold uppercase tracking-[0.16em] text-[#8496ab] sm:text-xs">
+              <p className="flex items-center justify-between text-[0.625rem] font-extrabold uppercase tracking-[0.16em] text-[#8496ab] min-h-[1.125rem] sm:min-h-5 sm:text-xs">
                 <span className={view.zoneADown ? "text-[#ff6f8f]" : ""}>Zona A</span>
                 {view.zoneADown ? (
                   <span className="whitespace-nowrap rounded-full bg-[#ff6f8f] px-2 py-0.5 text-[0.5625rem] tracking-[0.08em] text-[#1a0710] sm:text-[0.625rem] sm:tracking-[0.16em]">
@@ -174,7 +175,7 @@ function Visor({ view, children }: { view: LabView; children?: React.ReactNode }
               </div>
             </div>
             <div className={`rounded-2xl border-2 p-2 transition-all duration-500 sm:rounded-[1.75rem] sm:p-4 ${view.placed.server || view.placed.replica ? "border-[#7ef0ff]/60 shadow-[0_0_44px_rgba(126,240,255,.14)]" : "border-dashed border-[#87c6fa]/25"}`}>
-              <p className="text-[0.625rem] font-extrabold uppercase tracking-[0.16em] text-[#7ef0ff] sm:text-xs">Zona B</p>
+              <p className="flex items-center text-[0.625rem] font-extrabold uppercase tracking-[0.16em] text-[#7ef0ff] min-h-[1.125rem] sm:min-h-5 sm:text-xs">Zona B</p>
               <div className="mt-2 grid gap-2 sm:mt-3 sm:grid-cols-2 sm:gap-3">
                 {view.placed.server ? <Node name="Servidor" detail="EC2" icon={Server} tone="pearl" /> : <Slot hint="cabe um servidor" />}
                 {view.placed.replica ? <Node name="Réplica do banco" detail="RDS Multi-AZ" icon={Database} tone="pearl" /> : <Slot hint="cabe a réplica" />}
@@ -187,7 +188,7 @@ function Visor({ view, children }: { view: LabView; children?: React.ReactNode }
             </div>
           ) : null}
 
-          <ol className="relative mt-4 grid grid-cols-4 gap-1.5 sm:mt-6 sm:gap-2.5" aria-label="Linha da noite">
+          <ol className="relative mt-3 grid grid-cols-4 gap-1.5 sm:mt-6 sm:gap-2.5" aria-label="Linha da noite">
             {NIGHT.map((moment, index) => {
               const status = view.ticks[index];
               return (
@@ -266,8 +267,8 @@ function LabsFilm() {
 
   return (
     <div ref={sectionRef} className="relative h-[480vh]">
-      <div className="sticky top-0 flex h-[100svh] flex-col items-center justify-center overflow-hidden px-3 pb-4 pt-24 sm:px-8 sm:pt-28">
-        <div className="relative h-[7.5rem] w-full sm:h-[9.5rem]" aria-hidden="true">
+      <div className="sticky top-0 flex h-[100svh] flex-col items-center justify-start overflow-hidden px-3 pb-4 pt-[5.5rem] sm:justify-center sm:px-8 sm:pt-28">
+        <div className="relative h-[8rem] w-full shrink-0 sm:h-[9.5rem]" aria-hidden="true">
           {FILM_CAPTIONS.map((caption) => (
             <FilmCaption key={caption.title} progress={progress} {...caption} />
           ))}
@@ -346,8 +347,7 @@ function LabsPlay() {
       </div>
 
       {/* No celular a bandeja fica presa no pé da tela, como no app: o visor segue à vista enquanto a pessoa joga. */}
-      <div className="sticky bottom-0 z-20 -mx-3 mt-6 border-t border-[#87c6fa]/20 bg-[#04070f]/90 px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur-md sm:static sm:mx-0 sm:mt-10 sm:border-0 sm:bg-transparent sm:p-0 sm:backdrop-blur-none">
-      <p className="mb-2 text-center text-[0.6875rem] font-bold text-[#8496ab] sm:hidden">Toque nas peças para encaixar na Zona B</p>
+      <div className="sticky bottom-0 z-20 -mx-3 mt-6 border-t border-[#87c6fa]/20 bg-[#04070f]/90 px-3 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur-md sm:static sm:mx-0 sm:mt-10 sm:border-0 sm:bg-transparent sm:p-0 sm:backdrop-blur-none">
       <div className="mx-auto grid max-w-[1000px] grid-cols-3 gap-2 sm:grid-cols-[1fr_1fr_1fr_1.3fr] sm:gap-4">
         {BOARD_PIECES.map((piece) => {
           const Icon = PIECE_ICONS[piece.id];
@@ -360,7 +360,7 @@ function LabsPlay() {
               onClick={() => toggle(piece.id)}
               aria-pressed={used}
               aria-label={`${piece.name}, ${piece.service}, R$ ${piece.cost} por mês, ${used ? "encaixada: toque para tirar" : "toque para encaixar"}`}
-              className={`relative rounded-[1rem_1rem_0.75rem_0.75rem] px-2.5 py-2 text-left transition sm:rounded-[1.25rem_1.25rem_0.875rem_0.875rem] sm:p-4 ${focusRing} disabled:cursor-wait ${
+              className={`relative rounded-[1rem_1rem_0.75rem_0.75rem] px-2.5 py-1.5 text-left transition sm:rounded-[1.25rem_1.25rem_0.875rem_0.875rem] sm:p-4 ${focusRing} disabled:cursor-wait ${
                 used
                   ? "border-2 border-dashed border-[#87c6fa]/35 text-[#8496ab]"
                   : "bg-gradient-to-b from-white to-[#dbe3ec] text-[#0f1a2a] shadow-[0_6px_0_#87c6fa,0_20px_36px_rgba(0,0,0,.5)] hover:-translate-y-0.5"
@@ -372,23 +372,23 @@ function LabsPlay() {
                   <Icon aria-hidden="true" className="h-5 w-5" />
                 </span>
                 <span className="min-w-0">
-                  <span className="block font-display text-[0.8125rem] font-extrabold leading-tight sm:text-base">{piece.name}</span>
+                  <span className="block font-display text-xs font-extrabold leading-tight sm:text-base">{piece.name}</span>
                   <span className={`hidden text-[0.6875rem] font-semibold sm:block ${used ? "" : "text-[#4b5d73]"}`}>{piece.service}</span>
                 </span>
               </span>
-              <span className="mt-1.5 flex flex-wrap items-baseline justify-between gap-x-2 font-display text-sm font-extrabold sm:mt-3 sm:text-lg">
+              <span className="mt-0.5 flex flex-wrap items-baseline justify-between gap-x-2 font-display text-sm font-extrabold sm:mt-3 sm:text-lg">
                 {used ? "encaixada" : `R$ ${piece.cost}`}
                 <span className={`hidden text-[0.625rem] font-bold uppercase tracking-[0.08em] sm:inline ${used ? "" : "text-[#4b5d73]"}`}>{used ? "tirar" : "por mês"}</span>
               </span>
             </button>
           );
         })}
-        <div className="col-span-3 flex gap-2.5 sm:col-span-1 sm:flex-col">
+        <div className="col-span-3 mt-0.5 flex gap-2.5 sm:col-span-1 sm:mt-0 sm:flex-col">
           <button
             type="button"
             onClick={run}
             disabled={running}
-            className={`flex min-h-12 flex-1 items-center justify-center gap-2.5 rounded-[1.25rem] sm:min-h-14 bg-gradient-to-b from-white via-[#cfe7fc] to-[#87c6fa] font-display text-lg font-extrabold tracking-[-0.02em] text-[#0f1a2a] shadow-[0_6px_0_#3c73ab,0_0_50px_rgba(135,198,250,.45)] transition hover:brightness-105 disabled:cursor-wait disabled:opacity-70 ${focusRing}`}
+            className={`flex min-h-12 flex-1 items-center justify-center gap-2.5 rounded-[1.25rem] sm:min-h-14 bg-gradient-to-b from-white via-[#cfe7fc] to-[#87c6fa] font-display text-base sm:text-lg font-extrabold tracking-[-0.02em] text-[#0f1a2a] shadow-[0_6px_0_#3c73ab,0_0_50px_rgba(135,198,250,.45)] transition hover:brightness-105 disabled:cursor-wait disabled:opacity-70 ${focusRing}`}
           >
             <Play aria-hidden="true" className="h-5 w-5 fill-current" />
             {running ? "Rodando..." : at === "done" ? "Rodar de novo" : "Rodar a noite"}
@@ -435,8 +435,8 @@ export function LabsSection() {
         <div className="flex flex-col items-center gap-5 text-center">
           <ul className="flex flex-wrap justify-center gap-2 text-sm font-semibold text-[#f4f8fc]">
             {["Sem conta na AWS", "Nada é cobrado", "Conferência na hora, salva no seu progresso"].map((item) => (
-              <li key={item} className="inline-flex items-center gap-1.5 rounded-full border border-[#87c6fa]/25 bg-[#87c6fa]/[0.08] px-3 py-1.5">
-                <Check aria-hidden="true" className="h-3.5 w-3.5 text-[#7ef0ff]" strokeWidth={3} /> {item}
+              <li key={item} className="inline-flex items-center gap-1.5 text-left rounded-full border border-[#87c6fa]/25 bg-[#87c6fa]/[0.08] px-3 py-1.5">
+                <Check aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-[#7ef0ff]" strokeWidth={3} /> {item}
               </li>
             ))}
           </ul>

@@ -3,7 +3,6 @@ import { LOGIN_URL, START_URL } from "../../lib/launch-links";
 const navItems = [
   { href: "#produto", label: "Produto" },
   { href: "#laboratorios", label: "Laboratórios" },
-  { href: "#como-funciona", label: "Como funciona" },
   { href: "#certificacoes", label: "Certificações" },
   { href: "#planos", label: "Planos" },
   { href: "#faq", label: "Dúvidas" },
