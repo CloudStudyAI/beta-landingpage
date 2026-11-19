@@ -2,6 +2,7 @@ import { LOGIN_URL, START_URL } from "../../lib/launch-links";
 
 const navItems = [
   { href: "#produto", label: "Produto" },
+  { href: "#app", label: "App" },
   { href: "#laboratorios", label: "Laboratórios" },
   { href: "#certificacoes", label: "Certificações" },
   { href: "#planos", label: "Planos" },

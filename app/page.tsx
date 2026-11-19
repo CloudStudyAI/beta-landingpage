@@ -1,3 +1,4 @@
+import { AppSection } from "../components/launch/app-section";
 import { CertificationPathsSection } from "../components/launch/certification-paths-section";
 import { DashboardScrollFilm } from "../components/launch/dashboard-scroll-film";
 import { FaqSection } from "../components/launch/faq-section";
@@ -17,6 +18,7 @@ export default function HomePage() {
       <LaunchHero />
       <LaunchNumbers />
       <DashboardScrollFilm />
+      <AppSection />
       <LabsSection />
       <div id="plataforma" className="scroll-mt-24 bg-white">
         <CertificationPathsSection />
