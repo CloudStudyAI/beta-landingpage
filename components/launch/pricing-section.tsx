@@ -1,7 +1,7 @@
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check, Flame } from "lucide-react";
 
 import { SIGNUP_URL, START_URL } from "../../lib/launch-links";
-import { ALL_ACCESS_MONTHLY_CENTS, LIFETIME_PRICES_CENTS, formatBrl } from "../../lib/launch-pricing";
+import { ALL_ACCESS_MONTHLY_CENTS, LIFETIME_PRICES_CENTS, PROMO, currentCents, formatBrl } from "../../lib/launch-pricing";
 
 const freeFeatures = [
   "Aulas selecionadas da certificação",
@@ -37,13 +37,27 @@ const lifetimeOffers = [
 const cardBase = "relative flex flex-col rounded-3xl border-2 bg-white p-6 sm:p-7";
 const checkClass = "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700";
 
+// The regular price, crossed out, shown only when the visitor pays less right now.
+function WasPrice({ regular, now, className = "" }: { regular: number; now: number; className?: string }) {
+  if (now >= regular) return null;
+  return <s className={`whitespace-nowrap font-semibold text-slate-400 ${className}`}>{formatBrl(regular)}</s>;
+}
+
 export function PricingSection() {
-  const lifetimeFrom = Math.min(...lifetimeOffers.map((offer) => offer.cents));
+  const allAccessNow = currentCents("all-access-monthly", ALL_ACCESS_MONTHLY_CENTS);
+  const lifetimeFrom = Math.min(...lifetimeOffers.map((offer) => currentCents(offer.code, offer.cents)));
 
   return (
     <section id="planos" aria-labelledby="pricing-title" className="scroll-mt-24 bg-white px-5 py-16 sm:px-8 sm:py-20 lg:py-24">
       <div className="mx-auto max-w-6xl">
         <div className="mx-auto max-w-3xl text-center">
+          {PROMO ? (
+            <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-amber-300 bg-amber-50 px-4 py-2 text-sm font-bold text-amber-900">
+              <Flame aria-hidden="true" className="h-4 w-4 text-amber-600" />
+              {PROMO.title}
+              <span className="rounded-full bg-amber-400 px-2 py-0.5 text-xs font-extrabold uppercase tracking-wide text-amber-950">{PROMO.discountLabel}</span>
+            </p>
+          ) : null}
           <h2 id="pricing-title" className="text-balance font-display text-3xl font-extrabold leading-[1.08] tracking-[-0.05em] text-[#0b2a6f] sm:text-5xl">
             Comece grátis. Libere tudo quando quiser.
           </h2>
@@ -79,11 +93,12 @@ export function PricingSection() {
 
           <article className={`${cardBase} border-[#1479ff] shadow-[0_18px_40px_-28px_rgba(20,121,255,0.55)]`}>
             <h3 className="font-display text-2xl font-bold tracking-[-0.04em] text-[#0b2a6f]">All Access</h3>
-            <p className="mt-5 font-display text-4xl font-bold tracking-[-0.05em] text-[#0b2a6f]">
-              {formatBrl(ALL_ACCESS_MONTHLY_CENTS)}
+            <WasPrice regular={ALL_ACCESS_MONTHLY_CENTS} now={allAccessNow} className="mt-5 block text-lg" />
+            <p className={`${allAccessNow < ALL_ACCESS_MONTHLY_CENTS ? "mt-0" : "mt-5"} font-display text-4xl font-bold tracking-[-0.05em] text-[#0b2a6f]`}>
+              {formatBrl(allAccessNow)}
               <span className="ml-1.5 text-base font-semibold tracking-normal text-slate-500">/ mês</span>
             </p>
-            <p className="mt-1 text-sm font-semibold text-slate-500">uma assinatura, todo o catálogo</p>
+            <p className="mt-1 text-sm font-semibold text-slate-500">{allAccessNow < ALL_ACCESS_MONTHLY_CENTS ? "no cartão, esse preço vale em todas as renovações" : "uma assinatura, todo o catálogo"}</p>
             <ul className="mt-6 grid gap-3 text-sm leading-6 text-slate-700">
               {allAccessFeatures.map((feature) => (
                 <li key={feature} className="flex items-start gap-3">
@@ -118,7 +133,10 @@ export function PricingSection() {
                     <span className="font-bold text-[#0b2a6f]">{offer.name}</span>
                     <span className="ml-2 text-xs font-semibold text-slate-500">{offer.code}</span>
                   </span>
-                  <span className="shrink-0 font-bold text-[#0b2a6f]">{formatBrl(offer.cents)}</span>
+                  <span className="flex shrink-0 items-baseline gap-2">
+                    <WasPrice regular={offer.cents} now={currentCents(offer.code, offer.cents)} className="text-xs" />
+                    <span className="font-bold text-[#0b2a6f]">{formatBrl(currentCents(offer.code, offer.cents))}</span>
+                  </span>
                 </li>
               ))}
             </ul>
