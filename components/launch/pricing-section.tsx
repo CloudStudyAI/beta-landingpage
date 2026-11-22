@@ -96,9 +96,9 @@ export function PricingSection() {
             <WasPrice regular={ALL_ACCESS_MONTHLY_CENTS} now={allAccessNow} className="mt-5 block text-lg" />
             <p className={`${allAccessNow < ALL_ACCESS_MONTHLY_CENTS ? "mt-0" : "mt-5"} font-display text-4xl font-bold tracking-[-0.05em] text-[#0b2a6f]`}>
               {formatBrl(allAccessNow)}
-              <span className="ml-1.5 text-base font-semibold tracking-normal text-slate-500">/ mês</span>
+              <span className="ml-1.5 text-base font-semibold tracking-normal text-slate-500">{allAccessNow < ALL_ACCESS_MONTHLY_CENTS ? "no 1º mês" : "/ mês"}</span>
             </p>
-            <p className="mt-1 text-sm font-semibold text-slate-500">{allAccessNow < ALL_ACCESS_MONTHLY_CENTS ? "no cartão, esse preço vale em todas as renovações" : "uma assinatura, todo o catálogo"}</p>
+            <p className="mt-1 text-sm font-semibold text-slate-500">{allAccessNow < ALL_ACCESS_MONTHLY_CENTS ? `depois ${formatBrl(ALL_ACCESS_MONTHLY_CENTS)}/mês, cancele quando quiser` : "uma assinatura, todo o catálogo"}</p>
             <ul className="mt-6 grid gap-3 text-sm leading-6 text-slate-700">
               {allAccessFeatures.map((feature) => (
                 <li key={feature} className="flex items-start gap-3">
