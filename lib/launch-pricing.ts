@@ -26,30 +26,13 @@ export function formatBrl(cents: number): string {
   return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(cents / 100);
 }
 
-// Black Friday 2026, until 2026-11-27 23:59 (System_Dashboard, api/alembic 20261121_0096).
-// The regular prices above stay as the "de" price; set PROMO to null and empty
-// PROMO_PRICES_CENTS when the backend restores the catalog. The All Access price is for the
-// first month on the card (Stripe coupon once): from the second month it is the regular price.
-// AIB-C01 has no promo price because it is not in the production catalog yet.
-export const PROMO: { title: string; discountLabel: string } | null = {
-  title: "Black Friday",
-  discountLabel: "até 60% off",
-};
+// Campaign shown on the plans. Black Friday 2026 ended on 2026-11-27 at 23:59
+// (System_Dashboard, api/alembic 20261127_0098 restored the catalog), so no promo runs now.
+// For a new campaign, fill PROMO and PROMO_PRICES_CENTS with the prices the backend charges;
+// the regular prices above stay as the "de" price.
+export const PROMO: { title: string; discountLabel: string } | null = null;
 
-export const PROMO_PRICES_CENTS: Record<string, number> = {
-  "all-access-monthly": 1990,
-  "CLF-C02": 6990,
-  "AIF-C01": 6990,
-  "SAA-C03": 8990,
-  "SAP-C03": 8990,
-  "DVA-C03": 8990,
-  "DEA-C01": 8990,
-  "SOA-C03": 8990,
-  "DOP-C02": 8990,
-  "SCS-C03": 8990,
-  "AIP-C01": 8990,
-  "MLA-C02": 8990,
-};
+export const PROMO_PRICES_CENTS: Record<string, number> = {};
 
 // What the visitor pays now: the promo price while the promo runs, else the regular price.
 export function currentCents(key: string, regularCents: number): number {
